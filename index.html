@@ -491,7 +491,7 @@ function processMembershipReturn(){
     history.replaceState({},'',location.pathname+location.hash);
   }
 }
-let profile=null, current=null;
+let profile=null, current=null, entryStory=null;
 function localGet(key,fallback){try{return JSON.parse(localStorage.getItem(key))??fallback}catch{return fallback}}
 function localSet(key,value){try{localStorage.setItem(key,JSON.stringify(value));return true}catch{return false}}
 function migratePreviousMap(){
@@ -554,13 +554,59 @@ function flagForRegion(label=''){
 }
 function regionWithFlag(label=''){const flag=flagForRegion(label);return flag?label+'  '+flag:label;}
 
+
+const storySceneKey={ '光の路地':'alley','海と水平線':'sea','灯りのある店':'light','窓辺の緑':'green','夕暮れの遠景':'distance' };
+const pairSynthesis={
+  alley:{
+    alley:'新しい答えより、まだ試していない道を確かめたい気持ち。',
+    sea:'少し離れてから、別の道を選び直したい気持ち。',
+    light:'一人で決める前に、誰かと言葉にしてみたい気持ち。',
+    green:'変えることと、残すことを同時に大切にしたい気持ち。',
+    distance:'いまの道を否定せず、ほかの可能性も見ておきたい気持ち。'
+  },
+  sea:{
+    alley:'距離を取ったあとで、自分の足で次の道を選びたい気持ち。',
+    sea:'答えを急がず、見渡せる余白を取り戻したい気持ち。',
+    light:'少し離れたからこそ、誰かと話して確かめたい気持ち。',
+    green:'広げるより先に、戻れる場所を整えたい気持ち。',
+    distance:'遠くを見ることで、これからの選択肢を増やしたい気持ち。'
+  },
+  light:{
+    alley:'誰かとの言葉をきっかけに、今までと違う道を試したい気持ち。',
+    sea:'つながりを失わずに、自分のための距離も持ちたい気持ち。',
+    light:'答えよりも、言葉を交わす時間そのものを求めている気持ち。',
+    green:'無理なく続く関係や居場所を育てたい気持ち。',
+    distance:'話すことで、自分が本当はどこへ向かいたいか見たい気持ち。'
+  },
+  green:{
+    alley:'守りたいものを残しながら、小さく新しい道を試したい気持ち。',
+    sea:'いまあるものを大切にするために、少し余白を取りたい気持ち。',
+    light:'安心できる場所から、誰かとのつながりを確かめたい気持ち。',
+    green:'増やすことより、今あるものを丁寧に育てたい気持ち。',
+    distance:'手放すためではなく、守りたいものを知るために遠くを見たい気持ち。'
+  },
+  distance:{
+    alley:'まだ選んでいない未来を、まず小さな一歩から試したい気持ち。',
+    sea:'先へ進む前に、いったん広く見渡しておきたい気持ち。',
+    light:'これからを一人で決めず、言葉にしながら見つけたい気持ち。',
+    green:'新しい未来より先に、連れていきたいものを確かめたい気持ち。',
+    distance:'すぐに結論を出さず、可能性そのものを残しておきたい気持ち。'
+  }
+};
+function entrySceneKey(p){return p?.entryStory?.sceneKey||''}
+function combinedSceneMessage(p){
+  const a=entrySceneKey(p),b=p?.scene;
+  return a&&pairSynthesis[a]?.[b]?pairSynthesis[a][b]:'';
+}
+
 function hash(s){let h=2166136261>>>0;for(const c of s){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0}
 function choosePlace(p,cycle,map){
   const scene=scenes[p.scene],seed=hash(`${dateKey()}|${p.birth}|${p.scene}|${p.theme||''}|${p.stars.day.index}|${cycle.yearStar}|${cycle.monthStar}|${cycle.day.index}|${cycle.term}`);
   const recently=map.filter(x=>x.date!==dateKey()).slice(-3).map(x=>x.placeId);
   const scenePlaces={alley:['thingvellir','plitvice','rockies'],sea:['geiranger','tewahipounamu','plitvice'],light:['thingvellir','laurisilva','yakushima'],green:['laurisilva','yakushima','tasmania'],distance:['jungfrau','rockies','thingvellir']};
   const eligible=new Set(scenePlaces[p.scene]);
-  const target=scene.v.map((v,i)=>v*.58+(((p.stars.h*3+p.stars.g*5+p.stars.day.index+i*7)%10)+1)*.22+(((cycle.yearStar+cycle.monthStar+cycle.day.index+i*3)%10)+1)*.2);
+  const entryKey=entrySceneKey(p),entryScene=entryKey?scenes[entryKey]:null;
+  const target=scene.v.map((v,i)=>v*(entryScene?.v?.[i]!=null?.46:.58)+(entryScene?.v?.[i]??0)*.12+(((p.stars.h*3+p.stars.g*5+p.stars.day.index+i*7)%10)+1)*.22+(((cycle.yearStar+cycle.monthStar+cycle.day.index+i*3)%10)+1)*.2);
   const scored=ORACLE_DATA.places.filter(x=>x.active&&eligible.has(x.id)).map(x=>({place:x,score:x.v.reduce((s,v,i)=>s+(v-target[i])**2,0)+(recently.includes(x.id)?7:0)})).sort((a,b)=>a.score-b.score);
   return scored[seed%Math.min(3,scored.length)].place;
 }
@@ -587,7 +633,8 @@ function makeReading(p){
   const intro=first?`${outer[p.stars.h].quiet}\nもしかすると、ほしいのは${inner[p.stars.g]}。`:dayMoments[p.theme||'open'][day%4];
   const axes=place.axes||[];
   const sceneLine=first?(placeLines[place.id]||`${place.name}には、${axes.slice(0,2).join('と')}がある。`):PO_PLACE_COPY[place.id].line;
-  const heart=first?`${theme.moment}\n${place.oracle||scene.need}\n${scene.end}`:`${theme.moment}\n${place.surface}\n${place.afterglow}`;
+  const pairMessage=combinedSceneMessage(p);
+  const heart=first?[theme.moment,pairMessage,place.oracle||scene.need,scene.end].filter(Boolean).join('\n'):`${theme.moment}\n${place.surface}\n${place.afterglow}`;
   const actions=[...new Set([...(sceneActions[p.scene]?.[p.theme||'open']||[]),...theme.actions,...sceneActions[p.scene].open])];
   const action=actions[first?variant%actions.length:(day+hash(`${p.birth}|${p.scene}|${p.theme}`))%actions.length];
   return {date,cycle,place,scene,theme,first,title,intro,sceneLine,heart,action,profile:p};
@@ -622,7 +669,7 @@ $('skySignsNote').textContent=sky.skySignsNote||'';$('loreEyebrow').textContent=
   }
   $('mapNoteInput').value=localGet(mapKey,[]).find(x=>x.date===current.date&&!x.legacy)?.note||'';
   $('save').textContent='この場所を私の地図に残す';
-  const c=current.cycle,p=profile;$('basisText').textContent=`生年月日の本命星 ${names[p.stars.h]}、月命星 ${names[p.stars.g]}、出生日の干支 ${p.stars.day.label}。${c.precise?`年盤中宮 ${names[c.yearStar]}、月盤中宮 ${names[c.monthStar]}。${c.term?`二十四節気 ${c.term}。`:''}`:'年盤・月盤と二十四節気は、この年の節入り時刻データを収録していないため表示を保留しています。'}日干支 ${c.day.label}。`;
+  const c=current.cycle,p=profile;$('basisText').textContent=`生年月日の本命星 ${names[p.stars.h]}、月命星 ${names[p.stars.g]}、出生日の干支 ${p.stars.day.label}。${c.precise?`年盤中宮 ${names[c.yearStar]}、月盤中宮 ${names[c.monthStar]}。${c.term?`二十四節気 ${c.term}。`:''}`:'年盤・月盤と二十四節気は、この年の節入り時刻データを収録していないため表示を保留しています。'}日干支 ${c.day.label}。${p.entryStory?` 最初に惹かれた景色「${p.entryStory.scene}」と、ONE MOMENTで選んだ「${scene.name}」の重なりも解釈の入口として使っています。`:''}`;
   const fact=$('placeFact');fact.replaceChildren();
   const factText=document.createElement('span');factText.textContent=current.place.fact?`場所のFACT：${current.place.fact}　`:'この場所のFACTは資料確認中です。';fact.append(factText);
   const sourceIds={geiranger:1195,laurisilva:934,yakushima:662,jungfrau:1037,tewahipounamu:551,plitvice:98,rockies:304,tasmania:181,thingvellir:1152};
@@ -636,7 +683,7 @@ function openForToday(){
   showForm('daily')
 }
 function buildDays(){const y=+$('birthYear').value,m=+$('birthMonth').value,old=$('birthDay').value;$('birthDay').innerHTML='<option value="">日</option>';if(!y||!m)return;const count=new Date(y,m,0).getDate();for(let d=1;d<=count;d++)$('birthDay').add(new Option(d+'日',d));if(old&&+old<=count)$('birthDay').value=old}
-function submit(){const y=+$('birthYear').value,m=+$('birthMonth').value,d=+$('birthDay').value,scene=document.querySelector('[name="scene"]:checked')?.value,theme=document.querySelector('[name="theme"]:checked')?.value||'';const err=$('formError');err.textContent='';if(!y||!m||!d||!scene){err.textContent='生年月日と、惹かれる景色を選んでください。';return}const stars=birthStars(y,m,d);if(stars.boundary){err.textContent='この生年月日は節入りに近く、出生時刻を使わない計算では星を確定できません。現在の版では鑑定を保留します。';return}const birth=`${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;profile={birth,scene,theme,stars,firstSeen:profile?.birth===birth?profile.firstSeen:undefined,lastChoiceDate:dateKey()};localSet(storeKey,profile);$('begin').textContent='今の自分に重なる場所を見る →';$('begin').onclick=openForToday;showReading()}
+function submit(){const y=+$('birthYear').value,m=+$('birthMonth').value,d=+$('birthDay').value,scene=document.querySelector('[name="scene"]:checked')?.value,theme=document.querySelector('[name="theme"]:checked')?.value||'';const err=$('formError');err.textContent='';if(!y||!m||!d||!scene){err.textContent='生年月日と、惹かれる景色を選んでください。';return}const stars=birthStars(y,m,d);if(stars.boundary){err.textContent='この生年月日は節入りに近く、出生時刻を使わない計算では星を確定できません。現在の版では鑑定を保留します。';return}const birth=`${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;profile={birth,scene,theme,stars,entryStory:entryStory||profile?.entryStory||null,firstSeen:profile?.birth===birth?profile.firstSeen:undefined,lastChoiceDate:dateKey()};localSet(storeKey,profile);$('begin').textContent='今の自分に重なる場所を見る →';$('begin').onclick=openForToday;showReading()}
 function updateMap(){const rows=localGet(mapKey,[]);$('mapCount').textContent=rows.length;$('mapEntries').replaceChildren();const recent=rows.filter(x=>!x.legacy).slice(-2);$('mapReflection').textContent=recent.length<2?'気になる景色や、そこに残した一言を、あとから見返せます。':recent[0].scene===recent[1].scene?`「${recent[1].scene}」をまた選んだ日。前回の気持ちと並べて眺めてみてください。`:`前は「${recent[0].scene}」、今度は「${recent[1].scene}」。惹かれる景色が変わったことも、地図に残っています。`;if(!rows.length){const p=document.createElement('p');p.textContent='まだ景色はありません。最初の一枚から始まります。';$('mapEntries').append(p);return}rows.slice().reverse().forEach((row,revIndex)=>{const index=rows.length-1-revIndex;const div=document.createElement('div');div.className='map-entry';const d=document.createElement('small');d.textContent=row.date;const h=document.createElement('strong');h.textContent=row.title;const s=document.createElement('span');s.textContent=`${row.place}${row.scene?' · '+row.scene:''}`;div.append(d,h,s);if(row.note){const note=document.createElement('p');note.className='map-entry-note';note.textContent=row.note;div.append(note)}const b=document.createElement('button');b.type='button';b.textContent='削除';b.addEventListener('click',()=>{localSet(mapKey,localGet(mapKey,[]).filter((_,i)=>i!==index));updateMap()});div.append(b);$('mapEntries').append(div)})}
 function save(){
   if(!current)return;
@@ -710,6 +757,7 @@ function init(){
     $('inlineTitle').textContent=x.teaser;
     $('inlineText').textContent=x.text;
     $('inlineEnd').textContent=x.end;
+    entryStory={id:x.id,tone:x.tone,scene:x.scene,sceneKey:storySceneKey[x.scene]||'',teaser:x.teaser};
     storyButtons.forEach((b,n)=>b.setAttribute('aria-pressed',n===i?'true':'false'));
     $('storyInline').classList.add('is-active');
     $('storyInline').scrollIntoView({behavior:'smooth',block:'nearest'});
@@ -718,7 +766,7 @@ function init(){
   const openSceneForm=()=>showForm(profile?'daily':'first');
   $('storyNextCta').onclick=openSceneForm;
   processMembershipReturn();
-  const year=new Date().getFullYear();for(let y=year;y>=1900;y--)$('birthYear').add(new Option(y+'年',y));for(let m=1;m<=12;m++)$('birthMonth').add(new Option(m+'月',m));$('birthYear').addEventListener('change',buildDays);$('birthMonth').addEventListener('change',buildDays);migratePreviousMap();profile=localGet(storeKey,null);if(profile?.birth&&profile?.scene&&profile?.stars){$('begin').textContent='今の自分に重なる場所を見る →';$('begin').onclick=openForToday}else $('begin').onclick=()=>showForm();$('changeBirth').onclick=()=>{$('birthBlock').hidden=false;$('changeBirth').hidden=true};$('back').onclick=()=>{ $('formSection').hidden=true;$('someone').scrollIntoView({behavior:'smooth'})};$('readBack').onclick=()=>{$('reading').hidden=true;$('someone').scrollIntoView({behavior:'smooth'})};$('read').onclick=submit;$('save').onclick=save;$('mapOpen').onclick=$('openMapFromReading').onclick=()=>{$('mapDialog').showModal()};$('mapClose').onclick=()=>$('mapDialog').close();$('mapClear').onclick=()=>{if(confirm('この端末に残した景色をすべて消しますか？')){localSet(mapKey,[]);updateMap()}};
+  const year=new Date().getFullYear();for(let y=year;y>=1900;y--)$('birthYear').add(new Option(y+'年',y));for(let m=1;m<=12;m++)$('birthMonth').add(new Option(m+'月',m));$('birthYear').addEventListener('change',buildDays);$('birthMonth').addEventListener('change',buildDays);migratePreviousMap();profile=localGet(storeKey,null);if(profile?.entryStory)entryStory=profile.entryStory;if(profile?.birth&&profile?.scene&&profile?.stars){$('begin').textContent='今の自分に重なる場所を見る →';$('begin').onclick=openForToday}else $('begin').onclick=()=>showForm();$('changeBirth').onclick=()=>{$('birthBlock').hidden=false;$('changeBirth').hidden=true};$('back').onclick=()=>{ $('formSection').hidden=true;$('someone').scrollIntoView({behavior:'smooth'})};$('readBack').onclick=()=>{$('reading').hidden=true;$('someone').scrollIntoView({behavior:'smooth'})};$('read').onclick=submit;$('save').onclick=save;$('mapOpen').onclick=$('openMapFromReading').onclick=()=>{$('mapDialog').showModal()};$('mapClose').onclick=()=>$('mapDialog').close();$('mapClear').onclick=()=>{if(confirm('この端末に残した景色をすべて消しますか？')){localSet(mapKey,[]);updateMap()}};
 
   const storyRail=document.querySelector('.story-rail'),storyHint=$('storyHint');
   const updateStoryHint=()=>{
