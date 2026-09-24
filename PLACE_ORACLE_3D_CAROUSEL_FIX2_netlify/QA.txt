@@ -1,0 +1,7 @@
+PLACE ORACLE 3D CAROUSEL FIX
+duplicate_ids: []
+javascript_syntax_failures: []
+clean_hero_present: True
+full_width_app: True
+desktop_overlap: True
+center_card_depth: True
