@@ -676,7 +676,7 @@ $('storyClose').onclick=()=>$('storyDialog').close();
 $('dialogStart').onclick=()=>showForm(profile?'daily':'first');
 updateMap()
 }
-init();
+if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init,{once:true});}else{init();}
 })();
 
 </script>
