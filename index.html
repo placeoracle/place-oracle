@@ -221,8 +221,11 @@ footer small{color:#b9cfcc}
 .story-card.story-card-text[data-tone="wistful"]{background:linear-gradient(145deg,#24394c,#52626b 70%,#766d69)}
 .story-card.story-card-text:after{background:linear-gradient(180deg,transparent 40%,rgba(9,30,39,.2))}
 .story-card.story-card-text span{top:32px;left:28px;color:#e9d9b8}
-.story-card.story-card-text strong{top:39%;bottom:auto;left:28px;right:28px;font-family:"Yu Mincho","Hiragino Mincho ProN","Noto Serif JP",serif;font-size:clamp(23px,2.2vw,30px);line-height:1.7}
+.story-card.story-card-text strong{top:50%;bottom:auto;left:28px;right:28px;transform:translateY(-50%);font-family:"Yu Mincho","Hiragino Mincho ProN","Noto Serif JP",serif;font-size:clamp(18px,1.55vw,22px);line-height:1.75;letter-spacing:.025em}
 
+
+@media(min-width:761px) and (max-width:1199px){.story-card{flex-basis:clamp(270px,25vw,330px)}}
+@media(max-width:650px){.story-card.story-card-text strong{left:24px;right:24px;font-size:1.25rem}}
 /* Mobile reading flow: compact transition and readable map invitation */
 @media(max-width:650px){
   .someone{padding-bottom:24px}
@@ -796,13 +799,15 @@ function init(){
     firstRound=[3,7,22,16,54].map(byId);
     secondRound=[24,31,9,5,27].map(byId);
   }
-  const activeStories=[...firstRound,...secondRound];
+  // 実景と文章を交互に配置。二つの隣り合うカードが同じ景色にならない順序にする。
+  const secondByScene=Object.fromEntries(secondRound.map(x=>[x.scene,x]));
+  const activeStories=firstRound.flatMap((x,i)=>[x,secondByScene[firstRound[(i+2)%5].scene]]);
   const storyButtons=[...document.querySelectorAll('.story-card')];
   storyButtons.forEach((button,i)=>{
     const x=activeStories[i]; if(!x){button.hidden=true;return}
-    button.hidden=false;button.classList.toggle('story-card-text',i>=5);button.dataset.story=String(i);button.dataset.tone=x.tone;
+    button.hidden=false;button.classList.toggle('story-card-text',i%2===1);button.dataset.story=String(i);button.dataset.tone=x.tone;
     const img=button.querySelector('img'),label=button.querySelector('span'),strong=button.querySelector('strong');
-    img.hidden=i>=5;if(i<5){img.src=x.img;img.alt=x.alt;img.style.objectPosition=x.focus;img.style.transform=`scale(${x.zoom})`}
+    img.hidden=i%2===1;if(i%2===0){img.src=x.img;img.alt=x.alt;img.style.objectPosition=x.focus;img.style.transform=`scale(${x.zoom})`}
     label.textContent=`#${String(x.id).padStart(2,'0')} · ${x.scene}`;
     strong.textContent=x.teaser;
     button.setAttribute('aria-label',`誰かの景色 ${String(x.id).padStart(2,'0')} ${x.scene}。${x.teaser}`);
