@@ -190,6 +190,22 @@ footer small{color:#b9cfcc}
 .story-next-cta{display:none;margin-top:16px}
 .story-inline.is-active .story-next-cta{display:inline-flex}
 @media(max-width:650px){.story-inline.is-active .story-next-cta{display:flex;width:100%;justify-content:center}}
+
+.story-card[data-tone="bright"]:after{background:linear-gradient(180deg,rgba(8,25,34,.05) 0%,rgba(8,25,34,0) 34%,rgba(8,25,34,.16) 56%,rgba(8,25,34,.80) 100%)}
+.story-card[data-tone="quiet"]:after{background:linear-gradient(180deg,rgba(8,25,34,.10) 0%,rgba(8,25,34,.02) 34%,rgba(8,25,34,.20) 56%,rgba(8,25,34,.86) 100%)}
+.story-card[data-tone="wistful"]:after{background:linear-gradient(180deg,rgba(8,25,34,.15) 0%,rgba(8,25,34,.04) 34%,rgba(8,25,34,.28) 56%,rgba(8,25,34,.91) 100%)}
+.story-inline{grid-template-columns:minmax(0,1fr) auto;align-items:end;padding-top:28px;padding-bottom:28px}
+.story-inline-copy{max-width:690px}
+.story-inline-copy h3{margin-bottom:12px}
+.story-inline-copy p{margin-top:10px;margin-bottom:10px}
+.story-inline-copy strong{display:block;margin-top:15px}
+.story-bridge{grid-column:1/2;margin:18px 0 0!important;font-size:12px!important;color:#718487!important}
+.story-next-cta{grid-column:2/3;grid-row:1/3;align-self:end;display:inline-flex!important;min-width:250px;justify-content:center}
+@media(max-width:760px){
+  .story-inline{grid-template-columns:1fr}
+  .story-bridge{grid-column:1}
+  .story-next-cta{grid-column:1;grid-row:auto;width:100%;min-width:0;margin-top:8px}
+}
 </style></head>
 <body>
 <header class="topbar"><a href="#top" class="brand">PLACE <span>ORACLE</span></a><button class="map-link" id="mapOpen" type="button">私の地図 <span id="mapCount">0</span></button></header>
@@ -209,7 +225,7 @@ footer small{color:#b9cfcc}
 </div>
 <div class="story-inline" id="storyInline" aria-live="polite">
   <div class="story-inline-copy"><span class="eyebrow" id="inlineScene">SOMEONE'S VIEW</span><h3 id="inlineTitle">景色を選ぶと、短い物語がここに残ります。</h3><p id="inlineText">誰かの気持ちを読むためではなく、自分の中で何が動いたかを見るための景色です。</p><strong id="inlineEnd"></strong></div>
-  <button class="text-button story-inline-start" id="inlineStart" type="button">あなたの景色を見つける</button><button class="primary story-next-cta" id="storyNextCta" type="button">今の自分から、景色を選ぶ</button>
+  <p class="story-bridge" id="storyBridge">この景色に何かが残ったら、今の自分が惹かれる景色を選んでみてください。</p><button class="primary story-next-cta" id="storyNextCta" type="button">今の自分に重なる景色を選ぶ</button>
 </div>
 <div class="swipe-note" id="storyHint" aria-live="polite"><span class="desktop-note">まだ景色は続きます →</span><span class="mobile-note">横にスワイプして、景色に触れる →</span></div></section>
 <section class="form-section" id="formSection" hidden><div class="form-inner"><button class="back" id="back" type="button">← 景色に戻る</button><span class="eyebrow">ONE MOMENT</span><h2 id="formTitle">いまの自分を、<br>少しだけ。</h2><button class="text-button" id="changeBirth" type="button" hidden>生年月日を変更する</button><div class="form-block" id="birthBlock"><label for="birthYear">生年月日</label><div class="birth-row"><select id="birthYear" aria-label="生まれた年"><option value="">年</option></select><select id="birthMonth" aria-label="生まれた月"><option value="">月</option></select><select id="birthDay" aria-label="生まれた日"><option value="">日</option></select></div></div><fieldset class="form-block"><legend>いま、いちばん惹かれる景色は？</legend><div class="scene-options"><label><input type="radio" name="scene" value="alley"><img src="story_1.jpg" alt=""><span>光の路地</span></label><label><input type="radio" name="scene" value="sea"><img src="story_2.jpg" alt=""><span>海と水平線</span></label><label><input type="radio" name="scene" value="light"><img src="story_3.jpg" alt=""><span>灯りのある店</span></label><label><input type="radio" name="scene" value="green"><img src="story_4.jpg" alt=""><span>窓辺の緑</span></label><label><input type="radio" name="scene" value="distance"><img src="story_5.jpg" alt=""><span>夕暮れの遠景</span></label></div></fieldset><fieldset class="form-block theme-block"><legend>もうひとつだけ。いま頭に浮かぶのは？ <small>選ばずに進めます</small></legend><div class="theme-options"><label><input type="radio" name="theme" value="work"><span>仕事</span></label><label><input type="radio" name="theme" value="people"><span>人とのこと</span></label><label><input type="radio" name="theme" value="life"><span>暮らし</span></label><label><input type="radio" name="theme" value="self"><span>自分自身</span></label><label><input type="radio" name="theme" value="future"><span>これから</span></label></div></fieldset><p class="form-error" id="formError" role="alert"></p><button class="primary" id="read" type="button">今の自分に重なる場所を見る <span>→</span></button><p class="quiet-note">入力はこの端末内で処理します。節入りに近い生年月日は計算を保留します。</p></div></section>
@@ -636,54 +652,54 @@ function save(){
   if(ok&&!isMember()&&rows.filter(x=>!x.legacy).length===1)setTimeout(openMembership,650);
 }
 function init(){
-  // "誰かの景色" は訪問ごとに組み替え、同じ閲覧中は固定します。
+  // "誰かの景色" は、明るさ・静けさ・切なさの振れ幅を持たせて訪問ごとに組み替えます。
   const storyPool=[
-    {id:3,scene:'光の路地',img:'story_1.jpg',alt:'光が差す路地',teaser:'言えなかったことが、まだ胸にある。',text:'返事を書いて、まだ送っていない。\n本当は答えがないのではなく、相手の顔を思い浮かべすぎている。',end:'今日は、下書きのまま置いてもいい。'},
-    {id:11,scene:'光の路地',img:'story_1.jpg',alt:'光の差す路地',teaser:'気づいてほしかった気持ちが、少し残っている。',text:'言わなくてもいいと思った。\nでも本当は、説明しなくても気づいてほしい気持ちが少し残っている。',end:'伝えるかどうかより、まず自分では気づいておく。'},
-    {id:24,scene:'光の路地',img:'story_1.jpg',alt:'静かな路地',teaser:'迷っているのではなく、急いで決めたくない。',text:'道は一つに見えても、少し先でまた分かれている。\n今すぐ正解を選ばなくてもいいと思える日がある。',end:'今日は、曲がり角までで十分。'},
-    {id:37,scene:'光の路地',img:'story_1.jpg',alt:'朝の路地',teaser:'戻りたいのではなく、確かめたい。',text:'前と同じ場所に戻れば、同じ気持ちになると思っていた。\nでも変わっていたのは景色より、自分の見方だった。',end:'前と違って見えるものを一つ探す。'},
-    {id:52,scene:'光の路地',img:'story_1.jpg',alt:'細い路地',teaser:'遠回りの方が、見えるものもある。',text:'近道ばかり選んでいたら、途中の景色を忘れていた。\n時間を無駄にしたくない気持ちの奥に、少し寄り道したい自分もいる。',end:'帰り道を一つだけ変えてみる。'},
-    {id:68,scene:'光の路地',img:'story_1.jpg',alt:'夕方の路地',teaser:'言葉にする前の気持ちも、確かにある。',text:'何と呼べばいいか分からない感情は、ないことにはならない。\n名前がつく前のものほど、長く残ることがある。',end:'今日は説明せず、覚えておくだけでいい。'},
+    {id:3,tone:'bright',scene:'光の路地',img:'story_1.jpg',alt:'光が差す路地',focus:'46% 44%',zoom:'1.02',teaser:'知らない道なのに、少し歩いてみたくなった。',text:'予定にはなかった道。\nでも光が差しているだけで、少し先まで見てみたくなる日がある。',end:'好奇心は、理由がなくても始まっていい。'},
+    {id:11,tone:'quiet',scene:'光の路地',img:'story_1.jpg',alt:'静かな路地',focus:'56% 50%',zoom:'1.07',teaser:'遠回りの方が、見えるものもある。',text:'近道ばかり選んでいたら、途中の景色を忘れていた。\n少しだけ遠回りした日に、考えていたことがほどけることもある。',end:'今日は、ひとつだけ違う角を曲がってみる。'},
+    {id:24,tone:'wistful',scene:'光の路地',img:'story_1.jpg',alt:'夕方の路地',focus:'38% 54%',zoom:'1.04',teaser:'言えなかったことが、まだ胸にある。',text:'返事を書いて、まだ送っていない。\n答えがないのではなく、相手の顔を思い浮かべすぎているのかもしれない。',end:'今日は、下書きのまま置いてもいい。'},
+    {id:37,tone:'bright',scene:'光の路地',img:'story_1.jpg',alt:'朝の路地',focus:'62% 43%',zoom:'1.10',teaser:'昨日なら選ばなかった道が、今日は少し気になる。',text:'気分が変わったのか、景色が違って見えるのか。\n理由は分からなくても、選ぶものが変わる日はちゃんとある。',end:'変わった自分を、急いで説明しなくていい。'},
+    {id:52,tone:'quiet',scene:'光の路地',img:'story_1.jpg',alt:'細い路地',focus:'44% 62%',zoom:'1.06',teaser:'急がないだけで、町の音が戻ってくる。',text:'目的地ばかり見て歩いていると、途中に何があったか思い出せない。\n少し速度を落とすだけで、景色は増える。',end:'今日は、いつもより一つ多く景色を見る。'},
+    {id:68,tone:'bright',scene:'光の路地',img:'story_1.jpg',alt:'光のある路地',focus:'51% 38%',zoom:'1.03',teaser:'この先に何があるか、分からない方が少し楽しい。',text:'先が見えないことは、不安だけではない。\nまだ決まっていないからこそ、想像できる余白もある。',end:'答えより先に、景色を見てみる。'},
 
-    {id:7,scene:'海と水平線',img:'story_2.jpg',alt:'海と水平線',teaser:'離れたいのではなく、少し遠くから見たい。',text:'近くにいると、なんでも自分のことのように感じてしまう。\n一歩離れてはじめて、自分の声が聞こえることもある。',end:'離れた場所から、もう一度見てみる。'},
-    {id:18,scene:'海と水平線',img:'story_2.jpg',alt:'遠い水平線',teaser:'離れることで、守れる気持ちもある。',text:'距離を取ることは、関係を捨てることとは違う。\n近すぎると見えなくなるものもある。',end:'少し遠くから、大切にできるものもある。'},
-    {id:31,scene:'海と水平線',img:'story_2.jpg',alt:'静かな海',teaser:'戻りたいのではなく、まだ終わらせたくない。',text:'振り返るたび、そこに戻りたいのかと思っていた。\n本当は、終わったことにまだ名前をつけられていないだけかもしれない。',end:'終わりを急いで決めなくていい。'},
-    {id:43,scene:'海と水平線',img:'story_2.jpg',alt:'水平線',teaser:'何も決めない時間が、少し必要だった。',text:'次を決めれば安心する。\nそれでも、水平線を見ている間だけは、答えを持たなくても平気だった。',end:'10分だけ、決めない時間をつくる。'},
-    {id:59,scene:'海と水平線',img:'story_2.jpg',alt:'海辺',teaser:'遠くへ行きたいより、今の自分から少し離れたい。',text:'旅に出たいと思うたび、場所を探していた。\nでも欲しかったのは、いつもの自分を少し遠くから眺める時間だった。',end:'景色を変える前に、見る位置を変えてみる。'},
-    {id:74,scene:'海と水平線',img:'story_2.jpg',alt:'青い海',teaser:'広い景色を見ると、考えが少し小さくなる。',text:'頭の中で大きくなりすぎたことも、遠くまで見える場所では少し輪郭が変わる。\n忘れるのではなく、距離を取り直せる。',end:'今日いちばん大きく感じることを、一歩遠くから見る。'},
+    {id:7,tone:'bright',scene:'海と水平線',img:'story_2.jpg',alt:'海と水平線',focus:'50% 43%',zoom:'1.00',teaser:'広い景色を見ると、今日が少し軽くなる。',text:'抱えていることは何も変わっていない。\nそれでも遠くまで見えるだけで、考えの大きさが少し変わる。',end:'遠くを見る時間も、ちゃんと役に立つ。'},
+    {id:18,tone:'quiet',scene:'海と水平線',img:'story_2.jpg',alt:'遠い水平線',focus:'64% 50%',zoom:'1.06',teaser:'何も決めない時間が、少し必要だった。',text:'次を決めれば安心する。\nでも水平線を見ている間だけは、答えを持たなくても平気だった。',end:'10分だけ、決めない時間をつくる。'},
+    {id:31,tone:'wistful',scene:'海と水平線',img:'story_2.jpg',alt:'静かな海',focus:'36% 52%',zoom:'1.08',teaser:'戻りたいのではなく、まだ終わらせたくない。',text:'振り返るたび、そこに戻りたいのかと思っていた。\n本当は、終わったことにまだ名前をつけられていないだけかもしれない。',end:'終わりを急いで決めなくていい。'},
+    {id:43,tone:'bright',scene:'海と水平線',img:'story_2.jpg',alt:'明るい海',focus:'48% 36%',zoom:'1.03',teaser:'次の休みに、どこまで行けるだろう。',text:'大きな旅でなくてもいい。\n知らない駅で降りるだけで、いつもの自分から少し離れられる。',end:'行き先を一つだけ保存しておく。'},
+    {id:59,tone:'quiet',scene:'海と水平線',img:'story_2.jpg',alt:'海辺',focus:'58% 57%',zoom:'1.05',teaser:'離れたいのではなく、少し遠くから見たい。',text:'近くにいると、なんでも自分のことのように感じてしまう。\n一歩離れてはじめて、自分の声が聞こえることもある。',end:'離れた場所から、もう一度見てみる。'},
+    {id:74,tone:'bright',scene:'海と水平線',img:'story_2.jpg',alt:'青い海',focus:'42% 40%',zoom:'1.02',teaser:'風が強い日は、考えまで動き出す。',text:'ずっと同じ場所にあった考えも、外に出ると少し違って見える。\n気分が動くことも、小さな変化の一つ。',end:'今日は、外の空気を一度深く吸う。'},
 
-    {id:9,scene:'灯りのある店',img:'story_3.jpg',alt:'灯りのある店',teaser:'答えより先に、話せる相手がほしい。',text:'一人で結論を出せる。\nでも、いま欲しいのは結論ではなく、言葉にするあいだ黙って座っていてくれる人。',end:'一人だけ、声をかけてみる。'},
-    {id:22,scene:'灯りのある店',img:'story_3.jpg',alt:'夜の灯り',teaser:'会いたいのではなく、ひとりじゃないと知りたい夜。',text:'誰かに会いたいというより、\n自分が世界から切れていないと感じたい夜がある。',end:'話すことがなくても、灯りのある場所へ。'},
-    {id:34,scene:'灯りのある店',img:'story_3.jpg',alt:'店の灯り',teaser:'話したいことがあるのに、用事がない。',text:'連絡する理由を探しているうちに、時間だけが過ぎた。\n本当は用事ではなく、その人と少し話したかっただけだった。',end:'理由のない一言でもいい。'},
-    {id:48,scene:'灯りのある店',img:'story_3.jpg',alt:'窓越しの灯り',teaser:'安心は、説明の少ない場所にあることもある。',text:'何を考えているか説明しなくても、ただ同じ場所にいられる。\nそんな時間を欲しがっていたことに、あとから気づく。',end:'説明しなくていい相手を一人思い出す。'},
-    {id:63,scene:'灯りのある店',img:'story_3.jpg',alt:'暖かな灯り',teaser:'寂しいと決めつけるほどではない。でも少し静かすぎる。',text:'一人で過ごすのは嫌いではない。\nただ、今日は静けさが少し深く感じられる。',end:'人の気配がある場所に少しだけ寄る。'},
-    {id:81,scene:'灯りのある店',img:'story_3.jpg',alt:'夕方の店',teaser:'誰かといる時の自分を、少し思い出したい。',text:'一人でいる自分も本当。\n誰かと笑っている自分も同じくらい本当だった。',end:'最近笑った場面を一つ思い出す。'},
+    {id:9,tone:'bright',scene:'灯りのある店',img:'story_3.jpg',alt:'灯りのある店',focus:'52% 48%',zoom:'1.02',teaser:'予定のない夜に、寄ってみたい場所がひとつある。',text:'誰かと約束しているわけでもない。\nでも、あの灯りの中に入ったら今日が少し長くなる気がする。',end:'寄り道は、予定がなくてもできる。'},
+    {id:22,tone:'quiet',scene:'灯りのある店',img:'story_3.jpg',alt:'夜の灯り',focus:'40% 50%',zoom:'1.07',teaser:'帰るには少し早くて、もう少しだけ今日を残したい。',text:'特別なことがあった日ではない。\nそれでも、すぐ家に帰るには少し惜しい夜がある。',end:'今日の余韻を、あと10分だけ残す。'},
+    {id:34,tone:'wistful',scene:'灯りのある店',img:'story_3.jpg',alt:'店の灯り',focus:'61% 45%',zoom:'1.05',teaser:'話したいことがあるのに、用事がない。',text:'連絡する理由を探しているうちに、時間だけが過ぎた。\n本当は用事ではなく、その人と少し話したかっただけだった。',end:'理由のない一言でもいい。'},
+    {id:48,tone:'bright',scene:'灯りのある店',img:'story_3.jpg',alt:'暖かな店の灯り',focus:'50% 38%',zoom:'1.03',teaser:'笑って帰れる夜は、それだけで少し特別。',text:'大きな出来事がなくても、誰かと笑った記憶は残る。\nあとから思い出すのは、案外そんな普通の夜かもしれない。',end:'最近笑った場面を、一つ覚えておく。'},
+    {id:63,tone:'quiet',scene:'灯りのある店',img:'story_3.jpg',alt:'窓越しの灯り',focus:'36% 55%',zoom:'1.08',teaser:'この灯りを、少し眺めていたい夜。',text:'誰かに会いたいわけでも、何かを決めたいわけでもない。\nただ、人の気配が遠くにあるだけで落ち着く夜がある。',end:'静かな安心も、ちゃんと残していい。'},
+    {id:81,tone:'bright',scene:'灯りのある店',img:'story_3.jpg',alt:'夕方の店',focus:'66% 50%',zoom:'1.06',teaser:'初めての店に入るだけで、今日は少し違う日になる。',text:'いつもの安心も好き。\nでも、たまに知らない扉を開けると、自分の幅が少し広がる。',end:'気になる店を一つだけ覚えておく。'},
 
-    {id:5,scene:'窓辺の緑',img:'story_4.jpg',alt:'窓辺の緑',teaser:'増やす前に、いまあるものを育てたい。',text:'新しい予定を入れるほど、充実している気がする。\nでも、窓辺に置いた小さなものほど気にかけている。',end:'今日の予定を、一つ増やさずにおく。'},
-    {id:16,scene:'窓辺の緑',img:'story_4.jpg',alt:'緑の窓辺',teaser:'変わりたいより、今あるものを壊したくない。',text:'変えることばかり考えていた。\nでも、なくしたくないものに気づくことも変化の一部。',end:'残したいものを一つだけ決めてみる。'},
-    {id:29,scene:'窓辺の緑',img:'story_4.jpg',alt:'植物のある窓',teaser:'小さく続いているものほど、見落としやすい。',text:'大きな変化ばかり探していた。\nでも毎日少しずつ続いていることの中に、自分らしさが残っている。',end:'続いていることを一つ数える。'},
-    {id:45,scene:'窓辺の緑',img:'story_4.jpg',alt:'明るい緑',teaser:'休みたいのではなく、何も説明しなくていい場所がほしい。',text:'疲れていると言えば理由を聞かれる。\n元気だと言えばまた頑張れると思われる。\n本当は、何も説明しなくていい時間がほしかった。',end:'10分だけ、誰にも説明しない時間をつくる。'},
-    {id:61,scene:'窓辺の緑',img:'story_4.jpg',alt:'静かな緑',teaser:'整えることは、前に進むことと同じくらい大事。',text:'新しいことを始める前に、ずっと気になっていた小さな乱れを片づけたくなる。\nそれも前進の一つかもしれない。',end:'机の上を一か所だけ整える。'},
-    {id:88,scene:'窓辺の緑',img:'story_4.jpg',alt:'柔らかな緑',teaser:'守りたいものが分かると、変えたいものも見えてくる。',text:'全部を変えたいわけではない。\n何を残したいのかが分かれば、変える場所も少し見えてくる。',end:'残したいものを先に決める。'},
+    {id:5,tone:'bright',scene:'窓辺の緑',img:'story_4.jpg',alt:'窓辺の緑',focus:'48% 42%',zoom:'1.00',teaser:'小さく育っているものを見ると、少し嬉しい。',text:'昨日とほとんど同じように見えても、葉は少し伸びている。\n変化は、大きくなくてもちゃんとある。',end:'昨日より増えたものを一つ見つける。'},
+    {id:16,tone:'quiet',scene:'窓辺の緑',img:'story_4.jpg',alt:'緑の窓辺',focus:'58% 48%',zoom:'1.05',teaser:'増やす前に、いまあるものを育てたい。',text:'新しい予定を入れるほど、充実している気がする。\nでも、窓辺に置いた小さなものほど気にかけている。',end:'今日の予定を、一つ増やさずにおく。'},
+    {id:29,tone:'bright',scene:'窓辺の緑',img:'story_4.jpg',alt:'明るい緑',focus:'42% 35%',zoom:'1.04',teaser:'朝の光がきれいだと、それだけで少し得をした気がする。',text:'何か良いことが起きたわけではない。\nでも、きれいだと思えた瞬間があるだけで、その日の輪郭は少し変わる。',end:'小さな「よかった」を一つ残す。'},
+    {id:45,tone:'wistful',scene:'窓辺の緑',img:'story_4.jpg',alt:'静かな緑',focus:'64% 58%',zoom:'1.08',teaser:'休みたいのではなく、何も説明しなくていい場所がほしい。',text:'疲れていると言えば理由を聞かれる。\n元気だと言えばまた頑張れると思われる。\n本当は、何も説明しなくていい時間がほしかった。',end:'10分だけ、誰にも説明しない時間をつくる。'},
+    {id:61,tone:'quiet',scene:'窓辺の緑',img:'story_4.jpg',alt:'植物のある窓',focus:'34% 52%',zoom:'1.06',teaser:'整えることは、前に進むことと同じくらい大事。',text:'新しいことを始める前に、ずっと気になっていた小さな乱れを片づけたくなる。\nそれも前進の一つかもしれない。',end:'机の上を一か所だけ整える。'},
+    {id:88,tone:'bright',scene:'窓辺の緑',img:'story_4.jpg',alt:'柔らかな緑',focus:'51% 46%',zoom:'1.03',teaser:'守りたいものが分かると、次に進みやすくなる。',text:'全部を変える必要はない。\n残したいものが見えてくると、変えてみたい場所も自然に見えてくる。',end:'まず、残したいものを一つ選ぶ。'},
 
-    {id:13,scene:'夕暮れの遠景',img:'story_5.jpg',alt:'夕暮れの遠景',teaser:'まだ決めないことも、一つの選び方。',text:'ここにいたい気持ちと、どこかへ行きたい気持ち。\nどちらも本当だから、すぐに一つへ決めなくていい。',end:'次の休日を、10分だけ想像する。'},
-    {id:27,scene:'夕暮れの遠景',img:'story_5.jpg',alt:'遠い夕景',teaser:'終わったのではない。まだ名前をつけていないだけ。',text:'終わったのか、始まるのか。\nまだ名前がついていない時間は、どちらでもなくていい。',end:'結論より先に、景色だけ覚えておく。'},
-    {id:39,scene:'夕暮れの遠景',img:'story_5.jpg',alt:'夕方の遠景',teaser:'新しい場所より、今まで選ばなかった景色を見たい。',text:'遠くへ行きたいと思っていた。\nでも欲しかったのは、今までの自分なら選ばなかった景色を見ることだった。',end:'次の休みに一つだけ違う道を選ぶ。'},
-    {id:54,scene:'夕暮れの遠景',img:'story_5.jpg',alt:'遠くの町',teaser:'先のことを考えるほど、今の気持ちが見えなくなる。',text:'一年後のことなら考えられる。\nでも今日どうしたいかと聞かれると、急に分からなくなる。',end:'今日だけの答えを一つ選ぶ。'},
-    {id:72,scene:'夕暮れの遠景',img:'story_5.jpg',alt:'夕焼けの遠景',teaser:'行きたい場所より、そこにいる自分を想像している。',text:'景色を見て惹かれる時、場所そのものより、そこにいる自分を想像していることがある。\n少し静かで、少し違う自分。',end:'その景色の中で何をしているか想像してみる。'},
-    {id:96,scene:'夕暮れの遠景',img:'story_5.jpg',alt:'暮れていく空',teaser:'遠くを見ると、今いる場所の輪郭も見えてくる。',text:'離れたいわけではない。\nただ、今いる場所を外側から見たら何が見えるのか知りたかった。',end:'今の暮らしを、旅先から見るように眺めてみる。'}
+    {id:13,tone:'bright',scene:'夕暮れの遠景',img:'story_5.jpg',alt:'夕暮れの遠景',focus:'50% 42%',zoom:'1.00',teaser:'今日が終わる前に、明日を少し楽しみにしている。',text:'大きな予定はない。\nでも、明日のどこかに小さな楽しみがあるだけで、夕暮れの見え方が変わる。',end:'明日の楽しみを一つだけ決める。'},
+    {id:27,tone:'quiet',scene:'夕暮れの遠景',img:'story_5.jpg',alt:'遠い夕景',focus:'60% 50%',zoom:'1.05',teaser:'まだ決めないことも、一つの選び方。',text:'ここにいたい気持ちと、どこかへ行きたい気持ち。\nどちらも本当だから、すぐに一つへ決めなくていい。',end:'次の休日を、10分だけ想像する。'},
+    {id:39,tone:'bright',scene:'夕暮れの遠景',img:'story_5.jpg',alt:'夕方の遠景',focus:'38% 45%',zoom:'1.04',teaser:'新しい場所より、今まで選ばなかった景色を見たい。',text:'遠くへ行きたいと思っていた。\nでも欲しかったのは、今までの自分なら選ばなかった景色を見ることだった。',end:'次の休みに、一つだけ違う道を選ぶ。'},
+    {id:54,tone:'wistful',scene:'夕暮れの遠景',img:'story_5.jpg',alt:'遠くの町',focus:'66% 52%',zoom:'1.07',teaser:'先のことを考えるほど、今の気持ちが見えなくなる。',text:'一年後のことなら考えられる。\nでも今日どうしたいかと聞かれると、急に分からなくなる。',end:'今日だけの答えを一つ選ぶ。'},
+    {id:72,tone:'quiet',scene:'夕暮れの遠景',img:'story_5.jpg',alt:'夕焼けの遠景',focus:'44% 38%',zoom:'1.03',teaser:'行きたい場所より、そこにいる自分を想像している。',text:'景色を見て惹かれる時、場所そのものより、そこにいる自分を想像していることがある。\n少し静かで、少し違う自分。',end:'その景色の中で何をしているか想像してみる。'},
+    {id:96,tone:'wistful',scene:'夕暮れの遠景',img:'story_5.jpg',alt:'暮れていく空',focus:'55% 60%',zoom:'1.06',teaser:'遠くを見ると、今いる場所の輪郭も見えてくる。',text:'離れたいわけではない。\nただ、今いる場所を外側から見たら何が見えるのか知りたかった。',end:'今の暮らしを、旅先から見るように眺めてみる。'}
   ];
-  const randomValue=()=>{
-    try{const a=new Uint32Array(1);crypto.getRandomValues(a);return a[0]/4294967296}catch(e){return Math.random()}
-  };
-  const shuffled=storyPool.map(x=>({x,r:randomValue()})).sort((a,b)=>a.r-b.r).map(v=>v.x);
-  const activeStories=shuffled.slice(0,10);
+  const randomValue=()=>{try{const a=new Uint32Array(1);crypto.getRandomValues(a);return a[0]/4294967296}catch(e){return Math.random()}};
+  const shuffle=(arr)=>arr.map(x=>({x,r:randomValue()})).sort((a,b)=>a.r-b.r).map(v=>v.x);
+  const byTone=(tone)=>shuffle(storyPool.filter(x=>x.tone===tone));
+  let activeStories=[...byTone('bright').slice(0,4),...byTone('quiet').slice(0,3),...byTone('wistful').slice(0,3)];
+  activeStories=shuffle(activeStories);
   const storyButtons=[...document.querySelectorAll('.story-card')];
   storyButtons.forEach((button,i)=>{
     const x=activeStories[i]; if(!x){button.hidden=true;return}
-    button.hidden=false;button.dataset.story=String(i);
+    button.hidden=false;button.dataset.story=String(i);button.dataset.tone=x.tone;
     const img=button.querySelector('img'),label=button.querySelector('span'),strong=button.querySelector('strong');
-    img.src=x.img;img.alt=x.alt;
+    img.src=x.img;img.alt=x.alt;img.style.objectPosition=x.focus;img.style.transform=`scale(${x.zoom})`;
     label.textContent=`#${String(x.id).padStart(2,'0')} · ${x.scene}`;
     strong.textContent=x.teaser;
     button.setAttribute('aria-label',`誰かの景色 ${String(x.id).padStart(2,'0')} ${x.scene}。${x.teaser}`);
@@ -700,7 +716,6 @@ function init(){
   };
   storyButtons.forEach((button,i)=>{button.onclick=()=>renderStory(i)});
   const openSceneForm=()=>showForm(profile?'daily':'first');
-  $('inlineStart').onclick=openSceneForm;
   $('storyNextCta').onclick=openSceneForm;
   processMembershipReturn();
   const year=new Date().getFullYear();for(let y=year;y>=1900;y--)$('birthYear').add(new Option(y+'年',y));for(let m=1;m<=12;m++)$('birthMonth').add(new Option(m+'月',m));$('birthYear').addEventListener('change',buildDays);$('birthMonth').addEventListener('change',buildDays);migratePreviousMap();profile=localGet(storeKey,null);if(profile?.birth&&profile?.scene&&profile?.stars){$('begin').textContent='今の自分に重なる場所を見る →';$('begin').onclick=openForToday}else $('begin').onclick=()=>showForm();$('changeBirth').onclick=()=>{$('birthBlock').hidden=false;$('changeBirth').hidden=true};$('back').onclick=()=>{ $('formSection').hidden=true;$('someone').scrollIntoView({behavior:'smooth'})};$('readBack').onclick=()=>{$('reading').hidden=true;$('someone').scrollIntoView({behavior:'smooth'})};$('read').onclick=submit;$('save').onclick=save;$('mapOpen').onclick=$('openMapFromReading').onclick=()=>{$('mapDialog').showModal()};$('mapClose').onclick=()=>$('mapDialog').close();$('mapClear').onclick=()=>{if(confirm('この端末に残した景色をすべて消しますか？')){localSet(mapKey,[]);updateMap()}};
