@@ -811,8 +811,8 @@ function init(){
   const renderStory=(i)=>{
     const x=activeStories[i]; if(!x)return;
     $('inlineScene').textContent=`#${String(x.id).padStart(2,'0')} · ${x.title}`;
-    $('inlineTitle').textContent=x.teaser;
-    $('inlineText').textContent=x.text||'';
+    $('inlineTitle').textContent=x.title;
+    $('inlineText').textContent=x.text||x.teaser;
     $('inlineEnd').textContent=x.end||'';
     entryStory={id:x.id,tone:x.tone,scene:x.title,sceneKey:storySceneKey[x.scene]||'',teaser:x.teaser};
     storyButtons.forEach((b,n)=>b.setAttribute('aria-pressed',n===i?'true':'false'));
