@@ -761,11 +761,20 @@ function init(){
     // 念のためのフォールバック。各景色2枚を優先する。
     activeStories=sceneNames.flatMap(s=>shuffle(storyPool.filter(x=>x.scene===s)).slice(0,2));
   }
-  // 同じ景色が隣接しない並びを優先。
-  for(let attempt=0;attempt<80;attempt++){
-    const candidate=shuffle(activeStories);
-    if(candidate.every((x,i)=>i===0||x.scene!==candidate[i-1].scene)){activeStories=candidate;break}
-  }
+  // 見た目は「5種類が一巡してから、別の順番でもう一巡」。
+  // 同じ写真が近距離で繰り返されないので、横スクロール時に自然に見える。
+  const buckets=Object.fromEntries(sceneNames.map(s=>[s,shuffle(activeStories.filter(x=>x.scene===s))]));
+  const makeRound=(avoidFirst='')=>{
+    for(let attempt=0;attempt<60;attempt++){
+      const order=shuffle(sceneNames);
+      if(order[0]===avoidFirst)continue;
+      return order.map(s=>buckets[s].shift()).filter(Boolean);
+    }
+    return sceneNames.map(s=>buckets[s].shift()).filter(Boolean);
+  };
+  const round1=makeRound('');
+  const round2=makeRound(round1.at(-1)?.scene||'');
+  activeStories=[...round1,...round2];
   const storyButtons=[...document.querySelectorAll('.story-card')];
   storyButtons.forEach((button,i)=>{
     const x=activeStories[i]; if(!x){button.hidden=true;return}
