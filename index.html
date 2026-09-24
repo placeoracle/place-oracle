@@ -806,7 +806,7 @@ function init(){
     img.hidden=false;img.src=x.img;img.alt=x.alt;img.onerror=()=>{img.onerror=null;img.src=x.fallback};img.style.objectPosition=x.focus;img.style.transform=`scale(${x.zoom})`
     label.textContent=`#${String(x.id).padStart(2,'0')} · ${x.title}`;
     strong.textContent=x.teaser;
-    button.setAttribute('aria-label',`誰かの景色 ${String(x.id).padStart(2,'0')} ${x.scene}。${x.teaser}`);
+    button.setAttribute('aria-label',`誰かの景色 ${String(x.id).padStart(2,'0')} ${x.title}。${x.teaser}`);
   });
   const renderStory=(i)=>{
     const x=activeStories[i]; if(!x)return;
