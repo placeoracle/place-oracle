@@ -738,9 +738,34 @@ function init(){
   ];
   const randomValue=()=>{try{const a=new Uint32Array(1);crypto.getRandomValues(a);return a[0]/4294967296}catch(e){return Math.random()}};
   const shuffle=(arr)=>arr.map(x=>({x,r:randomValue()})).sort((a,b)=>a.r-b.r).map(v=>v.x);
-  const byTone=(tone)=>shuffle(storyPool.filter(x=>x.tone===tone));
-  let activeStories=[...byTone('bright').slice(0,4),...byTone('quiet').slice(0,3),...byTone('wistful').slice(0,3)];
-  activeStories=shuffle(activeStories);
+  // 10枚は「5景色×2枚」に固定し、同じ写真が3枚以上並ばないようにする。
+  // 感情の振れ幅も bright 4 / quiet 3 / wistful 3 を維持する。
+  const toneTarget={bright:4,quiet:3,wistful:3};
+  const sceneNames=['光の路地','海と水平線','灯りのある店','窓辺の緑','夕暮れの遠景'];
+  let activeStories=[];
+  for(let attempt=0;attempt<120&&!activeStories.length;attempt++){
+    const toneCount={bright:0,quiet:0,wistful:0};
+    const sceneCount=Object.fromEntries(sceneNames.map(s=>[s,0]));
+    const picked=[];
+    for(const x of shuffle(storyPool)){
+      if(picked.length>=10)break;
+      if(sceneCount[x.scene]>=2)continue;
+      if(toneCount[x.tone]>=toneTarget[x.tone])continue;
+      picked.push(x);sceneCount[x.scene]++;toneCount[x.tone]++;
+    }
+    const sceneOK=sceneNames.every(s=>sceneCount[s]===2);
+    const toneOK=Object.keys(toneTarget).every(t=>toneCount[t]===toneTarget[t]);
+    if(sceneOK&&toneOK)activeStories=picked;
+  }
+  if(!activeStories.length){
+    // 念のためのフォールバック。各景色2枚を優先する。
+    activeStories=sceneNames.flatMap(s=>shuffle(storyPool.filter(x=>x.scene===s)).slice(0,2));
+  }
+  // 同じ景色が隣接しない並びを優先。
+  for(let attempt=0;attempt<80;attempt++){
+    const candidate=shuffle(activeStories);
+    if(candidate.every((x,i)=>i===0||x.scene!==candidate[i-1].scene)){activeStories=candidate;break}
+  }
   const storyButtons=[...document.querySelectorAll('.story-card')];
   storyButtons.forEach((button,i)=>{
     const x=activeStories[i]; if(!x){button.hidden=true;return}
