@@ -186,6 +186,10 @@ footer small{color:#b9cfcc}
   .resonance{margin:0;padding:40px 24px;border-radius:14px}
 }
 
+
+.story-next-cta{display:none;margin-top:16px}
+.story-inline.is-active .story-next-cta{display:inline-flex}
+@media(max-width:650px){.story-inline.is-active .story-next-cta{display:flex;width:100%;justify-content:center}}
 </style></head>
 <body>
 <header class="topbar"><a href="#top" class="brand">PLACE <span>ORACLE</span></a><button class="map-link" id="mapOpen" type="button">私の地図 <span id="mapCount">0</span></button></header>
@@ -205,7 +209,7 @@ footer small{color:#b9cfcc}
 </div>
 <div class="story-inline" id="storyInline" aria-live="polite">
   <div class="story-inline-copy"><span class="eyebrow" id="inlineScene">SOMEONE'S VIEW</span><h3 id="inlineTitle">景色を選ぶと、短い物語がここに残ります。</h3><p id="inlineText">誰かの気持ちを読むためではなく、自分の中で何が動いたかを見るための景色です。</p><strong id="inlineEnd"></strong></div>
-  <button class="text-button story-inline-start" id="inlineStart" type="button">あなたの景色を見つける</button>
+  <button class="text-button story-inline-start" id="inlineStart" type="button">あなたの景色を見つける</button><button class="primary story-next-cta" id="storyNextCta" type="button">今の自分から、景色を選ぶ</button>
 </div>
 <div class="swipe-note" id="storyHint" aria-live="polite"><span class="desktop-note">まだ景色は続きます →</span><span class="mobile-note">横にスワイプして、景色に触れる →</span></div></section>
 <section class="form-section" id="formSection" hidden><div class="form-inner"><button class="back" id="back" type="button">← 景色に戻る</button><span class="eyebrow">ONE MOMENT</span><h2 id="formTitle">いまの自分を、<br>少しだけ。</h2><button class="text-button" id="changeBirth" type="button" hidden>生年月日を変更する</button><div class="form-block" id="birthBlock"><label for="birthYear">生年月日</label><div class="birth-row"><select id="birthYear" aria-label="生まれた年"><option value="">年</option></select><select id="birthMonth" aria-label="生まれた月"><option value="">月</option></select><select id="birthDay" aria-label="生まれた日"><option value="">日</option></select></div></div><fieldset class="form-block"><legend>いま、いちばん惹かれる景色は？</legend><div class="scene-options"><label><input type="radio" name="scene" value="alley"><img src="story_1.jpg" alt=""><span>光の路地</span></label><label><input type="radio" name="scene" value="sea"><img src="story_2.jpg" alt=""><span>海と水平線</span></label><label><input type="radio" name="scene" value="light"><img src="story_3.jpg" alt=""><span>灯りのある店</span></label><label><input type="radio" name="scene" value="green"><img src="story_4.jpg" alt=""><span>窓辺の緑</span></label><label><input type="radio" name="scene" value="distance"><img src="story_5.jpg" alt=""><span>夕暮れの遠景</span></label></div></fieldset><fieldset class="form-block theme-block"><legend>もうひとつだけ。いま頭に浮かぶのは？ <small>選ばずに進めます</small></legend><div class="theme-options"><label><input type="radio" name="theme" value="work"><span>仕事</span></label><label><input type="radio" name="theme" value="people"><span>人とのこと</span></label><label><input type="radio" name="theme" value="life"><span>暮らし</span></label><label><input type="radio" name="theme" value="self"><span>自分自身</span></label><label><input type="radio" name="theme" value="future"><span>これから</span></label></div></fieldset><p class="form-error" id="formError" role="alert"></p><button class="primary" id="read" type="button">今の自分に重なる場所を見る <span>→</span></button><p class="quiet-note">入力はこの端末内で処理します。節入りに近い生年月日は計算を保留します。</p></div></section>
@@ -632,6 +636,36 @@ function save(){
   if(ok&&!isMember()&&rows.filter(x=>!x.legacy).length===1)setTimeout(openMembership,650);
 }
 function init(){
+  // Core story interaction is bound first so the top-page journey remains usable
+  // even if a later optional feature has an error.
+  const storySamples=[
+    ['光の路地','返事を書いて、まだ送っていない。\n本当は答えがないのではなく、相手の顔を思い浮かべすぎている。','今日は、下書きのまま置いてもいい。'],
+    ['海と水平線','近くにいると、なんでも自分のことのように感じてしまう。\n一歩離れてはじめて、自分の声が聞こえることもある。','離れた場所から、もう一度見てみる。'],
+    ['灯りのある店','一人で結論を出せる。でも、いま欲しいのは結論ではない。\n言葉にするあいだ、黙って座っていてくれる人。','一人だけ、声をかけてみる。'],
+    ['窓辺の緑','新しい予定を入れるほど、充実している気がする。\nでも、窓辺に置いた小さなものほど、気にかけている。','今日の予定を、一つ増やさずにおく。'],
+    ['夕暮れの遠景','ここにいたい気持ちと、どこかへ行きたい気持ち。\nどちらも本当だから、すぐに一つへ決めなくていい。','次の休日を、10分だけ想像する。'],
+    ['光の路地','言わなくてもいいと思った。\nでも本当は、説明しなくても気づいてほしい気持ちが少し残っている。','伝えるかどうかより、まず自分では気づいておく。'],
+    ['海と水平線','距離を取ることは、関係を捨てることとは違う。\n近すぎると見えなくなるものもある。','少し遠くから、大切にできるものもある。'],
+    ['灯りのある店','誰かに会いたいというより、\n自分が世界から切れていないと感じたい夜がある。','話すことがなくても、灯りのある場所へ。'],
+    ['窓辺の緑','変えることばかり考えていた。\nでも、なくしたくないものに気づくことも変化の一部。','残したいものを一つだけ決めてみる。'],
+    ['夕暮れの遠景','終わったのか、始まるのか。\nまだ名前がついていない時間は、どちらでもなくていい。','結論より先に、景色だけ覚えておく。']
+  ];
+  const renderStory=(i)=>{
+    const x=storySamples[i]; if(!x)return;
+    $('inlineScene').textContent=`${String(i+1).padStart(2,'0')} · ${x[0]}`;
+    $('inlineTitle').textContent=x[1].split('\n')[0];
+    $('inlineText').textContent=x[1];
+    $('inlineEnd').textContent=x[2];
+    document.querySelectorAll('.story-card').forEach((b,n)=>b.setAttribute('aria-pressed',n===i?'true':'false'));
+    $('storyInline').classList.add('is-active');
+    $('storyInline').scrollIntoView({behavior:'smooth',block:'nearest'});
+  };
+  document.querySelectorAll('.story-card').forEach((button,i)=>{
+    button.onclick=()=>renderStory(i);
+  });
+  const openSceneForm=()=>showForm(profile?'daily':'first');
+  $('inlineStart').onclick=openSceneForm;
+  $('storyNextCta').onclick=openSceneForm;
   processMembershipReturn();
   const year=new Date().getFullYear();for(let y=year;y>=1900;y--)$('birthYear').add(new Option(y+'年',y));for(let m=1;m<=12;m++)$('birthMonth').add(new Option(m+'月',m));$('birthYear').addEventListener('change',buildDays);$('birthMonth').addEventListener('change',buildDays);migratePreviousMap();profile=localGet(storeKey,null);if(profile?.birth&&profile?.scene&&profile?.stars){$('begin').textContent='今の自分に重なる場所を見る →';$('begin').onclick=openForToday}else $('begin').onclick=()=>showForm();$('changeBirth').onclick=()=>{$('birthBlock').hidden=false;$('changeBirth').hidden=true};$('back').onclick=()=>{ $('formSection').hidden=true;$('someone').scrollIntoView({behavior:'smooth'})};$('readBack').onclick=()=>{$('reading').hidden=true;$('someone').scrollIntoView({behavior:'smooth'})};$('read').onclick=submit;$('save').onclick=save;$('mapOpen').onclick=$('openMapFromReading').onclick=()=>{$('mapDialog').showModal()};$('mapClose').onclick=()=>$('mapDialog').close();$('mapClear').onclick=()=>{if(confirm('この端末に残した景色をすべて消しますか？')){localSet(mapKey,[]);updateMap()}};
 
@@ -649,32 +683,7 @@ function init(){
   $('membershipClose').onclick=$('membershipLater').onclick=()=>$('membershipDialog').close();
   $('buyMonthly').onclick=()=>goToCheckout('monthly');
   $('buyYearly').onclick=()=>goToCheckout('yearly');
-  const sample=[
-['光の路地','返事を書いて、まだ送っていない。\n本当は答えがないのではなく、相手の顔を思い浮かべすぎている。','今日は、下書きのまま置いてもいい。'],
-['海と水平線','近くにいると、なんでも自分のことのように感じてしまう。\n一歩離れてはじめて、自分の声が聞こえることもある。','離れた場所から、もう一度見てみる。'],
-['灯りのある店','一人で結論を出せる。でも、いま欲しいのは結論ではない。\n言葉にするあいだ、黙って座っていてくれる人。','一人だけ、声をかけてみる。'],
-['窓辺の緑','新しい予定を入れるほど、充実している気がする。\nでも、窓辺に置いた小さなものほど、気にかけている。','今日の予定を、一つ増やさずにおく。'],
-['夕暮れの遠景','ここにいたい気持ちと、どこかへ行きたい気持ち。\nどちらも本当だから、すぐに一つへ決めなくていい。','次の休日を、10分だけ想像する。'],
-['光の路地','言わなくてもいいと思った。\nでも本当は、説明しなくても気づいてほしい気持ちが少し残っている。','伝えるかどうかより、まず自分では気づいておく。'],
-['海と水平線','距離を取ることは、関係を捨てることとは違う。\n近すぎると見えなくなるものもある。','少し遠くから、大切にできるものもある。'],
-['灯りのある店','誰かに会いたいというより、\n自分が世界から切れていないと感じたい夜がある。','話すことがなくても、灯りのある場所へ。'],
-['窓辺の緑','変えることばかり考えていた。\nでも、なくしたくないものに気づくことも変化の一部。','残したいものを一つだけ決めてみる。'],
-['夕暮れの遠景','終わったのか、始まるのか。\nまだ名前がついていない時間は、どちらでもなくていい。','結論より先に、景色だけ覚えておく。']
-];
-function showInlineStory(i){
-  const x=sample[i];
-  $('inlineScene').textContent=`${String(i+1).padStart(2,'0')} · ${x[0]}`;
-  $('inlineTitle').textContent=x[1].split('\n')[0];
-  $('inlineText').textContent=x[1];
-  $('inlineEnd').textContent=x[2];
-  document.querySelectorAll('.story-card').forEach((b,n)=>b.setAttribute('aria-pressed',n===i?'true':'false'));
-  $('storyInline').scrollIntoView({behavior:'smooth',block:'nearest'});
-}
-document.querySelectorAll('.story-card').forEach((button,i)=>button.onclick=()=>showInlineStory(i));
-$('inlineStart').onclick=()=>showForm(profile?'daily':'first');
-$('storyClose').onclick=()=>$('storyDialog').close();
-$('dialogStart').onclick=()=>showForm(profile?'daily':'first');
-updateMap()
+  updateMap()
 }
 if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init,{once:true});}else{init();}
 })();
