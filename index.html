@@ -254,6 +254,7 @@ footer small{color:#b9cfcc}
 .map-entry-visual{margin:14px 0 4px}.map-entry-photo{display:block;width:100%;max-height:210px;aspect-ratio:16/9;object-fit:cover;border-radius:8px;background:#e6e8e2}.map-entry-visual figcaption{margin-top:5px;font-size:10px;line-height:1.5;color:#7b8279;text-align:right}.map-entry-actions{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:7px}.map-entry-map{display:inline-block;padding:10px 0;color:var(--sea);font-size:13px;font-weight:600;text-decoration:none}.map-entry-map:focus-visible{outline:3px solid #dbab55;outline-offset:3px}
 .story-card-save{display:block;margin-top:12px;font-weight:600}.story-card-save-status{margin:4px 0 0;font-size:12px;color:#607476;line-height:1.6}
 .sky-postcard{margin:38px 0 0;padding-top:30px;border-top:1px solid rgba(255,255,255,.18)}.sky-postcard-preview{position:relative;isolation:isolate;overflow:hidden;display:flex;min-height:360px;flex-direction:column;justify-content:flex-end;gap:13px;padding:28px;border-radius:12px;color:#f8f4e9;background:radial-gradient(circle at 18% 24%,#f7eedb 0 1px,transparent 2px),radial-gradient(circle at 72% 17%,#d8e8ed 0 1px,transparent 2px),radial-gradient(circle at 54% 38%,#fff7df 0 1px,transparent 2px),radial-gradient(circle at 84% 55%,#c7dfe5 0 1px,transparent 2px),radial-gradient(ellipse at 68% 15%,#47657c 0,#22384e 36%,#102432 80%)}.sky-postcard-preview:before{content:"";position:absolute;inset:0;z-index:-1;opacity:.55;background-image:radial-gradient(1px 1px at 12% 18%,#fff 99%,transparent),radial-gradient(1px 1px at 39% 28%,#fff 99%,transparent),radial-gradient(2px 2px at 62% 24%,#fff 99%,transparent),radial-gradient(1px 1px at 89% 32%,#fff 99%,transparent),radial-gradient(1px 1px at 30% 50%,#fff 99%,transparent),radial-gradient(1px 1px at 76% 48%,#fff 99%,transparent)}.sky-postcard-kicker{font-size:10px;letter-spacing:.2em;color:#e2c98e}.sky-postcard-location{font-size:13px;letter-spacing:.12em;color:#d8e4e5}.sky-postcard-preview h4{max-width:620px;margin:0;font-size:clamp(25px,4vw,40px);line-height:1.55;color:#fffaf0}.sky-postcard-signs{margin:0;font-size:14px;line-height:1.8;color:#d9e2de}.sky-postcard-note,.sky-card-status{font-size:12px;line-height:1.7;color:#d9dfdb;margin:12px 0 0}.sky-postcard #skyCardSave{color:#f4ddb0;font-weight:600;margin-top:12px}.sky-card-status:empty{display:none}
+.map-result-card,.map-story-card{margin-top:18px;padding:18px;border-radius:10px;background:#f5f1e8}.map-card-label{display:block;font-size:10px;letter-spacing:.16em;color:#ad8a52}.map-result-card h4,.map-story-card h4,.map-sky-card h4{margin:8px 0;font-size:20px;line-height:1.5;color:var(--ink)}.map-card-poem,.map-story-card p{white-space:pre-line;line-height:1.8;color:#536c6b}.map-card-details{margin-top:12px}.map-card-details summary{cursor:pointer;color:var(--sea);font-size:13px}.map-card-details p{white-space:pre-line;line-height:1.8;color:#536c6b}.map-card-action{padding-top:10px;border-top:1px solid var(--line)}.map-story-card-image{display:block;width:100%;max-height:220px;aspect-ratio:16/9;object-fit:cover;border-radius:8px;margin-top:12px}.map-story-card strong{display:block;margin-top:10px;line-height:1.7}.map-sky-card{position:relative;overflow:hidden;margin-top:18px;padding:22px;border-radius:10px;color:#f8f4e9;background:radial-gradient(circle at 80% 12%,#47657c,#22384e 44%,#102432 86%)}.map-sky-label{display:block;font-size:10px;letter-spacing:.16em;color:#e2c98e}.map-sky-card h4{color:#fffaf0}.map-sky-card p{line-height:1.8;color:#dce5e3;white-space:pre-line}.map-sky-signs{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}.map-sky-signs span{display:inline-flex;padding:6px 10px;border:1px solid #d9e3df55;border-radius:99px;color:#f2e2bb;font-size:12px}.map-sky-note{display:block;margin-top:13px;color:#b9c9cc;line-height:1.7}.map-sky-story{padding-top:12px;border-top:1px solid #d9e3df33;font-family:serif;font-size:18px}
 </style></head>
 <body>
 <header class="topbar"><a href="#top" class="brand">PLACE <span>ORACLE</span></a><button class="map-link" id="mapOpen" type="button">私の地図 <span id="mapCount">0</span></button></header>
@@ -301,7 +302,7 @@ footer small{color:#b9cfcc}
 </section></article>
 <article class="discovery" id="discoverySection"><span class="eyebrow">あなたに残るもの</span><p id="skyDiscovery"></p><p class="reflection-question" id="skyReflection"></p></article>
 <div class="map-note-field"><label for="mapNoteInput">残しておきたい一言 <small>任意・160字まで</small></label><textarea id="mapNoteInput" maxlength="160" rows="2" placeholder="あとで自分が読み返したい言葉を一つ"></textarea></div>
-<div class="reading-actions"><button class="primary" id="save" type="button">この場所を私の地図に残す</button><button class="text-button" id="openMapFromReading" type="button">私の地図を見る</button></div>
+<div class="reading-actions"><button class="primary" id="save" type="button">カードと星空を私の地図に残す</button><button class="text-button" id="openMapFromReading" type="button">私の地図を見る</button></div>
 <details class="basis"><summary>この結果に使われた暦・場所・空の資料</summary><div id="basisText"></div><div id="placeFact"></div><div id="skySources"></div><p>場所と空のFACT、現地・地域に残る見聞、PLACE ORACLEによる解釈と物語は分けて表示しています。</p></details>
 </section><section class="membership-intro" id="membership" hidden>
   <span class="eyebrow">PLACE ORACLE MAP</span>
@@ -1673,6 +1674,53 @@ function updateMap(){
       caption.textContent=[photo.author&&`Photo: ${photo.author}`,photo.license,'Wikimedia Commons'].filter(Boolean).join(' / ');
       figure.append(img,caption);div.append(figure);
     }
+    if(row.poem||row.heart||row.action){
+      const result=document.createElement('section');result.className='map-result-card';
+      const label=document.createElement('small');label.className='map-card-label';label.textContent='YOUR PLACE';
+      const heading=document.createElement('h4');heading.textContent=row.place;
+      result.append(label,heading);
+      if(row.poem){const poem=document.createElement('p');poem.className='map-card-poem';poem.textContent=row.poem;result.append(poem)}
+      if(row.heart||row.action){
+        const details=document.createElement('details');details.className='map-card-details';
+        const summary=document.createElement('summary');summary.textContent='あなたに重なった言葉';
+        details.append(summary);
+        if(row.heart){const heart=document.createElement('p');heart.textContent=row.heart;details.append(heart)}
+        if(row.action){const action=document.createElement('p');action.className='map-card-action';action.textContent='今日できる小さな一歩：'+row.action;details.append(action)}
+        result.append(details);
+      }
+      div.append(result);
+    }
+    const story=row.storyCard;
+    if(story){
+      const card=document.createElement('section');card.className='map-story-card';
+      const label=document.createElement('small');label.className='map-card-label';label.textContent='選んだ景色のカード';
+      card.append(label);
+      if(story.img){
+        const img=document.createElement('img');img.className='map-story-card-image';img.src=story.img;img.alt=story.title||story.scene||'選んだ景色';img.loading='lazy';
+        if(story.fallback)img.onerror=()=>{img.onerror=null;img.src=story.fallback};
+        card.append(img);
+      }
+      const title=document.createElement('h4');title.textContent=story.title||story.scene||'誰かの景色';card.append(title);
+      const text=document.createElement('p');text.textContent=story.text||story.teaser||'';card.append(text);
+      if(story.end){const end=document.createElement('strong');end.textContent=story.end;card.append(end)}
+      div.append(card);
+    }
+    const sky=row.skyCard;
+    if(sky){
+      const card=document.createElement('section');card.className='map-sky-card';
+      const label=document.createElement('small');label.className='map-sky-label';label.textContent='PLACE ORACLE · SKY';
+      const title=document.createElement('h4');title.textContent=sky.title||'この場所から見上げる空';
+      const fact=document.createElement('p');fact.textContent=sky.fact||'';
+      card.append(label,title,fact);
+      if(Array.isArray(sky.signs)&&sky.signs.length){
+        const signs=document.createElement('div');signs.className='map-sky-signs';
+        sky.signs.forEach(name=>{const chip=document.createElement('span');chip.textContent=name;signs.append(chip)});
+        card.append(signs);
+      }
+      if(sky.note){const note=document.createElement('small');note.className='map-sky-note';note.textContent=sky.note+' 星空の図柄はイメージです。';card.append(note)}
+      if(sky.story){const storyText=document.createElement('p');storyText.className='map-sky-story';storyText.textContent=sky.story;card.append(storyText)}
+      div.append(card);
+    }
     if(row.note){const note=document.createElement('p');note.className='map-entry-note';note.textContent=row.note;div.append(note)}
     const actions=document.createElement('div');actions.className='map-entry-actions';
     const mapLink=document.createElement('a');mapLink.className='map-entry-map';mapLink.textContent='Googleマップで地図を見る →';mapLink.target='_blank';mapLink.rel='noopener';
@@ -1692,9 +1740,12 @@ function save(){
   const freeSaved=existing.filter(x=>!x.legacy).length>=1;
   if(!already&&freeSaved&&!isMember()){openMembership();return}
   const rows=existing.filter(x=>!(x.date===current.date&&!x.legacy));
-  rows.push({id:`current-${current.date}`,date:current.date,title:current.title,place:current.place.name,placeCountry:current.place.country||current.place.region||'',placeId:current.first?current.place.id:`daily-${current.place.id}`,scene:current.scene.name,sceneKey:profile.scene,poem:current.sceneLine,theme:current.theme.name,note:$('mapNoteInput').value.trim().slice(0,160)});
+  const sky=PO_SKY_STORIES[current.place.id];
+  const savedStory=entryStory?{id:entryStory.id,title:entryStory.title||entryStory.scene,img:entryStory.img||'',fallback:entryStory.fallback||'',text:entryStory.text||'',teaser:entryStory.teaser||'',end:entryStory.end||''}:null;
+  const savedSky=sky?{title:sky.skyTitle,fact:sky.skyFact,signs:[...(sky.skySigns||[])],note:sky.skySignsNote||'',story:sky.story||''}:null;
+  rows.push({id:`current-${current.date}`,date:current.date,title:current.title,place:current.place.name,placeCountry:current.place.country||current.place.region||'',placeId:current.first?current.place.id:`daily-${current.place.id}`,scene:current.scene.name,sceneKey:profile.scene,poem:current.sceneLine,heart:current.heart,action:current.action,storyCard:savedStory,skyCard:savedSky,theme:current.theme.name,note:$('mapNoteInput').value.trim().slice(0,160)});
   const ok=localSet(mapKey,rows.slice(-120));if(ok)trackPO?.('po_map_save',{place:current.place.name});
-  $('save').textContent=ok?'私の地図に残しました ✓':'保存できませんでした';
+  $('save').textContent=ok?'カードと星空を私の地図に残しました ✓':'保存できませんでした';
   updateMap();
   if(ok&&!isMember()&&rows.filter(x=>!x.legacy).length===1)setTimeout(openMembership,650);
 }
@@ -1899,7 +1950,7 @@ function init(){
     $('inlineText').textContent=x.text||x.teaser;
     $('inlineEnd').textContent=x.end||'';
     $('storyCardSave').hidden=false;$('storyCardSaveStatus').textContent='';$('storyCardSave').onclick=()=>saveStoryCard(x,storyButtons[i].querySelector('img'));
-    entryStory={id:x.id,tone:x.tone,scene:x.title,sceneKey:storySceneKey[x.scene]||'',teaser:x.teaser};
+    entryStory={id:x.id,tone:x.tone,scene:x.title,title:x.title,img:x.img,fallback:x.fallback,text:x.text,sceneKey:storySceneKey[x.scene]||'',teaser:x.teaser,end:x.end};
     storyButtons.forEach((b,n)=>b.setAttribute('aria-pressed',n===i?'true':'false'));
     $('storyInline').classList.add('is-active');
     $('storyInline').scrollIntoView({behavior:'smooth',block:'nearest'});
