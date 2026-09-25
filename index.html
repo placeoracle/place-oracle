@@ -1705,7 +1705,9 @@ function updateMap(){
       if(story.end){const end=document.createElement('strong');end.textContent=story.end;card.append(end)}
       div.append(card);
     }
-    const sky=row.skyCard;
+    const skyKey=(row.placeId||'').replace(/^daily-/,'')||ORACLE_DATA.places.find(place=>place.name===row.place)?.id||ORACLE_DATA.today.cards.find(card=>card.name===row.place)?.id;
+    const skySource=skyKey?PO_SKY_STORIES[skyKey]:null;
+    const sky=row.skyCard||(skySource?{title:skySource.skyTitle,fact:skySource.skyFact,signs:skySource.skySigns||[],note:skySource.skySignsNote||'',story:skySource.story||''}:null);
     if(sky){
       const card=document.createElement('section');card.className='map-sky-card';
       const label=document.createElement('small');label.className='map-sky-label';label.textContent='PLACE ORACLE · SKY';
