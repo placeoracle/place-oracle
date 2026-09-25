@@ -1663,9 +1663,9 @@ function updateMap(){
     }
     if(row.note){const note=document.createElement('p');note.className='map-entry-note';note.textContent=row.note;div.append(note)}
     const actions=document.createElement('div');actions.className='map-entry-actions';
-    const mapLink=document.createElement('a');mapLink.className='map-entry-map';mapLink.textContent='この場所の地図を見る →';mapLink.target='_blank';mapLink.rel='noopener';
+    const mapLink=document.createElement('a');mapLink.className='map-entry-map';mapLink.textContent='Googleマップで地図を見る →';mapLink.target='_blank';mapLink.rel='noopener';
     const query=[row.place,row.placeCountry].filter(Boolean).join(' ');
-    mapLink.href='https://maps.apple.com/?q='+encodeURIComponent(query);
+    mapLink.href='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(query);
     actions.append(mapLink);
     const b=document.createElement('button');b.type='button';b.textContent='削除';
     b.addEventListener('click',()=>{localSet(mapKey,localGet(mapKey,[]).filter((_,i)=>i!==index));updateMap()});
