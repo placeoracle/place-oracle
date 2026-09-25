@@ -416,7 +416,912 @@ const PO_PLACE_COPY = Object.fromEntries(`
 `.trim().split('\n').map(row=>{const [id,line,scenes]=row.split('|');return [Number(id),{line,scenes}]}));
 
 </script><script>
-const PO_PLACE_PHOTOS={"熊野古道・紀伊山地":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Kumano_Kod%C5%8D_(Japan_2007_250).jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Kumano_Kod%C5%8D_(Japan_2007_250).jpg","author":"Jonathon Burman / Jburman","license":"Public Domain","region":"日本","credit":"不要"},"Great Burkhan Khaldun":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Burkhan_Khaldun_mount2.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Burkhan_Khaldun_mount2.jpg","author":"","license":"CC BY-SA 2.0","region":"モンゴル","credit":"必要"},"Risco Caído":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Risco_Ca%C3%ADdo_20191231_135200.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Risco_Ca%C3%ADdo_20191231_135200.jpg","author":"Sino Yu","license":"CC0 1.0","region":"スペイン・グランカナリア","credit":"不要"},"Wixárika Route to Wirikuta":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/La_magia_de_wirikuta.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:La_magia_de_wirikuta.jpg","author":"Delfino Díaz Carrillo","license":"CC BY-SA 4.0","region":"メキシコ","credit":"必要"},"Sulaiman-Too":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Osh_sulaiman_Too.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Osh_sulaiman_Too.jpg","author":"Hzewo","license":"CC BY-SA 4.0","region":"キルギス","credit":"必要"},"Langkawi Geopark":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Kilim_geoforest_park,_langkawi.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Kilim_geoforest_park,_langkawi.jpg","author":"Garysawjuntiek","license":"CC BY-SA 4.0","region":"マレーシア","credit":"必要"},"Dambulla Cave Temple":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Dambulla_cave_temple.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Dambulla_cave_temple.jpg","author":"Stuart Pinkney","license":"CC BY 2.0","region":"スリランカ","credit":"必要"},"Lake Saimaa":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Lake_Saimaa.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Lake_Saimaa.jpg","author":"Grigorii-Torkel","license":"CC BY-SA 4.0","region":"フィンランド","credit":"必要"},"伊豆半島":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Izu_Peninsula_from_Mount_Hamaishi.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Izu_Peninsula_from_Mount_Hamaishi.jpg","author":"Alpsdake","license":"CC BY-SA 4.0","region":"日本","credit":"必要"},"Mangystau Rock Mosques":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Baker_Ata.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Baker_Ata.jpg","author":"Ashina","license":"CC BY-SA 3.0","region":"カザフスタン","credit":"必要"},"Gobustan":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Gobustan.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Gobustan.jpg","author":"Murad Уldar","license":"CC BY-SA 3.0","region":"アゼルバイジャン","credit":"必要"},"Tsodilo":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Tsodilo_hills_(6220552603).jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Tsodilo_hills_(6220552603).jpg","author":"Malcolm Macgregor","license":"CC BY 2.0","region":"ボツワナ","credit":"必要"},"済州島":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Jeju_Island_%EC%A0%9C%EC%A3%BC%EB%8F%84.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Jeju_Island_%EC%A0%9C%EC%A3%BC%EB%8F%84.jpg","author":"Justin De La Ornellas","license":"CC BY 2.0","region":"韓国","credit":"必要"},"西湖（杭州）":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/WestLake_-_Hangzhou.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:WestLake_-_Hangzhou.jpg","author":"Vanvelthem Cédric","license":"CC BY-SA 4.0","region":"中国","credit":"必要"},"English Lake District":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/LakeDistrict.JPG?width=1800","source":"https://commons.wikimedia.org/wiki/File:LakeDistrict.JPG","author":"Krautrock","license":"Public Domain","region":"英国","credit":"不要（任意推奨）"},"St Kilda":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Stack_St_Kilda.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Stack_St_Kilda.jpg","author":"Rob Farrow / Geograph","license":"CC BY 2.0","region":"英国・スコットランド","credit":"必要"},"Vega Archipelago":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Vega_islands.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Vega_islands.jpg","author":"Finnbakk","license":"CC BY-SA 3.0","region":"ノルウェー","credit":"必要"},"Sintra":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Sintra._Portugal.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Sintra._Portugal.jpg","author":"Ввласенко","license":"CC BY-SA 3.0","region":"ポルトガル","credit":"必要"},"Osun-Osogbo Sacred Grove":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Osun-Osogbo_sacred_groove_01.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Osun-Osogbo_sacred_groove_01.jpg","author":"Obibillion1","license":"CC BY-SA 4.0","region":"ナイジェリア","credit":"必要"},"平泉":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/230728_Chusonji_Hiraizumi_Iwate_pref_Japan01s3.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:230728_Chusonji_Hiraizumi_Iwate_pref_Japan01s3.jpg","author":"663highland","license":"CC BY-SA 4.0","region":"日本","credit":"必要"},"沖ノ島":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Okinoshima_aerial01.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Okinoshima_aerial01.jpg","author":"国土交通省","license":"国土画像情報・商用利用可（出典表記要）","region":"日本","credit":"必要"},"Le Morne":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Le_Morne,_Mauritius.JPG?width=1800","source":"https://commons.wikimedia.org/wiki/File:Le_Morne,_Mauritius.JPG","author":"Máth Dávid","license":"CC0 1.0","region":"モーリシャス","credit":"不要"},"桜島":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Sakurajima_from_kagoshima.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Sakurajima_from_kagoshima.jpg","author":"Douglas Perkins","license":"Public Domain","region":"日本・鹿児島","credit":"不要（任意推奨）"},"諏訪湖":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Lake_Suwa.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Lake_Suwa.jpg","author":"","license":"CC BY-SA（複数バージョン選択可）","region":"日本・長野","credit":"必要"},"出雲大社":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/IzumoTaisha.JPG?width=1800","source":"https://commons.wikimedia.org/wiki/File:IzumoTaisha.JPG","author":"oonamochi","license":"CC BY-SA 3.0（選択可）","region":"日本・島根","credit":"必要"},"千里浜なぎさドライブウェイ":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Chirihama_Nagisa_Driveway_2020.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Chirihama_Nagisa_Driveway_2020.jpg","author":"SONIC BLOOMING","license":"CC BY-SA 4.0","region":"日本・石川","credit":"必要"},"伊勢神宮":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Ise_Grand_Shrine,_Mie_Prefecture%3B_February_2015_(04).jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Ise_Grand_Shrine,_Mie_Prefecture;_February_2015_(04).jpg","author":"foooomio","license":"CC BY 2.0","region":"日本・三重","credit":"必要"},"モン・サン＝ミシェルとその湾":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Mont_Saint-Michel,_Frankreich01.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Mont_Saint-Michel,_Frankreich01.jpg","author":"Nikater","license":"Public Domain","region":"フランス","credit":"不要"},"メテオラ":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Meteora,_Greece_(2016).jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Meteora,_Greece_(2016).jpg","author":"Vipers10687","license":"CC BY-SA 4.0","region":"ギリシャ","credit":"必要"},"プリトヴィツェ湖群国立公園":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Plitvice_lakes.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Plitvice_lakes.jpg","author":"Hyena","license":"Public Domain","region":"クロアチア","credit":"不要（任意推奨）"},"マデイラ島の照葉樹林":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Madeira%27s_Laurissilva_Forest.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Madeira%27s_Laurissilva_Forest.jpg","author":"Jesse Allen and Robert Simmon","license":"Public Domain (NASA)","region":"ポルトガル","credit":"不要（出典推奨）"},"ヒエラポリス＝パムッカレ":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Pamukkale_hierapolis.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Pamukkale_hierapolis.jpg","author":"Lethiciasouza","license":"CC BY-SA 4.0","region":"トルコ","credit":"必要"},"武陵源":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Wulingyuan.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Wulingyuan.jpg","author":"Tor Svensson / Kemitsv","license":"CC BY-SA 3.0","region":"中国・湖南","credit":"必要"},"サマルカンド":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Samarkand_registan.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Samarkand_registan.jpg","author":"Azizaziyo","license":"CC0","region":"ウズベキスタン","credit":"不要"},"ソコトラ諸島":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Socotra_Island,_Yemen.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Socotra_Island,_Yemen.jpg","author":"Rod Waddington","license":"CC BY-SA 4.0","region":"イエメン","credit":"必要"},"ホイアン旧市街":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Hoi_An_Ancient_Town.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Hoi_An_Ancient_Town.jpg","author":"Andre Hospers","license":"CC BY 4.0","region":"ベトナム","credit":"必要"},"屋久島":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Yakushima_forest.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Yakushima_forest.jpg","author":"VKaeru","license":"CC BY-SA 3.0","region":"日本・鹿児島","credit":"必要"},"白神山地":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Shirakami-sanchi.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Shirakami-sanchi.jpg","author":"Stefan Ertmann","license":"CC BY-SA 2.0","region":"日本・青森・秋田","credit":"必要"},"カッパドキア":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Cappadocia_Landscape.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Cappadocia_Landscape.jpg","author":"Yaprak.c","license":"CC BY-SA 4.0","region":"トルコ","credit":"必要"},"ワディ・ラム":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Wadi-rum_Jordan.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Wadi-rum_Jordan.jpg","author":"Ahmad alnatour","license":"CC BY-SA 4.0","region":"ヨルダン","credit":"必要"},"フィリピン・コルディリェーラの棚田群":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Rice_Terraces_Banaue.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Rice_Terraces_Banaue.jpg","author":"Magalhães","license":"Public Domain","region":"フィリピン","credit":"不要（任意推奨）"},"麗江古城":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Old_Town_of_Lijiang.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Old_Town_of_Lijiang.jpg","author":"钉钉","license":"CC BY-SA 4.0","region":"中国・雲南","credit":"必要"},"ラム旧市街":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Lamu_old_town_street.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Lamu_old_town_street.jpg","author":"Mzein04","license":"CC BY-SA 4.0","region":"ケニア","credit":"必要"},"ブリッゲン":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Bryggen_in_Bergen.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Bryggen_in_Bergen.jpg","author":"G.Lanting","license":"CC BY 3.0（選択可）","region":"ノルウェー・ベルゲン","credit":"必要"},"オフリド湖と旧市街":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Lake_Ohrid_by_Ohrid_old_city.JPG?width=1800","source":"https://commons.wikimedia.org/wiki/File:Lake_Ohrid_by_Ohrid_old_city.JPG","author":"Brams","license":"Public Domain","region":"北マケドニア・アルバニア","credit":"不要"},"オカバンゴ・デルタ":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/OkavangoDelta.png?width=1800","source":"https://commons.wikimedia.org/wiki/File:OkavangoDelta.png","author":"NASA","license":"Public Domain (NASA)","region":"ボツワナ","credit":"不要（出典表示推奨）"},"ヴァル・ドルチャ":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Valdorcia.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Valdorcia.jpg","author":"Anna.Massini","license":"CC BY-SA 4.0","region":"イタリア・トスカーナ","credit":"必要"},"トンガリロ国立公園":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Tongariro_NP.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Tongariro_NP.jpg","author":"","license":"CC BY-SA 3.0 / CC BY 2.5（選択可）","region":"ニュージーランド","credit":"必要"},"イルリサット・アイスフィヨルド":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Ilulissat_Icefjord.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Ilulissat_Icefjord.jpg","author":"Quintin Soloviev","license":"CC BY 4.0","region":"グリーンランド","credit":"必要"},"高千穂峡":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Takachiho-gorge.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Takachiho-gorge.jpg","author":"Takasunrise0921","license":"CC BY 2.5（選択可）","region":"日本・宮崎","credit":"必要"},"倉敷美観地区":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Kurashiki_bikan_area.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Kurashiki_bikan_area.jpg","author":"Volfgang","license":"CC BY-SA 3.0","region":"日本・岡山","credit":"必要"},"鳥取砂丘":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Tottori_Sand_Dunes.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Tottori_Sand_Dunes.jpg","author":"Drivephotographer","license":"CC0","region":"日本・鳥取","credit":"不要"},"星峠の棚田":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Hoshitoge_Rice_Terraces_1.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Hoshitoge_Rice_Terraces_1.jpg","author":"Nihongo1234","license":"CC BY-SA 4.0","region":"日本・新潟","credit":"必要"},"伊根の舟屋":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Inefunaya.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Inefunaya.jpg","author":"FITM","license":"Public Domain","region":"日本・京都","credit":"不要"},"しまなみ海道":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Shimanami_Kaido.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Shimanami_Kaido.jpg","author":"clvs7","license":"CC0","region":"日本・広島・愛媛","credit":"不要"},"九寨溝":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Lake_in_Jiuzhaigou.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Lake_in_Jiuzhaigou.jpg","author":"MSK","license":"CC BY-SA 3.0","region":"中国・四川","credit":"必要"},"ルアンパバーン":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Luang-prabang.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Luang-prabang.jpg","author":"Jaoa Tosa","license":"CC0","region":"ラオス","credit":"不要"},"バガン":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Bagan_Sunset.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Bagan_Sunset.jpg","author":"Gordon Johnstone","license":"CC BY-SA 3.0","region":"ミャンマー","credit":"必要"},"ウマワカ渓谷":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/En_la_Quebrada_de_Humahuaca_.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:En_la_Quebrada_de_Humahuaca_.jpg","author":"Joaquina123450","license":"CC BY 4.0","region":"アルゼンチン","credit":"必要"},"コロニア・デル・サクラメント旧市街":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Colonia_de_Sacramento.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Colonia_de_Sacramento.jpg","author":"Eligna","license":"CC BY-SA 3.0","region":"ウルグアイ","credit":"必要"},"アルベロベッロのトゥルッリ":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Alberobello_trulli.JPG?width=1800","source":"https://commons.wikimedia.org/wiki/File:Alberobello_trulli.JPG","author":"Pizzaemandolino","license":"CC0 1.0","region":"イタリア","credit":"不要"},"アオラキ・マッケンジー":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Milky_Way_over_the_Hooker_valley.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Milky_Way_over_the_Hooker_valley.jpg","author":"Paul Stewart","license":"CC0","region":"ニュージーランド","credit":"不要"},"ナミブランド自然保護区":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Namibrand_-3626_-_Flickr_-_Ragnhild_%26_Neil_Crawford.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Namibrand_-3626_-_Flickr_-_Ragnhild_%26_Neil_Crawford.jpg","author":"Ragnhild & Neil Crawford","license":"CC BY-SA 2.0","region":"ナミビア","credit":"必要"},"ラ・パルマ島":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/La_Palma_Brena_Baja_landscape_R01.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:La_Palma_Brena_Baja_landscape_R01.jpg","author":"Marc Ryckaert","license":"CC BY-SA 4.0","region":"スペイン・カナリア諸島","credit":"必要"},"エッサウィラ旧市街":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Seaward_Walls_of_the_Medina_of_Essaouira,_Morocco.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Seaward_Walls_of_the_Medina_of_Essaouira,_Morocco.jpg","author":"CastlesCatalog","license":"CC BY-SA 4.0","region":"モロッコ","credit":"必要"},"マラケシュ旧市街":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Medina_Marrakech.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Medina_Marrakech.jpg","author":"Intermerker","license":"CC BY-SA 4.0","region":"モロッコ","credit":"必要"},"シンガポール植物園":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Singapore_Botanical_Gardens.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Singapore_Botanical_Gardens.jpg","author":"YoulendreeAppasamy","license":"CC BY-SA 4.0","region":"シンガポール","credit":"必要"},"ラヴォー地区の葡萄畑":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Lavaux_vineyards.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Lavaux_vineyards.jpg","author":"Soumya Basu","license":"CC BY-SA 4.0","region":"スイス","credit":"必要"},"コトルの自然・文化歴史地域":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/View_of_Kotor_bay_and_old_town.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:View_of_Kotor_bay_and_old_town.jpg","author":"Jaakko Luttinen","license":"CC BY-SA 4.0","region":"モンテネグロ","credit":"必要"},"モスタル旧市街と古橋":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Mostar_old_bridge.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Mostar_old_bridge.jpg","author":"Tiia Monto","license":"CC BY-SA 3.0","region":"ボスニア・ヘルツェゴビナ","credit":"必要"},"ヴァルパライソ港湾都市歴史地区":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Historic_Quarter_of_the_Seaport_City_of_Valpara%C3%ADso_02.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Historic_Quarter_of_the_Seaport_City_of_Valpara%C3%ADso_02.jpg","author":"Julia Sumangil","license":"CC BY-SA 4.0","region":"チリ","credit":"必要"},"カルタヘナ港・要塞・歴史地区":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Cartagena_Old_City.JPG?width=1800","source":"https://commons.wikimedia.org/wiki/File:Cartagena_Old_City.JPG","author":"CONOCER","license":"Public Domain","region":"コロンビア","credit":"不要"},"アンティグア・グアテマラ":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Guatemala_-_Antigua.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Guatemala_-_Antigua.jpg","author":"Jeanne Menjoulet","license":"CC BY 2.0","region":"グアテマラ","credit":"必要"},"ルーネンバーグ旧市街":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Waterfront,_Lunenburg,_Nova_Scotia_(3615251943).jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Waterfront,_Lunenburg,_Nova_Scotia_(3615251943).jpg","author":"CP Hoffman","license":"CC BY-SA 2.0","region":"カナダ・ノバスコシア","credit":"必要"},"チェスキー・クルムロフ歴史地区":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/%C4%8Cesk%C3%BD_Krumlov,_Czechia,_20250504_1247_8845.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:%C4%8Cesk%C3%BD_Krumlov,_Czechia,_20250504_1247_8845.jpg","author":"Jakub Hałun","license":"CC BY 4.0","region":"チェコ","credit":"必要"},"リガ歴史地区":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Riga_Old_Town_Square.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Riga_Old_Town_Square.jpg","author":"Steven1991","license":"CC BY-SA 4.0","region":"ラトビア","credit":"必要"},"サルヴァドール・デ・バイア歴史地区":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Centro_Hist%C3%B3rico_de_Salvador_Bahia_Sobrado_no_Largo_do_Cruzeiro_de_S%C3%A3o_Francisco_9_Salvador_2019-9911.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Centro_Hist%C3%B3rico_de_Salvador_Bahia_Sobrado_no_Largo_do_Cruzeiro_de_S%C3%A3o_Francisco_9_Salvador_2019-9911.jpg","author":"Paul R. Burley","license":"CC BY-SA 4.0","region":"ブラジル","credit":"必要"},"サンタ・クルス・デ・モンポス歴史地区":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Mompox_-_Tribunale.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Mompox_-_Tribunale.jpg","author":"","license":"CC BY 3.0","region":"コロンビア","credit":"必要"},"マチュ・ピチュ":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Peru_Machu_Picchu.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Peru_Machu_Picchu.jpg","author":"Entropy1963","license":"Public Domain","region":"ペルー","credit":"不要（任意推奨）"},"アユタヤ歴史都市":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Ayutthaya_historical_park.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Ayutthaya_historical_park.jpg","author":"Ranjithkr","license":"CC BY-SA 4.0","region":"タイ","credit":"必要"},"ペトラ":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Petra_Treasury.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Petra_Treasury.jpg","author":"David Bjorgen","license":"CC BY-SA 2.5 / GFDL","region":"ヨルダン","credit":"必要"},"キト市街":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Quito_CCM.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Quito_CCM.jpg","author":"Byron S. Calisto I","license":"CC BY-SA 3.0","region":"エクアドル","credit":"必要"},"蘇州古典園林":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/%E4%B8%AD%E5%9C%8B%E8%98%87%E5%B7%9E%E5%BA%AD%E5%9C%9230China_Classical_Gardens_of_Suzhou.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:%E4%B8%AD%E5%9C%8B%E8%98%87%E5%B7%9E%E5%BA%AD%E5%9C%9230China_Classical_Gardens_of_Suzhou.jpg","author":"林高志","license":"CC BY-SA 4.0","region":"中国・江蘇","credit":"必要"},"ザンジバル・ストーンタウン":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Stone_Town_Zanzibar.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Stone_Town_Zanzibar.jpg","author":"GTBacchus","license":"CC BY-SA 3.0（選択可）","region":"タンザニア","credit":"必要"},"ラリベラの岩窟教会群":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Lalibela_Rock-Hewn_Churches.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Lalibela_Rock-Hewn_Churches.jpg","author":"Philip Kromer","license":"CC BY-SA 2.0","region":"エチオピア","credit":"必要"},"スケリッグ・マイケル":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Skellig_Michael.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Skellig_Michael.jpg","author":"Gdr","license":"CC BY-SA 3.0","region":"アイルランド","credit":"必要"},"カリフォルニア湾の島々と保護地域":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Islands_and_Protected_Areas_of_the_Gulf_of_California-113602.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Islands_and_Protected_Areas_of_the_Gulf_of_California-113602.jpg","author":"Francesco Bandarin","license":"CC BY-SA 3.0 IGO","region":"メキシコ","credit":"必要"},"メキシコシティ歴史地区とソチミルコ":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Trajineras_XOCHIMILCO.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Trajineras_XOCHIMILCO.jpg","author":"Axel Millán","license":"CC BY-SA 4.0","region":"メキシコ","credit":"必要"},"ジャイプール市街":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Jaipur_city.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Jaipur_city.jpg","author":"Raj457036","license":"CC BY-SA 4.0","region":"インド・ラジャスタン","credit":"必要"},"アレキパ歴史地区":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Centro_Hist%C3%B3rico_de_Arequipa.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Centro_Hist%C3%B3rico_de_Arequipa.jpg","author":"Antonella.Estrada","license":"CC BY-SA 4.0","region":"ペルー","credit":"必要"},"ロワール渓谷":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/The_Loire_Valley_between_Sully-sur-Loire_and_Chalonnes-113441.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:The_Loire_Valley_between_Sully-sur-Loire_and_Chalonnes-113441.jpg","author":"Francesco Bandarin","license":"CC BY-SA 3.0 IGO","region":"フランス","credit":"必要"},"ビニャーレス渓谷":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Vi%C3%B1ales_Valley.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Vi%C3%B1ales_Valley.jpg","author":"Severin.stalder","license":"CC BY-SA 3.0","region":"キューバ","credit":"必要"},"ハバナ旧市街と要塞群":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Old_Havana.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Old_Havana.jpg","author":"Anna Rydin","license":"CC BY-SA 3.0","region":"キューバ","credit":"必要"},"フェルナンド・デ・ノローニャ諸島":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Fernando_de_Noronha,_Brazil_(47159006801).jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Fernando_de_Noronha,_Brazil_(47159006801).jpg","author":"Just a Brazilian man from Brazil","license":"CC BY 2.0","region":"ブラジル","credit":"必要"},"ロス・グラシアレス国立公園":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Los_Glaciares_National_Park.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Los_Glaciares_National_Park.jpg","author":"sussexbirder","license":"CC BY 2.0","region":"アルゼンチン","credit":"必要"},"ラパ・ヌイ国立公園":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Mo%C3%A1i_en_Rapa_Nui,_Chile.JPG?width=1800","source":"https://commons.wikimedia.org/wiki/File:Mo%C3%A1i_en_Rapa_Nui,_Chile.JPG","author":"María Cecilia Piderit B.","license":"CC BY 3.0","region":"チリ","credit":"必要"},"ハロン湾・カットバー群島":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/HalongBay.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:HalongBay.jpg","author":"Juanjo Bazan","license":"CC BY-SA 2.0","region":"ベトナム","credit":"必要"},"アンコール":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Angkor_Wat_in_Cambodia.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Angkor_Wat_in_Cambodia.jpg","author":"Martaapue","license":"CC0","region":"カンボジア","credit":"不要"},"ペルシャ式庭園":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/The_Persian_Garden_-.-_Iran.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:The_Persian_Garden_-.-_Iran.jpg","author":"Peyman1974","license":"CC BY-SA 4.0","region":"イラン","credit":"必要"},"アイット＝ベン＝ハドゥの集落":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Ait_ben_haddou.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Ait_ben_haddou.jpg","author":"Achalhikarim","license":"CC BY-SA 4.0","region":"モロッコ","credit":"必要"},"シアン・カアン":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Sian_Ka%27an_(Mexico).jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Sian_Ka%27an_(Mexico).jpg","author":"Oogstweg","license":"CC BY-SA 4.0","region":"メキシコ","credit":"必要"},"慶州歴史地域":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Gyeongju_Historic_Areas_01.JPG?width=1800","source":"https://commons.wikimedia.org/wiki/File:Gyeongju_Historic_Areas_01.JPG","author":"Abasaa","license":"Public Domain","region":"韓国","credit":"不要（任意推奨）"},"ワディ・アル＝ヒタン（クジラ渓谷）":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Wadi_Al-Hitan,_Whale_Valley,_in_the_Western_Desert_of_Egypt.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Wadi_Al-Hitan,_Whale_Valley,_in_the_Western_Desert_of_Egypt.jpg","author":"Mohamed abdelzaher","license":"CC BY-SA 4.0","region":"エジプト","credit":"必要"},"ベルン旧市街":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Old_City_of_Bern-Bern.jpg?width=1800","source":"https://commons.wikimedia.org/wiki/File:Old_City_of_Bern-Bern.jpg","author":"Yair Haklai","license":"CC BY-SA 4.0","region":"スイス","credit":"必要"},"サナア旧市街":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/OldtownSanaa.JPG?width=1800","source":"https://commons.wikimedia.org/wiki/File:OldtownSanaa.JPG","author":"Jtamad","license":"CC BY-SA 4.0","region":"イエメン","credit":"必要"}};
+const PO_PLACE_PHOTOS={
+  "熊野古道・紀伊山地": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Kumano_Kod%C5%8D_(Japan_2007_250).jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Kumano_Kod%C5%8D_(Japan_2007_250).jpg",
+    "author": "Jonathon Burman / Jburman",
+    "license": "Public Domain",
+    "region": "日本",
+    "credit": "不要"
+  },
+  "Great Burkhan Khaldun": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Burkhan_Khaldun_mount2.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Burkhan_Khaldun_mount2.jpg",
+    "author": "",
+    "license": "CC BY-SA 2.0",
+    "region": "モンゴル",
+    "credit": "必要"
+  },
+  "Risco Caído": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Risco_Ca%C3%ADdo_20191231_135200.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Risco_Ca%C3%ADdo_20191231_135200.jpg",
+    "author": "Sino Yu",
+    "license": "CC0 1.0",
+    "region": "スペイン・グランカナリア",
+    "credit": "不要"
+  },
+  "Wixárika Route to Wirikuta": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/La_magia_de_wirikuta.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:La_magia_de_wirikuta.jpg",
+    "author": "Delfino Díaz Carrillo",
+    "license": "CC BY-SA 4.0",
+    "region": "メキシコ",
+    "credit": "必要"
+  },
+  "Sulaiman-Too": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Osh_sulaiman_Too.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Osh_sulaiman_Too.jpg",
+    "author": "Hzewo",
+    "license": "CC BY-SA 4.0",
+    "region": "キルギス",
+    "credit": "必要"
+  },
+  "Langkawi Geopark": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Kilim_geoforest_park,_langkawi.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Kilim_geoforest_park,_langkawi.jpg",
+    "author": "Garysawjuntiek",
+    "license": "CC BY-SA 4.0",
+    "region": "マレーシア",
+    "credit": "必要"
+  },
+  "Dambulla Cave Temple": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Dambulla_cave_temple.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Dambulla_cave_temple.jpg",
+    "author": "Stuart Pinkney",
+    "license": "CC BY 2.0",
+    "region": "スリランカ",
+    "credit": "必要"
+  },
+  "Lake Saimaa": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Lake_Saimaa.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Lake_Saimaa.jpg",
+    "author": "Grigorii-Torkel",
+    "license": "CC BY-SA 4.0",
+    "region": "フィンランド",
+    "credit": "必要"
+  },
+  "伊豆半島": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Izu_Peninsula_from_Mount_Hamaishi.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Izu_Peninsula_from_Mount_Hamaishi.jpg",
+    "author": "Alpsdake",
+    "license": "CC BY-SA 4.0",
+    "region": "日本",
+    "credit": "必要"
+  },
+  "Mangystau Rock Mosques": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Baker_Ata.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Baker_Ata.jpg",
+    "author": "Ashina",
+    "license": "CC BY-SA 3.0",
+    "region": "カザフスタン",
+    "credit": "必要"
+  },
+  "Gobustan": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Gobustan.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Gobustan.jpg",
+    "author": "Murad Уldar",
+    "license": "CC BY-SA 3.0",
+    "region": "アゼルバイジャン",
+    "credit": "必要"
+  },
+  "Tsodilo": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Tsodilo_hills_(6220552603).jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Tsodilo_hills_(6220552603).jpg",
+    "author": "Malcolm Macgregor",
+    "license": "CC BY 2.0",
+    "region": "ボツワナ",
+    "credit": "必要"
+  },
+  "済州島": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Jeju_Island_%EC%A0%9C%EC%A3%BC%EB%8F%84.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Jeju_Island_%EC%A0%9C%EC%A3%BC%EB%8F%84.jpg",
+    "author": "Justin De La Ornellas",
+    "license": "CC BY 2.0",
+    "region": "韓国",
+    "credit": "必要"
+  },
+  "西湖（杭州）": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/WestLake_-_Hangzhou.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:WestLake_-_Hangzhou.jpg",
+    "author": "Vanvelthem Cédric",
+    "license": "CC BY-SA 4.0",
+    "region": "中国",
+    "credit": "必要"
+  },
+  "English Lake District": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/LakeDistrict.JPG?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:LakeDistrict.JPG",
+    "author": "Krautrock",
+    "license": "Public Domain",
+    "region": "英国",
+    "credit": "不要（任意推奨）"
+  },
+  "St Kilda": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Stack_St_Kilda.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Stack_St_Kilda.jpg",
+    "author": "Rob Farrow / Geograph",
+    "license": "CC BY 2.0",
+    "region": "英国・スコットランド",
+    "credit": "必要"
+  },
+  "Vega Archipelago": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Vega_islands.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Vega_islands.jpg",
+    "author": "Finnbakk",
+    "license": "CC BY-SA 3.0",
+    "region": "ノルウェー",
+    "credit": "必要"
+  },
+  "Sintra": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Sintra._Portugal.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Sintra._Portugal.jpg",
+    "author": "Ввласенко",
+    "license": "CC BY-SA 3.0",
+    "region": "ポルトガル",
+    "credit": "必要"
+  },
+  "Osun-Osogbo Sacred Grove": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Osun-Osogbo_sacred_groove_01.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Osun-Osogbo_sacred_groove_01.jpg",
+    "author": "Obibillion1",
+    "license": "CC BY-SA 4.0",
+    "region": "ナイジェリア",
+    "credit": "必要"
+  },
+  "平泉": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/230728_Chusonji_Hiraizumi_Iwate_pref_Japan01s3.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:230728_Chusonji_Hiraizumi_Iwate_pref_Japan01s3.jpg",
+    "author": "663highland",
+    "license": "CC BY-SA 4.0",
+    "region": "日本",
+    "credit": "必要"
+  },
+  "沖ノ島": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Okinoshima_aerial01.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Okinoshima_aerial01.jpg",
+    "author": "国土交通省",
+    "license": "国土画像情報・商用利用可（出典表記要）",
+    "region": "日本",
+    "credit": "必要"
+  },
+  "Le Morne": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Le_Morne,_Mauritius.JPG?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Le_Morne,_Mauritius.JPG",
+    "author": "Máth Dávid",
+    "license": "CC0 1.0",
+    "region": "モーリシャス",
+    "credit": "不要"
+  },
+  "桜島": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Sakurajima_from_kagoshima.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Sakurajima_from_kagoshima.jpg",
+    "author": "Douglas Perkins",
+    "license": "Public Domain",
+    "region": "日本・鹿児島",
+    "credit": "不要（任意推奨）"
+  },
+  "諏訪湖": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Lake_Suwa.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Lake_Suwa.jpg",
+    "author": "",
+    "license": "CC BY-SA（複数バージョン選択可）",
+    "region": "日本・長野",
+    "credit": "必要"
+  },
+  "出雲大社": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/IzumoTaisha.JPG?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:IzumoTaisha.JPG",
+    "author": "oonamochi",
+    "license": "CC BY-SA 3.0（選択可）",
+    "region": "日本・島根",
+    "credit": "必要"
+  },
+  "千里浜なぎさドライブウェイ": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Chirihama_Nagisa_Driveway_2020.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Chirihama_Nagisa_Driveway_2020.jpg",
+    "author": "SONIC BLOOMING",
+    "license": "CC BY-SA 4.0",
+    "region": "日本・石川",
+    "credit": "必要"
+  },
+  "伊勢神宮": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Ise_Grand_Shrine,_Mie_Prefecture%3B_February_2015_(04).jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Ise_Grand_Shrine,_Mie_Prefecture;_February_2015_(04).jpg",
+    "author": "foooomio",
+    "license": "CC BY 2.0",
+    "region": "日本・三重",
+    "credit": "必要"
+  },
+  "モン・サン＝ミシェルとその湾": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Mont_Saint-Michel,_Frankreich01.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Mont_Saint-Michel,_Frankreich01.jpg",
+    "author": "Nikater",
+    "license": "Public Domain",
+    "region": "フランス",
+    "credit": "不要"
+  },
+  "メテオラ": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Meteora,_Greece_(2016).jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Meteora,_Greece_(2016).jpg",
+    "author": "Vipers10687",
+    "license": "CC BY-SA 4.0",
+    "region": "ギリシャ",
+    "credit": "必要"
+  },
+  "プリトヴィツェ湖群国立公園": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Plitvice_lakes.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Plitvice_lakes.jpg",
+    "author": "Hyena",
+    "license": "Public Domain",
+    "region": "クロアチア",
+    "credit": "不要（任意推奨）"
+  },
+  "マデイラ島の照葉樹林": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Madeira%27s_Laurissilva_Forest.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Madeira%27s_Laurissilva_Forest.jpg",
+    "author": "Jesse Allen and Robert Simmon",
+    "license": "Public Domain (NASA)",
+    "region": "ポルトガル",
+    "credit": "不要（出典推奨）"
+  },
+  "ヒエラポリス＝パムッカレ": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Pamukkale_hierapolis.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Pamukkale_hierapolis.jpg",
+    "author": "Lethiciasouza",
+    "license": "CC BY-SA 4.0",
+    "region": "トルコ",
+    "credit": "必要"
+  },
+  "武陵源": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Wulingyuan.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Wulingyuan.jpg",
+    "author": "Tor Svensson / Kemitsv",
+    "license": "CC BY-SA 3.0",
+    "region": "中国・湖南",
+    "credit": "必要"
+  },
+  "サマルカンド": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Samarkand_registan.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Samarkand_registan.jpg",
+    "author": "Azizaziyo",
+    "license": "CC0",
+    "region": "ウズベキスタン",
+    "credit": "不要"
+  },
+  "ソコトラ諸島": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Socotra_Island,_Yemen.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Socotra_Island,_Yemen.jpg",
+    "author": "Rod Waddington",
+    "license": "CC BY-SA 4.0",
+    "region": "イエメン",
+    "credit": "必要"
+  },
+  "ホイアン旧市街": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Hoi_An_Ancient_Town.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Hoi_An_Ancient_Town.jpg",
+    "author": "Andre Hospers",
+    "license": "CC BY 4.0",
+    "region": "ベトナム",
+    "credit": "必要"
+  },
+  "屋久島": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Yakushima_forest.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Yakushima_forest.jpg",
+    "author": "VKaeru",
+    "license": "CC BY-SA 3.0",
+    "region": "日本・鹿児島",
+    "credit": "必要"
+  },
+  "白神山地": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Shirakami-sanchi.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Shirakami-sanchi.jpg",
+    "author": "Stefan Ertmann",
+    "license": "CC BY-SA 2.0",
+    "region": "日本・青森・秋田",
+    "credit": "必要"
+  },
+  "カッパドキア": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Cappadocia_Landscape.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Cappadocia_Landscape.jpg",
+    "author": "Yaprak.c",
+    "license": "CC BY-SA 4.0",
+    "region": "トルコ",
+    "credit": "必要"
+  },
+  "ワディ・ラム": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Wadi-rum_Jordan.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Wadi-rum_Jordan.jpg",
+    "author": "Ahmad alnatour",
+    "license": "CC BY-SA 4.0",
+    "region": "ヨルダン",
+    "credit": "必要"
+  },
+  "フィリピン・コルディリェーラの棚田群": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Rice_Terraces_Banaue.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Rice_Terraces_Banaue.jpg",
+    "author": "Magalhães",
+    "license": "Public Domain",
+    "region": "フィリピン",
+    "credit": "不要（任意推奨）"
+  },
+  "麗江古城": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Old_Town_of_Lijiang.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Old_Town_of_Lijiang.jpg",
+    "author": "钉钉",
+    "license": "CC BY-SA 4.0",
+    "region": "中国・雲南",
+    "credit": "必要"
+  },
+  "ラム旧市街": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Lamu_old_town_street.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Lamu_old_town_street.jpg",
+    "author": "Mzein04",
+    "license": "CC BY-SA 4.0",
+    "region": "ケニア",
+    "credit": "必要"
+  },
+  "ブリッゲン": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Bryggen_in_Bergen.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Bryggen_in_Bergen.jpg",
+    "author": "G.Lanting",
+    "license": "CC BY 3.0（選択可）",
+    "region": "ノルウェー・ベルゲン",
+    "credit": "必要"
+  },
+  "オフリド湖と旧市街": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Lake_Ohrid_by_Ohrid_old_city.JPG?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Lake_Ohrid_by_Ohrid_old_city.JPG",
+    "author": "Brams",
+    "license": "Public Domain",
+    "region": "北マケドニア・アルバニア",
+    "credit": "不要"
+  },
+  "オカバンゴ・デルタ": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/OkavangoDelta.png?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:OkavangoDelta.png",
+    "author": "NASA",
+    "license": "Public Domain (NASA)",
+    "region": "ボツワナ",
+    "credit": "不要（出典表示推奨）"
+  },
+  "ヴァル・ドルチャ": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Valdorcia.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Valdorcia.jpg",
+    "author": "Anna.Massini",
+    "license": "CC BY-SA 4.0",
+    "region": "イタリア・トスカーナ",
+    "credit": "必要"
+  },
+  "トンガリロ国立公園": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Tongariro_NP.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Tongariro_NP.jpg",
+    "author": "",
+    "license": "CC BY-SA 3.0 / CC BY 2.5（選択可）",
+    "region": "ニュージーランド",
+    "credit": "必要"
+  },
+  "イルリサット・アイスフィヨルド": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Ilulissat_Icefjord.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Ilulissat_Icefjord.jpg",
+    "author": "Quintin Soloviev",
+    "license": "CC BY 4.0",
+    "region": "グリーンランド",
+    "credit": "必要"
+  },
+  "高千穂峡": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Takachiho-gorge.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Takachiho-gorge.jpg",
+    "author": "Takasunrise0921",
+    "license": "CC BY 2.5（選択可）",
+    "region": "日本・宮崎",
+    "credit": "必要"
+  },
+  "倉敷美観地区": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Kurashiki_bikan_area.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Kurashiki_bikan_area.jpg",
+    "author": "Volfgang",
+    "license": "CC BY-SA 3.0",
+    "region": "日本・岡山",
+    "credit": "必要"
+  },
+  "鳥取砂丘": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Tottori_Sand_Dunes.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Tottori_Sand_Dunes.jpg",
+    "author": "Drivephotographer",
+    "license": "CC0",
+    "region": "日本・鳥取",
+    "credit": "不要"
+  },
+  "星峠の棚田": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Hoshitoge_Rice_Terraces_1.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Hoshitoge_Rice_Terraces_1.jpg",
+    "author": "Nihongo1234",
+    "license": "CC BY-SA 4.0",
+    "region": "日本・新潟",
+    "credit": "必要"
+  },
+  "伊根の舟屋": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Inefunaya.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Inefunaya.jpg",
+    "author": "FITM",
+    "license": "Public Domain",
+    "region": "日本・京都",
+    "credit": "不要"
+  },
+  "しまなみ海道": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Shimanami_Kaido.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Shimanami_Kaido.jpg",
+    "author": "clvs7",
+    "license": "CC0",
+    "region": "日本・広島・愛媛",
+    "credit": "不要"
+  },
+  "九寨溝": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Lake_in_Jiuzhaigou.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Lake_in_Jiuzhaigou.jpg",
+    "author": "MSK",
+    "license": "CC BY-SA 3.0",
+    "region": "中国・四川",
+    "credit": "必要"
+  },
+  "ルアンパバーン": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Luang-prabang.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Luang-prabang.jpg",
+    "author": "Jaoa Tosa",
+    "license": "CC0",
+    "region": "ラオス",
+    "credit": "不要"
+  },
+  "バガン": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Bagan_Sunset.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Bagan_Sunset.jpg",
+    "author": "Gordon Johnstone",
+    "license": "CC BY-SA 3.0",
+    "region": "ミャンマー",
+    "credit": "必要"
+  },
+  "ウマワカ渓谷": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/En_la_Quebrada_de_Humahuaca_.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:En_la_Quebrada_de_Humahuaca_.jpg",
+    "author": "Joaquina123450",
+    "license": "CC BY 4.0",
+    "region": "アルゼンチン",
+    "credit": "必要"
+  },
+  "コロニア・デル・サクラメント旧市街": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Colonia_de_Sacramento.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Colonia_de_Sacramento.jpg",
+    "author": "Eligna",
+    "license": "CC BY-SA 3.0",
+    "region": "ウルグアイ",
+    "credit": "必要"
+  },
+  "アルベロベッロのトゥルッリ": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Alberobello_trulli.JPG?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Alberobello_trulli.JPG",
+    "author": "Pizzaemandolino",
+    "license": "CC0 1.0",
+    "region": "イタリア",
+    "credit": "不要"
+  },
+  "アオラキ・マッケンジー": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Milky_Way_over_the_Hooker_valley.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Milky_Way_over_the_Hooker_valley.jpg",
+    "author": "Paul Stewart",
+    "license": "CC0",
+    "region": "ニュージーランド",
+    "credit": "不要"
+  },
+  "ナミブランド自然保護区": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Namibrand_-3626_-_Flickr_-_Ragnhild_%26_Neil_Crawford.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Namibrand_-3626_-_Flickr_-_Ragnhild_%26_Neil_Crawford.jpg",
+    "author": "Ragnhild & Neil Crawford",
+    "license": "CC BY-SA 2.0",
+    "region": "ナミビア",
+    "credit": "必要"
+  },
+  "ラ・パルマ島": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/La_Palma_Brena_Baja_landscape_R01.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:La_Palma_Brena_Baja_landscape_R01.jpg",
+    "author": "Marc Ryckaert",
+    "license": "CC BY-SA 4.0",
+    "region": "スペイン・カナリア諸島",
+    "credit": "必要"
+  },
+  "エッサウィラ旧市街": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Seaward_Walls_of_the_Medina_of_Essaouira,_Morocco.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Seaward_Walls_of_the_Medina_of_Essaouira,_Morocco.jpg",
+    "author": "CastlesCatalog",
+    "license": "CC BY-SA 4.0",
+    "region": "モロッコ",
+    "credit": "必要"
+  },
+  "マラケシュ旧市街": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Medina_Marrakech.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Medina_Marrakech.jpg",
+    "author": "Intermerker",
+    "license": "CC BY-SA 4.0",
+    "region": "モロッコ",
+    "credit": "必要"
+  },
+  "シンガポール植物園": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Singapore_Botanical_Gardens.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Singapore_Botanical_Gardens.jpg",
+    "author": "YoulendreeAppasamy",
+    "license": "CC BY-SA 4.0",
+    "region": "シンガポール",
+    "credit": "必要"
+  },
+  "ラヴォー地区の葡萄畑": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Lavaux_vineyards.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Lavaux_vineyards.jpg",
+    "author": "Soumya Basu",
+    "license": "CC BY-SA 4.0",
+    "region": "スイス",
+    "credit": "必要"
+  },
+  "コトルの自然・文化歴史地域": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/View_of_Kotor_bay_and_old_town.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:View_of_Kotor_bay_and_old_town.jpg",
+    "author": "Jaakko Luttinen",
+    "license": "CC BY-SA 4.0",
+    "region": "モンテネグロ",
+    "credit": "必要"
+  },
+  "モスタル旧市街と古橋": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Mostar_old_bridge.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Mostar_old_bridge.jpg",
+    "author": "Tiia Monto",
+    "license": "CC BY-SA 3.0",
+    "region": "ボスニア・ヘルツェゴビナ",
+    "credit": "必要"
+  },
+  "ヴァルパライソ港湾都市歴史地区": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Historic_Quarter_of_the_Seaport_City_of_Valpara%C3%ADso_02.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Historic_Quarter_of_the_Seaport_City_of_Valpara%C3%ADso_02.jpg",
+    "author": "Julia Sumangil",
+    "license": "CC BY-SA 4.0",
+    "region": "チリ",
+    "credit": "必要"
+  },
+  "カルタヘナ港・要塞・歴史地区": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Cartagena_Old_City.JPG?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Cartagena_Old_City.JPG",
+    "author": "CONOCER",
+    "license": "Public Domain",
+    "region": "コロンビア",
+    "credit": "不要"
+  },
+  "アンティグア・グアテマラ": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Guatemala_-_Antigua.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Guatemala_-_Antigua.jpg",
+    "author": "Jeanne Menjoulet",
+    "license": "CC BY 2.0",
+    "region": "グアテマラ",
+    "credit": "必要"
+  },
+  "ルーネンバーグ旧市街": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Waterfront,_Lunenburg,_Nova_Scotia_(3615251943).jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Waterfront,_Lunenburg,_Nova_Scotia_(3615251943).jpg",
+    "author": "CP Hoffman",
+    "license": "CC BY-SA 2.0",
+    "region": "カナダ・ノバスコシア",
+    "credit": "必要"
+  },
+  "チェスキー・クルムロフ歴史地区": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/%C4%8Cesk%C3%BD_Krumlov,_Czechia,_20250504_1247_8845.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:%C4%8Cesk%C3%BD_Krumlov,_Czechia,_20250504_1247_8845.jpg",
+    "author": "Jakub Hałun",
+    "license": "CC BY 4.0",
+    "region": "チェコ",
+    "credit": "必要"
+  },
+  "リガ歴史地区": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Riga_Old_Town_Square.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Riga_Old_Town_Square.jpg",
+    "author": "Steven1991",
+    "license": "CC BY-SA 4.0",
+    "region": "ラトビア",
+    "credit": "必要"
+  },
+  "サルヴァドール・デ・バイア歴史地区": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Centro_Hist%C3%B3rico_de_Salvador_Bahia_Sobrado_no_Largo_do_Cruzeiro_de_S%C3%A3o_Francisco_9_Salvador_2019-9911.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Centro_Hist%C3%B3rico_de_Salvador_Bahia_Sobrado_no_Largo_do_Cruzeiro_de_S%C3%A3o_Francisco_9_Salvador_2019-9911.jpg",
+    "author": "Paul R. Burley",
+    "license": "CC BY-SA 4.0",
+    "region": "ブラジル",
+    "credit": "必要"
+  },
+  "サンタ・クルス・デ・モンポス歴史地区": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Mompox_-_Tribunale.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Mompox_-_Tribunale.jpg",
+    "author": "",
+    "license": "CC BY 3.0",
+    "region": "コロンビア",
+    "credit": "必要"
+  },
+  "マチュ・ピチュ": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Peru_Machu_Picchu.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Peru_Machu_Picchu.jpg",
+    "author": "Entropy1963",
+    "license": "Public Domain",
+    "region": "ペルー",
+    "credit": "不要（任意推奨）"
+  },
+  "アユタヤ歴史都市": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Ayutthaya_historical_park.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Ayutthaya_historical_park.jpg",
+    "author": "Ranjithkr",
+    "license": "CC BY-SA 4.0",
+    "region": "タイ",
+    "credit": "必要"
+  },
+  "ペトラ": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Petra_Treasury.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Petra_Treasury.jpg",
+    "author": "David Bjorgen",
+    "license": "CC BY-SA 2.5 / GFDL",
+    "region": "ヨルダン",
+    "credit": "必要"
+  },
+  "キト市街": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Quito_CCM.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Quito_CCM.jpg",
+    "author": "Byron S. Calisto I",
+    "license": "CC BY-SA 3.0",
+    "region": "エクアドル",
+    "credit": "必要"
+  },
+  "蘇州古典園林": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/%E4%B8%AD%E5%9C%8B%E8%98%87%E5%B7%9E%E5%BA%AD%E5%9C%9230China_Classical_Gardens_of_Suzhou.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:%E4%B8%AD%E5%9C%8B%E8%98%87%E5%B7%9E%E5%BA%AD%E5%9C%9230China_Classical_Gardens_of_Suzhou.jpg",
+    "author": "林高志",
+    "license": "CC BY-SA 4.0",
+    "region": "中国・江蘇",
+    "credit": "必要"
+  },
+  "ザンジバル・ストーンタウン": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Stone_Town_Zanzibar.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Stone_Town_Zanzibar.jpg",
+    "author": "GTBacchus",
+    "license": "CC BY-SA 3.0（選択可）",
+    "region": "タンザニア",
+    "credit": "必要"
+  },
+  "ラリベラの岩窟教会群": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Lalibela_Rock-Hewn_Churches.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Lalibela_Rock-Hewn_Churches.jpg",
+    "author": "Philip Kromer",
+    "license": "CC BY-SA 2.0",
+    "region": "エチオピア",
+    "credit": "必要"
+  },
+  "スケリッグ・マイケル": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Skellig_Michael.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Skellig_Michael.jpg",
+    "author": "Gdr",
+    "license": "CC BY-SA 3.0",
+    "region": "アイルランド",
+    "credit": "必要"
+  },
+  "カリフォルニア湾の島々と保護地域": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Islands_and_Protected_Areas_of_the_Gulf_of_California-113602.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Islands_and_Protected_Areas_of_the_Gulf_of_California-113602.jpg",
+    "author": "Francesco Bandarin",
+    "license": "CC BY-SA 3.0 IGO",
+    "region": "メキシコ",
+    "credit": "必要"
+  },
+  "メキシコシティ歴史地区とソチミルコ": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Trajineras_XOCHIMILCO.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Trajineras_XOCHIMILCO.jpg",
+    "author": "Axel Millán",
+    "license": "CC BY-SA 4.0",
+    "region": "メキシコ",
+    "credit": "必要"
+  },
+  "ジャイプール市街": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Jaipur_city.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Jaipur_city.jpg",
+    "author": "Raj457036",
+    "license": "CC BY-SA 4.0",
+    "region": "インド・ラジャスタン",
+    "credit": "必要"
+  },
+  "アレキパ歴史地区": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Centro_Hist%C3%B3rico_de_Arequipa.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Centro_Hist%C3%B3rico_de_Arequipa.jpg",
+    "author": "Antonella.Estrada",
+    "license": "CC BY-SA 4.0",
+    "region": "ペルー",
+    "credit": "必要"
+  },
+  "ロワール渓谷": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/The_Loire_Valley_between_Sully-sur-Loire_and_Chalonnes-113441.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:The_Loire_Valley_between_Sully-sur-Loire_and_Chalonnes-113441.jpg",
+    "author": "Francesco Bandarin",
+    "license": "CC BY-SA 3.0 IGO",
+    "region": "フランス",
+    "credit": "必要"
+  },
+  "ビニャーレス渓谷": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Vi%C3%B1ales_Valley.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Vi%C3%B1ales_Valley.jpg",
+    "author": "Severin.stalder",
+    "license": "CC BY-SA 3.0",
+    "region": "キューバ",
+    "credit": "必要"
+  },
+  "ハバナ旧市街と要塞群": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Old_Havana.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Old_Havana.jpg",
+    "author": "Anna Rydin",
+    "license": "CC BY-SA 3.0",
+    "region": "キューバ",
+    "credit": "必要"
+  },
+  "フェルナンド・デ・ノローニャ諸島": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Fernando_de_Noronha,_Brazil_(47159006801).jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Fernando_de_Noronha,_Brazil_(47159006801).jpg",
+    "author": "Just a Brazilian man from Brazil",
+    "license": "CC BY 2.0",
+    "region": "ブラジル",
+    "credit": "必要"
+  },
+  "ロス・グラシアレス国立公園": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Los_Glaciares_National_Park.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Los_Glaciares_National_Park.jpg",
+    "author": "sussexbirder",
+    "license": "CC BY 2.0",
+    "region": "アルゼンチン",
+    "credit": "必要"
+  },
+  "ラパ・ヌイ国立公園": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Mo%C3%A1i_en_Rapa_Nui,_Chile.JPG?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Mo%C3%A1i_en_Rapa_Nui,_Chile.JPG",
+    "author": "María Cecilia Piderit B.",
+    "license": "CC BY 3.0",
+    "region": "チリ",
+    "credit": "必要"
+  },
+  "ハロン湾・カットバー群島": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/HalongBay.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:HalongBay.jpg",
+    "author": "Juanjo Bazan",
+    "license": "CC BY-SA 2.0",
+    "region": "ベトナム",
+    "credit": "必要"
+  },
+  "アンコール": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Angkor_Wat_in_Cambodia.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Angkor_Wat_in_Cambodia.jpg",
+    "author": "Martaapue",
+    "license": "CC0",
+    "region": "カンボジア",
+    "credit": "不要"
+  },
+  "ペルシャ式庭園": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/The_Persian_Garden_-.-_Iran.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:The_Persian_Garden_-.-_Iran.jpg",
+    "author": "Peyman1974",
+    "license": "CC BY-SA 4.0",
+    "region": "イラン",
+    "credit": "必要"
+  },
+  "アイット＝ベン＝ハドゥの集落": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Ait_ben_haddou.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Ait_ben_haddou.jpg",
+    "author": "Achalhikarim",
+    "license": "CC BY-SA 4.0",
+    "region": "モロッコ",
+    "credit": "必要"
+  },
+  "シアン・カアン": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Sian_Ka%27an_(Mexico).jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Sian_Ka%27an_(Mexico).jpg",
+    "author": "Oogstweg",
+    "license": "CC BY-SA 4.0",
+    "region": "メキシコ",
+    "credit": "必要"
+  },
+  "慶州歴史地域": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Gyeongju_Historic_Areas_01.JPG?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Gyeongju_Historic_Areas_01.JPG",
+    "author": "Abasaa",
+    "license": "Public Domain",
+    "region": "韓国",
+    "credit": "不要（任意推奨）"
+  },
+  "ワディ・アル＝ヒタン（クジラ渓谷）": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Wadi_Al-Hitan,_Whale_Valley,_in_the_Western_Desert_of_Egypt.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Wadi_Al-Hitan,_Whale_Valley,_in_the_Western_Desert_of_Egypt.jpg",
+    "author": "Mohamed abdelzaher",
+    "license": "CC BY-SA 4.0",
+    "region": "エジプト",
+    "credit": "必要"
+  },
+  "ベルン旧市街": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Old_City_of_Bern-Bern.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Old_City_of_Bern-Bern.jpg",
+    "author": "Yair Haklai",
+    "license": "CC BY-SA 4.0",
+    "region": "スイス",
+    "credit": "必要"
+  },
+  "サナア旧市街": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/OldtownSanaa.JPG?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:OldtownSanaa.JPG",
+    "author": "Jtamad",
+    "license": "CC BY-SA 4.0",
+    "region": "イエメン",
+    "credit": "必要"
+  },
+  "ガイランゲルフィヨルド": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Geirangerfjorden%20panorama.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Geirangerfjorden_panorama.jpg",
+    "author": "Philippe Teuwen",
+    "license": "CC BY-SA 2.0",
+    "region": "ノルウェー",
+    "credit": "必要"
+  },
+  "マデイラの照葉樹林": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Madeira%27s_Laurissilva_Forest.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Madeira%27s_Laurissilva_Forest.jpg",
+    "author": "Jesse Allen and Robert Simmon",
+    "license": "Public Domain (NASA)",
+    "region": "ポルトガル",
+    "credit": "不要（出典推奨）"
+  },
+  "ユングフラウ＝アレッチ": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Swiss-Alps-Jungfrau-Aletsch.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Swiss-Alps-Jungfrau-Aletsch.jpg",
+    "author": "Roy Egloff",
+    "license": "CC BY-SA 4.0",
+    "region": "スイス",
+    "credit": "必要"
+  },
+  "テ・ワヒポウナム": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Milford_Sound_New_Zealand._%2816508409635%29.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Milford_Sound_New_Zealand._(16508409635).jpg",
+    "author": "Bernard Spragg. NZ",
+    "license": "CC0 1.0",
+    "region": "ニュージーランド",
+    "credit": "不要"
+  },
+  "プリトヴィツェ湖群": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Plitvice_lakes.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Plitvice_lakes.jpg",
+    "author": "Hyena",
+    "license": "Public Domain",
+    "region": "クロアチア",
+    "credit": "不要（任意推奨）"
+  },
+  "カナディアン・ロッキー自然公園群": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Canadian_Rocky_Mountain_Parks_20230930_090614.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Canadian_Rocky_Mountain_Parks_20230930_090614.jpg",
+    "author": "Dcs57",
+    "license": "CC BY 4.0",
+    "region": "カナダ",
+    "credit": "必要"
+  },
+  "タスマニア原生地域": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Landscapes_on_the_Overland_Track.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Landscapes_on_the_Overland_Track.jpg",
+    "author": "Emily Cox",
+    "license": "CC BY-SA 4.0",
+    "region": "オーストラリア",
+    "credit": "必要"
+  },
+  "シンクヴェトリル": {
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Thingvellir_National_Park%2C_Iceland.jpg?width=1800",
+    "source": "https://commons.wikimedia.org/wiki/File:Thingvellir_National_Park,_Iceland.jpg",
+    "author": "Chris Long",
+    "license": "CC BY 2.0",
+    "region": "アイスランド",
+    "credit": "必要"
+  }
+};
 
 </script><script>
 const PO_SKY_STORIES={"geiranger":{"skyTitle":"北の空に残る星","skyFact":"ガイランゲル周辺は北緯約62度。北の空では、おおぐま座やカシオペヤ座のように一年を通して沈みにくい星々が長く見えます。冬は夜が長く、オリオン座も南の空に現れます。","loreTitle":"長い夜という見聞","lore":"高緯度の土地では、季節そのものが夜の長さを大きく変えます。ここでは「何を見るか」だけでなく、「どれだけ長く暗さの中にいるか」も空の体験になります。","story":"ずっと明るくしておかなくてもいい。\n暗さの中でしか、戻ってくる位置が分からないものもある。","discovery":"答えが欲しいのではなく、自分が戻れる位置を確かめたかったのかもしれない。","sources":["https://www.timeanddate.com/astronomy/","https://www.iau.org/public/themes/constellations/"],"loreEyebrow":"この土地と空に残る見聞","evidenceLevel":"A/B","contextType":"verified-special"},"laurisilva":{"skyTitle":"森の上を渡る冬の星","skyFact":"マデイラ島は北緯約33度。冬の夜にはオリオン座やおうし座が見やすく、プレアデス星団も空に現れます。","loreTitle":"森と空のあいだ","lore":"照葉樹林では霧や雲が水を森へ運びます。星が見える夜も、見えない夜も、空と森は水を介してつながっています。","story":"見えない夜にも、空はなくならない。\n受け取っていたものに、あとから気づくことがある。","discovery":"何も起きていないと思っていた時間にも、自分の中では何かが育っていたのかもしれない。","sources":["https://whc.unesco.org/en/list/934","https://www.iau.org/public/themes/constellations/"],"loreEyebrow":"この土地と空に残る見聞","evidenceLevel":"A/B","contextType":"verified-special"},"yakushima":{"skyTitle":"すばると、雨のあとの空","skyFact":"屋久島では冬にオリオン座や冬の大三角が見やすく、秋から冬にはおうし座のプレアデス星団「すばる」も見られます。","loreTitle":"日本で「すばる」と呼ばれた星","lore":"プレアデス星団は日本で古くから「すばる」と呼ばれ、「集まって一つになる」という語源との関係も伝えられています。『枕草子』にも「星は、すばる」と記されています。","story":"離れて見える星も、\nひとつの名前で呼ばれることがある。\n近づかなくても、つながっているものはある。","discovery":"大切な人や場所と、いつも同じ距離にいなくてもいいのかもしれない。","sources":["https://eco.mtk.nao.ac.jp/koyomi/exhibition/058/","https://www.nao.ac.jp/astro/sky/2025/03-topics02.html"],"loreEyebrow":"この土地と空に残る見聞","evidenceLevel":"A/B","contextType":"verified-special"},"jungfrau":{"skyTitle":"峰の上に残る北の星","skyFact":"スイス・アルプスの緯度では、冬にオリオン座やおうし座が南の空に現れ、北側にはおおぐま座やカシオペヤ座が見えます。標高の高い場所では、街明かりから離れるほど暗い空に出会えます。","loreTitle":"山で方角を知るということ","lore":"星は古くから方角と季節を知る手掛かりでした。山では、見上げた星の位置と地形の輪郭が同時に方向感覚をつくります。","story":"高い場所へ行くと、\n答えが増えるのではなく、境目が見える。\n越えるものと、越えなくていいもの。","discovery":"迷っていたのではなく、自分の境界を決め直したかったのかもしれない。","sources":["https://www.iau.org/public/themes/constellations/","https://whc.unesco.org/en/list/1037"],"loreEyebrow":"この土地と空に残る見聞","evidenceLevel":"A/B","contextType":"verified-special"},"tewahipounamu":{"skyTitle":"Matarikiが戻る空","skyFact":"ニュージーランドでは、プレアデス星団はMatarikiとして知られます。真冬の明け方に東の空へ再び現れる時期が、マオリの新年と結びついています。","loreTitle":"振り返り、今を祝い、先を見る","lore":"Matarikiの時期は、亡くなった人を偲び、現在を祝い、これからを考える時間とされています。地域やiwiによって伝承や見え方には違いがあります。","story":"前へ進むことは、\n忘れることではない。\n覚えているものと一緒に、次の季節へ行ける。","discovery":"手放せないから進めないのではなく、持ったまま進む方法を探していたのかもしれない。","sources":["https://www.tepapa.govt.nz/digital-museum/explore-digital-museum/matariki-maori-new-year/what-and-who-matariki/what-matariki","https://www.tepapa.govt.nz/digital-museum/explore-digital-museum/matariki-maori-new-year/matariki-regional-variations/matariki"],"loreEyebrow":"この土地と空に残る見聞","evidenceLevel":"A/B","contextType":"verified-special"},"plitvice":{"skyTitle":"湖の上を移る季節の星","skyFact":"プリトヴィツェ周辺の緯度では、夏は天の川が見やすく、冬はオリオン座やおうし座などの明るい星座が現れます。星空の位置は季節と時刻で移り変わります。","loreTitle":"止まって見えるものも動いている","lore":"プリトヴィツェの湖と滝は、石灰分の堆積によって今も形を変え続けています。夜空も同じ場所に見えながら、時刻と季節で位置を変えます。","story":"止まったから、終わったわけではない。\n見えない速さで形を変えている時間もある。","discovery":"動けていないと思っていた時期にも、自分の中では次の形ができていたのかもしれない。","sources":["https://whc.unesco.org/en/list/98","https://www.timeanddate.com/astronomy/night/@3193175"],"loreEyebrow":"この土地と空に残る見聞","evidenceLevel":"A/B","contextType":"verified-special"},"rockies":{"skyTitle":"山と星で位置を知る","skyFact":"カナディアン・ロッキーの緯度では、おおぐま座やカシオペヤ座など北天の星々が目印になり、季節によってオリオン座やプレアデスも見えます。","loreTitle":"土地と空を一緒に読む知識","lore":"カナダの先住民の天文知識には、星や天体の動きと地形を結びつけ、移動や季節を理解してきた伝統があります。伝承はNationごとに異なるため、ここでは一つにまとめず扱います。","story":"遠くへ行くほど、\n必要になるのは新しい自分ではなく、\n自分がどこにいるかを知る目印なのかもしれない。","discovery":"変わりたいのではなく、広い景色の中で自分の位置を見直したかったのかもしれない。","sources":["https://science.ucalgary.ca/rothney-observatory/community/indigenous-skies","https://whc.unesco.org/en/list/304"],"loreEyebrow":"この土地と空に残る見聞","evidenceLevel":"A/B","contextType":"verified-special"},"tasmania":{"skyTitle":"南の空と、天の川","skyFact":"タスマニアは南緯約42度。南十字星や天の川など、南半球らしい空を見ることができます。","loreTitle":"天の川の二つの星から火が来たという記録","lore":"タスマニア州政府は、1830年代初頭の記録として、北東部のアボリジナルの人々に「天の川にある二つの星が人々へ火を与えた」という創造物語が記録されていると紹介しています。","story":"遠い光が、\n暮らしの火になることがある。\n必要だったのは、強い光ではなく、消えない小さな熱だった。","discovery":"自分を変える大きなきっかけより、毎日を温める小さなものを求めていたのかもしれない。","sources":["https://nre.tas.gov.au/aboriginal-heritage-tasmania/cultural-heritage/aboriginal-cultural-burning","https://www.space.gov.au/news-and-media/our-indigenous-astronomical-traditions"],"loreEyebrow":"この土地と空に残る見聞","evidenceLevel":"A/B","contextType":"verified-special"},"thingvellir":{"skyTitle":"長い冬夜の北の空","skyFact":"シンクヴェトリルは北緯約64度。カシオペヤ座やおおぐま座など北の星々が長く空に残り、冬にはオリオン座も低い南の空に現れます。オーロラは星座ではありませんが、暗い季節の空を大きく変える現象です。","loreTitle":"同じ空でも、立つ場所で見え方が変わる","lore":"高緯度では星の通り道が低緯度とは違って見えます。シンクヴェトリル自体も、大地の裂け目と人々が集まった歴史が同じ景観に重なる場所です。","story":"星は同じ場所にある。\nでも、立つ場所を変えると、\n違う約束のように見える。","discovery":"変えたかったのは答えではなく、答えを見る位置だったのかもしれない。","sources":["https://whc.unesco.org/en/list/1152","https://www.iau.org/public/themes/constellations/"],"loreEyebrow":"この土地と空に残る見聞","evidenceLevel":"A/B","contextType":"verified-special"},"1":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"道を歩く人が空を見上げるとき","lore":"長い参詣道は、早く着くためだけの道ではありません。歩くことそのものに意味がある場所です。 歩く道では、空は目的地ではなく、今いる位置を確かめる背景になります。","story":"遠くの季節の星を見ながら歩く夜。\n目的地より先に、自分の歩幅を思い出すことがある。","discovery":"戻ることを失敗にしたくなかったのかもしれない。歩き直せる道があると知りたかった。","sources":["https://whc.unesco.org/en/list/1142","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"pilgrimage","reflection":"進みたいと感じたなら、決めたいことより、もう決めなくていいことがあるのかもしれません。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"3":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"山と空を同じ目印にする","lore":"モンゴルの聖山として大切にされてきた孤立した山。人の多い場所から離れることで、中心を確かめる感覚を持たせる。 山の輪郭と星の位置を同時に見ると、遠さの中にも自分の立つ場所ができます。","story":"登ることより、どこから見ているか。\nそれだけで山も空も違って見える。","discovery":"高く行きたいのではなく、何を基準にするかを遠くから見直したかったのかもしれない。","sources":["https://whc.unesco.org/en/list/1440","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"sacred_mountain","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"4":{"skyTitle":"季節の光を読む洞窟","skyFact":"グラン・カナリア島では、季節や時刻によってオリオン座、プレアデス星団、夏のさそり座などが見られます。Risco Caídoでは、星座だけでなく太陽の季節変化そのものが遺跡の読み方に関わります。","loreEyebrow":"この土地と空に残る見聞","loreTitle":"洞窟に入る季節の光","lore":"UNESCOは、Risco Caídoの聖所が季節儀礼に使われ、星や大地の信仰との関係が考えられていると説明しています。推薦資料には、洞窟の開口部から入る太陽光が春分頃から夏至を経て秋分頃まで刻線を照らす現象も記録されています。","story":"同じ穴から入る光でも、季節が変われば届く場所が変わる。\n自分の中にも、前には届かなかった言葉が届く時期がある。","discovery":"足りないものを探していたのではなく、今の自分に届く光の位置が変わったことに気づきたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/1578","https://whc.unesco.org/document/170559"],"evidenceLevel":"A","contextType":"archaeoastronomy","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["オリオン座","プレアデス星団","さそり座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"5":{"skyTitle":"歩き続ける人の上にある空","skyFact":"Wirikutaへ向かうWixárikaの巡礼路は500kmを超え、乾燥地まで長い距離をたどります。砂漠の夜は地平線が広く、季節の星の移動を長い時間見渡せます。","loreEyebrow":"この土地に受け継がれていること","loreTitle":"『祖父なる火の道』を歩く","lore":"UNESCOはこの道を「Path of Our Grandfather Fire」と紹介し、巡礼の途中で年長者から若い世代へ、物語・歌・祈り・儀礼が受け継がれるとしています。目的地だけでなく、歩きながら受け渡されるもの自体が道の一部です。","story":"遠い場所へ向かう夜。\n先に見える光より、\n隣で受け取った言葉の方が長く残ることがある。","discovery":"本当に急いでいたのは到着ではなく、「このまま続けていい」と思える理由だったのかもしれない。","sources":["https://whc.unesco.org/en/list/1704"],"evidenceLevel":"A","contextType":"pilgrimage-oral-tradition","reflection":"進みたいと感じたなら、決めたいことより、もう決めなくていいことがあるのかもしれません。","skySigns":["オリオン座","プレアデス星団","シリウス","さそり座・天の川"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"6":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"山と空を同じ目印にする","lore":"都市を見下ろす聖山で、古くから道しるべや信仰の中心になってきた場所。 山の輪郭と星の位置を同時に見ると、遠さの中にも自分の立つ場所ができます。","story":"高い場所を見ると、遠さばかりが目に入る。\nでも季節の星は、遠いまま目印になれる。","discovery":"高く行きたいのではなく、何を基準にするかを遠くから見直したかったのかもしれない。","sources":["https://whc.unesco.org/en/list/1230","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"sacred_mountain","reflection":"進みたいと感じたなら、決めたいことより、もう決めなくていいことがあるのかもしれません。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"8":{"skyTitle":"南北の空が近づく場所","skyFact":"赤道に近い地域では、季節や時刻によって北天・南天の双方の星々が見えます。オリオン座は空高く見えやすく、さそり座やいて座、南十字星も時期によって見ることができます。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"暗い場所から外の光を見る","lore":"古い岩石、熱帯雨林、洞窟湖が重なる島。見た目の美しさだけでなく、長い地質の時間が隠れています。 暗い内部を知っている場所ほど、外の光は『明るさ』以上の意味を持ちます。","story":"暗い場所にいると、出口の光は小さくても分かる。\n見えている量と、希望の大きさは同じではない。","discovery":"明るい答えより、暗いままでも自分を見失わない感覚がほしかったのかもしれない。","sources":["https://www.unesco.org/en/iggp/langkawi-unesco-global-geopark","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"cave","reflection":"少し行ってみたいと思ったなら、場所より先に動きたがっている気持ちがあるのかもしれません。","skySigns":["オリオン座","さそり座","南十字星"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"9":{"skyTitle":"南北の空が近づく場所","skyFact":"赤道に近い地域では、季節や時刻によって北天・南天の双方の星々が見えます。オリオン座は空高く見えやすく、さそり座やいて座、南十字星も時期によって見ることができます。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"暗い場所から外の光を見る","lore":"長く使われてきた洞窟寺院。時間を重ねながら手を入れ続けてきた場所です。 暗い内部を知っている場所ほど、外の光は『明るさ』以上の意味を持ちます。","story":"暗さに目が慣れると、最初はなかった光が見えてくる。\n自分の気持ちも、たぶん少し似ている。","discovery":"明るい答えより、暗いままでも自分を見失わない感覚がほしかったのかもしれない。","sources":["https://whc.unesco.org/en/list/561","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"cave","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["オリオン座","さそり座","南十字星"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"10":{"skyTitle":"長い夜に残る北の星","skyFact":"この地域では、北の空にカシオペヤ座やおおぐま座が長く見えやすく、秋から冬にはオリオン座やおうし座、プレアデス星団も南寄りの空に現れます。高緯度では季節による夜の長さの差も大きくなります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"水面が空をもう一つつくる","lore":"氷河地形がつくった複雑な湖と島々。地図で見ると迷路のように水路が続きます。 水辺では、上の空と映った空が重なり、同じ光が二つの場所にあるように見えます。","story":"向こう岸が遠い夜ほど、水面には空が増える。\n離れている時間にも、見えるものはある。","discovery":"気持ちを止めたいのではなく、揺れているものと変わらないものを分けたかったのかもしれない。","sources":["https://www.unesco.org/en/iggp/saimaa-unesco-global-geopark","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"water","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"11":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"海の向こうに方角を探す","lore":"海底火山やプレート運動によって移動・隆起してきた大地。『場所は固定されている』という感覚を少し揺らすカード。 島では海が境界になる一方、空だけはどこまでも続いています。","story":"海に囲まれると、終わりがはっきりする。\nその上の空には、境界がない。","discovery":"一人になりたいのではなく、どこまでが自分なのかを静かに確かめたかったのかもしれない。","sources":["https://www.unesco.org/en/iggp/izu-peninsula-unesco-global-geopark","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"island","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"12":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"道を歩く人が空を見上げるとき","lore":"半砂漠の岩窟聖地・巡礼・祖先信仰 歩く道では、空は目的地ではなく、今いる位置を確かめる背景になります。","story":"遠くの季節の星を見ながら歩く夜。\n目的地より先に、自分の歩幅を思い出すことがある。","discovery":"急いで答えに着きたいのではなく、自分の歩幅で進める道を確かめたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/1760/","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"pilgrimage","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"13":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"地平線まで遮るものがない夜","lore":"半砂漠に残る6000点超の岩刻画と長い人間活動の痕跡 遮るものの少ない地平線では、星の動きそのものが時間の感覚になります。","story":"地平線まで空いている。\n逃げ道ではなく、選べる方向が増えた景色。","discovery":"答えを減らしたいのではなく、自分で選べる余白を取り戻したかったのかもしれない。","sources":["https://whc.unesco.org/en/list/1076","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"desert","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"14":{"skyTitle":"南十字星と天の川","skyFact":"南半球の中緯度では、南十字星やケンタウルス座が見え、季節によってさそり座・いて座と濃い天の川、夏にはオリオン座やプレアデス星団も現れます。","loreEyebrow":"この土地に残る記憶","loreTitle":"岩山を、祖先のいる場所として見る","lore":"Tsodiloの岩山は、長い人間活動の痕跡と岩絵を残すだけでなく、現在もHambukushuとSanのコミュニティに、祖先の霊が宿る礼拝の場所として大切にされています。空の話を無理に付けず、「長い時間の上に立つ夜」として扱います。","story":"自分よりずっと前からある岩の前では、\n今日の迷いだけが世界の全部ではないと分かる。\n夜は、時間を少し広くしてくれる。","discovery":"消したい記憶があるのではなく、その記憶を置いておける大きな時間が欲しかったのかもしれない。","sources":["https://whc.unesco.org/en/list/1021","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"ancestral-landscape","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["オリオン座","プレアデス星団","さそり座","南十字星","ケンタウルス座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"16":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"暗い場所から外の光を見る","lore":"火山島・溶岩洞窟・海・森林・民俗文化 暗い内部を知っている場所ほど、外の光は『明るさ』以上の意味を持ちます。","story":"暗い場所にいると、出口の光は小さくても分かる。\n見えている量と、希望の大きさは同じではない。","discovery":"明るい答えより、暗いままでも自分を見失わない感覚がほしかったのかもしれない。","sources":["https://www.unesco.org/en/iggp/jeju-island-unesco-global-geopark?hub=67817","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"cave","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"17":{"skyTitle":"月と灯りを映す湖","skyFact":"杭州は北半球中緯度にあり、季節ごとにオリオン座、プレアデス、夏の天の川などが移り変わります。水面のある西湖では、夜の光が水にも重なります。","loreEyebrow":"この土地に残る見方","loreTitle":"景色に感情を映す","lore":"UNESCOは西湖について、唐・宋以来の詩人や芸術家に愛され、人が景観へ感情を投影できる文化的伝統が続いてきたと説明しています。ここでは、景色を見ることと自分の感情を見ることが離れていません。","story":"湖に映った光は、空の光と同じなのに、\n水が揺れるたび形を変える。\n気持ちも、なくなったのではなく揺れているだけかもしれない。","discovery":"整理したかったのは感情そのものではなく、感情が映る景色を変えたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/1334"],"evidenceLevel":"A","contextType":"poetry-landscape","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","プレアデス星団","天の川"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"19":{"skyTitle":"湖と山のあいだの夜","skyFact":"Lake Districtの緯度では北の空におおぐま座やカシオペヤ座が見え、冬にはオリオン座、夏には天の川が現れます。","loreEyebrow":"この土地に残る言葉","loreTitle":"景色が、心の置き場所になる","lore":"Wordsworthは長い放浪の後にLake Districtへ戻り、Grasmereを住まいと創作の場所にしました。Wordsworth Grasmereは、この土地の丘・湖・家々が詩の着想を育てたことを伝えています。","story":"遠くまで行ったあとに、\n初めて近くの景色が自分のものに見えることがある。\n戻ることは、前と同じ場所へ戻ることではない。","discovery":"新しい場所を探していたのではなく、今の自分で帰れる場所を探していたのかもしれない。","sources":["https://wordsworth.org.uk/wordsworth/the-place/","https://whc.unesco.org/en/list/422"],"evidenceLevel":"A","contextType":"literature-night","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","おおぐま座","カシオペヤ座","天の川"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"20":{"skyTitle":"長い夜に残る北の星","skyFact":"この地域では、北の空にカシオペヤ座やおおぐま座が長く見えやすく、秋から冬にはオリオン座やおうし座、プレアデス星団も南寄りの空に現れます。高緯度では季節による夜の長さの差も大きくなります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"海の向こうに方角を探す","lore":"孤立した群島、極端な環境での生活と1930年の離島 島では海が境界になる一方、空だけはどこまでも続いています。","story":"遠い島の夜に見える北の星。\n知らない土地なのに、帰り道のように思える光もある。","discovery":"遠くへ逃げたいのではなく、戻る場所を持ったまま知らない方へ行きたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/387","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"island","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"21":{"skyTitle":"長い夜に残る北の星","skyFact":"この地域では、北の空にカシオペヤ座やおおぐま座が長く見えやすく、秋から冬にはオリオン座やおうし座、プレアデス星団も南寄りの空に現れます。高緯度では季節による夜の長さの差も大きくなります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"海の向こうに方角を探す","lore":"島々の漁業・農業・アイダーダック羽毛採取、女性の役割 島では海が境界になる一方、空だけはどこまでも続いています。","story":"ここから先は海。\nそう分かる場所で、初めて『戻る』と『渡る』を選べることがある。","discovery":"遠くへ逃げたいのではなく、戻る場所を持ったまま知らない方へ行きたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/1143","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"island","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"23":{"skyTitle":"霧の山の上に残る星","skyFact":"Sintraは大西洋に近い北緯約39度。季節によってオリオン座、プレアデス、夏の天の川などが見えます。海霧や雲が入る夜は、星が見えたり隠れたりします。","loreEyebrow":"この土地に残る感性","loreTitle":"現実の景色に、想像力を重ねた場所","lore":"UNESCOはSintraを19世紀ヨーロッパのロマン主義建築の中心と位置づけ、森・山・庭園と多様な建築様式が一体になった文化景観としています。","story":"全部見える夜より、\n霧の向こうに何かがある夜の方が、\n自分の中の景色をよく見ることがある。","discovery":"答えが見えないことに困っていたのではなく、見えないまま惹かれている自分を認めたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/723"],"evidenceLevel":"A/B","contextType":"romantic-landscape","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","プレアデス星団","天の川"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"24":{"skyTitle":"南北の空が近づく場所","skyFact":"赤道に近い地域では、季節や時刻によって北天・南天の双方の星々が見えます。オリオン座は空高く見えやすく、さそり座やいて座、南十字星も時期によって見ることができます。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"木々の向こうに残る空","lore":"川の女神Osun、聖なる森、祠・彫刻・生きた信仰 森では視界が狭くなるぶん、枝の切れ間から見える空が小さな出口になります。","story":"見えないものが多い森では、\n小さな空の切れ目だけで方向が変わることがある。","discovery":"変わりたいのではなく、急がなくても変わっている自分を信じたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/1118","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"forest","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["オリオン座","さそり座","南十字星"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"25":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"人が整えた景色と、整えられない空","lore":"栄えた文化の多くが失われた一方、浄土思想を表す寺院や庭園が残る場所。喪失と平和への願いを同時に持つ。 人が手を入れて整えた地上と、誰にも整えられない空が一つの視界に入ります。","story":"育てるものには手をかける。\n待つしかないものには、空を見上げる時間を残す。","discovery":"全部を整えたいのではなく、手をかけるものと任せるものを分けたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/1277","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"garden","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"27":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"海の向こうに方角を探す","lore":"長く祭祀が行われ、立ち入りや持ち出しに厳しい禁忌がある島。距離と尊重をテーマにする。 島では海が境界になる一方、空だけはどこまでも続いています。","story":"ここから先は海。\nそう分かる場所で、初めて『戻る』と『渡る』を選べることがある。","discovery":"一人になりたいのではなく、どこまでが自分なのかを静かに確かめたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/1535","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"island","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"28":{"skyTitle":"南十字星と天の川","skyFact":"南半球の中緯度では、南十字星やケンタウルス座が見え、季節によってさそり座・いて座と濃い天の川、夏にはオリオン座やプレアデス星団も現れます。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"景色の輪郭が、空の見え方を変える","lore":"逃亡奴隷の避難地となった山、自由・苦難・記憶の象徴 山・谷・街・海の輪郭によって、同じ星でも見える高さや切り取られ方が変わります。","story":"景色の輪郭が変わると、南の星まで違って見える。\n星が変わったのではなく、立つ場所が変わった。","discovery":"知らない場所へ行きたいのではなく、知らない角度から自分を見てみたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/1259","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"landscape","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["オリオン座","プレアデス星団","さそり座","南十字星","ケンタウルス座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"29":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"海の向こうに方角を探す","lore":"全部が落ち着く日を待たなくても、今日できることはあります。 島では海が境界になる一方、空だけはどこまでも続いています。","story":"ここから先は海。\nそう分かる場所で、初めて『戻る』と『渡る』を選べることがある。","discovery":"遠くへ逃げたいのではなく、戻る場所を持ったまま知らない方へ行きたかったのかもしれない。","sources":["https://www.kagoshima-yokanavi.jp/article/sakurajima","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"island","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"30":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"水面が空をもう一つつくる","lore":"今日は、答えが出ないことを急いで終わらせなくていい日。待っている間にも、自分の気持ちは少しずつ形を変えます。 水辺では、上の空と映った空が重なり、同じ光が二つの場所にあるように見えます。","story":"水面の季節の星は、触れれば揺れる。\n空の星は揺れていない。\n揺れていたのは、間にある水だった。","discovery":"気持ちを止めたいのではなく、揺れているものと変わらないものを分けたかったのかもしれない。","sources":["https://www.pref.nagano.lg.jp/suwachi/suwachi-shokan/kanko/omiwatari","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"water","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"31":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"道を歩く人が空を見上げるとき","lore":"新しい縁を探すより、今つながっているものの中に大切なものがないか見直す日。 歩く道では、空は目的地ではなく、今いる位置を確かめる背景になります。","story":"季節の星は、先へ急げとは言わない。\nただ、歩いてきた道が消えていないことを知らせる。","discovery":"戻ることを失敗にしたくなかったのかもしれない。歩き直せる道があると知りたかった。","sources":["要公式確認","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"pilgrimage","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"32":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"景色の輪郭が、空の見え方を変える","lore":"『そこは道じゃない』と思っていた場所にも、条件が変われば進めることがあります。 山・谷・街・海の輪郭によって、同じ星でも見える高さや切り取られ方が変わります。","story":"遠い場所で見上げる空は、知っている星を知らないものに戻してくれる。","discovery":"知らない場所へ行きたいのではなく、知らない角度から自分を見てみたかったのかもしれない。","sources":["https://www.city.hakui.lg.jp/soshiki/sangyoukensetsubu/syoukoukankouka/12/1/2505.html","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"landscape","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"33":{"skyTitle":"月を読む場所","skyFact":"伊勢では季節の星空に加えて、月そのものが神宮文化と深く関わります。神宮には月読尊を祀る月読宮・月夜見宮があり、中秋には観月会も行われます。","loreEyebrow":"この土地に残る空との関わり","loreTitle":"月を読み、暦を知る","lore":"伊勢神宮は月読尊について、月の満ち欠けを教え暦を司る神と説明しています。神宮徴古館には渋川春海が1698年に献納した、1,461個の星を記した天球儀も伝わります。","story":"月は毎晩、同じ形では戻ってこない。\n欠けている夜にも、月そのものが減ったわけではない。","discovery":"足りない自分を直したかったのではなく、満ちていない時期にも自分は続いていると知りたかったのかもしれない。","sources":["https://www.isejingu.or.jp/about/outerbetsugu/","https://museum.isejingu.or.jp/sp/museum/collection/02005.html","https://www.isejingu.or.jp/ritual/annual/kagurasai.html"],"evidenceLevel":"A","contextType":"moon-calendar","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["月","オリオン座","プレアデス星団","夏の天の川"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"34":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"いつもの場所の上にも空はある","lore":"大きな答えは、今日は休み。外の空気を少し吸うだけで十分です。 遠い旅先だけでなく、いつもの場所にも同じ星は来ています。変わるのは、見上げる側の時間かもしれません。","story":"いつもの場所が変わらなくても、空は毎晩少しずつ違う。\n小さな違いに気づける日は、それだけで遠くへ行ける。","discovery":"生活を変えたいのではなく、同じ場所を違う目で見られる自分を取り戻したかったのかもしれない。","sources":["EVERYDAY PLACE","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"everyday","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"35":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"いつもの場所の上にも空はある","lore":"毎日通る道。光・天気・季節で見え方が変わる 遠い旅先だけでなく、いつもの場所にも同じ星は来ています。変わるのは、見上げる側の時間かもしれません。","story":"同じ帰り道の上にも、季節の星は来る。\n特別な場所へ行かなくても、見上げる角度だけは変えられる。","discovery":"生活を変えたいのではなく、同じ場所を違う目で見られる自分を取り戻したかったのかもしれない。","sources":["EVERYDAY PLACE","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"everyday","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"36":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"いつもの場所の上にも空はある","lore":"遠い世界の代わりに、駅前のベンチ。移動の途中にある『何もしない数分』をカードにする。 遠い旅先だけでなく、いつもの場所にも同じ星は来ています。変わるのは、見上げる側の時間かもしれません。","story":"同じ帰り道の上にも、季節の星は来る。\n特別な場所へ行かなくても、見上げる角度だけは変えられる。","discovery":"生活を変えたいのではなく、同じ場所を違う目で見られる自分を取り戻したかったのかもしれない。","sources":["EVERYDAY PLACE","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"everyday","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"37":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"海の向こうに方角を探す","lore":"奴隷貿易の歴史を伝える場所。カードでは悲劇を占いの素材にせず、『忘れないこと』『人を物のように扱わないこと』へつなぐ。 島では海が境界になる一方、空だけはどこまでも続いています。","story":"海に囲まれると、終わりがはっきりする。\nその上の空には、境界がない。","discovery":"遠くへ逃げたいのではなく、戻る場所を持ったまま知らない方へ行きたかったのかもしれない。","sources":["https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"island","reflection":"誰かを思い浮かべたなら、その人に向けたやさしさの一部を、自分にも向けられるかもしれません。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"38":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"地上の長い時間と、空の長い時間","lore":"氷河、火山、川が一つの地域に重なるアイスランドの大地。正反対の力が同じ景色をつくります。 地形が変わる時間と星が巡る時間は尺度が違っても、どちらも『動いているのに止まって見える』ものです。","story":"大地は止まって見える。\n季節の星も止まって見える。\n長い時間で見れば、どちらも動いている。","discovery":"元に戻りたいのではなく、変わってしまった自分にも続きがあると知りたかったのかもしれない。","sources":["https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"geology","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"39":{"skyTitle":"湖の上を移る季節の星","skyFact":"プリトヴィツェ周辺の緯度では、夏は天の川が見やすく、冬はオリオン座やおうし座などの明るい星座が現れます。星空の位置は季節と時刻で移り変わります。","loreTitle":"止まって見えるものも動いている","lore":"プリトヴィツェの湖と滝は、石灰分の堆積によって今も形を変え続けています。夜空も同じ場所に見えながら、時刻と季節で位置を変えます。","story":"止まったから、終わったわけではない。\n見えない速さで形を変えている時間もある。","discovery":"動けていないと思っていた時期にも、自分の中では次の形ができていたのかもしれない。","sources":["https://whc.unesco.org/en/list/98","https://www.timeanddate.com/astronomy/night/@3193175"],"evidenceLevel":"A/B","contextType":"verified-special","loreEyebrow":"この土地と空に残る見聞","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["オリオン座","おうし座","天の川"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"40":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"木々の向こうに残る空","lore":"霧と湿気に包まれた古い照葉樹林。強い光ではなく、柔らかな環境で森が続いています。 森では視界が狭くなるぶん、枝の切れ間から見える空が小さな出口になります。","story":"育つものは、毎日同じ姿をしている。\n気づいた日にだけ、前より遠くへ来ていたと分かる。","discovery":"変わりたいのではなく、急がなくても変わっている自分を信じたかったのかもしれない。","sources":["https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"forest","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"41":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"人が整えた景色と、整えられない空","lore":"石灰分を含む温泉水が白い棚田状地形をつくり、古代の温泉都市遺跡が重なる 人が手を入れて整えた地上と、誰にも整えられない空が一つの視界に入ります。","story":"育てるものには手をかける。\n待つしかないものには、空を見上げる時間を残す。","discovery":"もっと頑張りたいのではなく、すでにあるものを丁寧に育てたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/485","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"garden","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"42":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"景色の輪郭が、空の見え方を変える","lore":"何千本もの石柱や峰が立ち並ぶ特異な地形。日常では見ないスケール感そのものを使う。 山・谷・街・海の輪郭によって、同じ星でも見える高さや切り取られ方が変わります。","story":"同じ季節の星でも、初めての土地で見ると、まだ名前のない気持ちに見える。","discovery":"景色を変えたいのではなく、同じ自分を別の場所から見たかったのかもしれない。","sources":["https://whc.unesco.org/en/list/640","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"landscape","reflection":"引っかかった景色があるなら、それは今まで選ばなかった自分の側面かもしれません。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"44":{"skyTitle":"星を測った都の空","skyFact":"サマルカンドは北緯約40度。季節の星々が見えるこの地には、15世紀にウルグ・ベクの天文台が築かれました。","loreEyebrow":"この土地に残る天文学","loreTitle":"空を見上げるだけでなく、測った場所","lore":"UNESCOはサマルカンドの主要遺産の一つとしてウルグ・ベク天文台を挙げています。後のジャイプールの観測文化にも影響を与えた天文学の系譜に位置づけられます。","story":"分からないものを、ただ不思議なままにせず、\n何度も見上げて位置を測った人がいた。\n迷いにも、測り直せるものがある。","discovery":"正解が欲しかったのではなく、自分がどこに立っているかをもう一度測りたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/603","https://whc.unesco.org/document/103462"],"evidenceLevel":"A","contextType":"historic-observatory","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","プレアデス星団","カシオペヤ座","夏の天の川"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"45":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"海の向こうに方角を探す","lore":"今日は、人と違うところを直すより、使えるところを探す日。 島では海が境界になる一方、空だけはどこまでも続いています。","story":"ここから先は海。\nそう分かる場所で、初めて『戻る』と『渡る』を選べることがある。","discovery":"遠くへ逃げたいのではなく、戻る場所を持ったまま知らない方へ行きたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/1263","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"island","reflection":"広く感じたなら、何から離れた時にその広さが生まれるのかを思い出してみてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"46":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"帰る灯りと、遠くへ向かう空","lore":"交易港として多文化が交わり、夜にはランタンの光が印象的な町。『選ぶ楽しさ』を軽く届ける。 港では、陸の灯りと海の暗さが隣り合い、帰る方向と出ていく方向が同時に見えます。","story":"遠くへ行く人がいるから、帰ってくる場所の灯りも残る。","discovery":"誰かと離れたいのではなく、離れても消えないつながりがあるか確かめたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/948","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"port_city","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"48":{"skyTitle":"すばると、雨のあとの空","skyFact":"屋久島では冬にオリオン座や冬の大三角が見やすく、秋から冬にはおうし座のプレアデス星団「すばる」も見られます。","loreTitle":"日本で「すばる」と呼ばれた星","lore":"プレアデス星団は日本で古くから「すばる」と呼ばれ、「集まって一つになる」という語源との関係も伝えられています。『枕草子』にも「星は、すばる」と記されています。","story":"離れて見える星も、\nひとつの名前で呼ばれることがある。\n近づかなくても、つながっているものはある。","discovery":"大切な人や場所と、いつも同じ距離にいなくてもいいのかもしれない。","sources":["https://eco.mtk.nao.ac.jp/koyomi/exhibition/058/","https://www.nao.ac.jp/astro/sky/2025/03-topics02.html"],"evidenceLevel":"A/B","contextType":"verified-special","loreEyebrow":"この土地と空に残る見聞","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["オリオン座","おうし座","プレアデス星団","すばる（プレアデス星団）"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"49":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"木々の向こうに残る空","lore":"東アジア最大級の原生的なブナ林が残り、ほぼ手つかずの生態系を保つ山地 森では視界が狭くなるぶん、枝の切れ間から見える空が小さな出口になります。","story":"見えないものが多い森では、\n小さな空の切れ目だけで方向が変わることがある。","discovery":"何かを増やしたいのではなく、すでに育っているものに気づきたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/663","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"forest","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"51":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"暗い場所から外の光を見る","lore":"奇岩、地下都市、洞窟住居が重なる土地。地上と地下でまったく違う景色を持つことをテーマにする。 暗い内部を知っている場所ほど、外の光は『明るさ』以上の意味を持ちます。","story":"外へ出たいのではなく、\n自分で外を選べると思いたかったのかもしれない。","discovery":"外へ逃げたいのではなく、自分のタイミングで外へ出られる余白がほしかったのかもしれない。","sources":["https://whc.unesco.org/en/list/357","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"cave","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"52":{"skyTitle":"砂漠の地平線と星","skyFact":"Wadi Rumは乾燥した砂漠景観で、人工光の少ない場所では星や天の川を広い地平線まで見渡せます。現在も星空観察が主要な体験として案内されています。","loreEyebrow":"この土地で続く夜の体験","loreTitle":"星を見ながら、物語を聞く","lore":"Jordan Tourism BoardはWadi Rumで、天文学者による星空観察とBedouinの語りを組み合わせた体験を紹介しています。科学として見る空と、物語として受け取る空が同じ夜にあります。","story":"名前を知ると、星は近くなる。\n物語を聞くと、同じ星が自分の夜にも残る。","discovery":"知らないことを減らしたかったのではなく、知らないものと一緒にいられる感覚が欲しかったのかもしれない。","sources":["https://international.visitjordan.com/wheretogo/wadi-rum/"],"evidenceLevel":"A","contextType":"desert-storytelling","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["天の川","オリオン座","シリウス","さそり座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"53":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"人が整えた景色と、整えられない空","lore":"山の等高線に沿って約2000年受け継がれた棚田と、共同体の知識・水管理が生きる文化景観 人が手を入れて整えた地上と、誰にも整えられない空が一つの視界に入ります。","story":"育てるものには手をかける。\n待つしかないものには、空を見上げる時間を残す。","discovery":"もっと頑張りたいのではなく、すでにあるものを丁寧に育てたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/722","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"garden","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"54":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"残ったものの上に、同じ空が来る","lore":"起伏ある地形に適応した旧市街と、今も機能する複雑な水路網、多文化の建築が残る 建物や暮らしが変わっても、夜になると同じ場所の上にまた空が現れます。","story":"記憶は元に戻すためだけにあるのではない。\n残ったものの位置を知るためにもある。","discovery":"過去に戻りたいのではなく、なくなったあとにも残っているものを確かめたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/811","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"ruins_memory","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"55":{"skyTitle":"南北の空が近づく場所","skyFact":"赤道に近い地域では、季節や時刻によって北天・南天の双方の星々が見えます。オリオン座は空高く見えやすく、さそり座やいて座、南十字星も時期によって見ることができます。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"帰る灯りと、遠くへ向かう空","lore":"サンゴ石とマングローブ材の建築、内庭、木彫り扉が残る東アフリカのスワヒリ旧市街 港では、陸の灯りと海の暗さが隣り合い、帰る方向と出ていく方向が同時に見えます。","story":"岸の灯りが小さくなると、南北をつなぐ星が増える。\n離れることと、見失うことは同じではない。","discovery":"誰かと離れたいのではなく、離れても消えないつながりがあるか確かめたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/1055","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"port_city","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","さそり座","南十字星"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"56":{"skyTitle":"長い夜に残る北の星","skyFact":"この地域では、北の空にカシオペヤ座やおおぐま座が長く見えやすく、秋から冬にはオリオン座やおうし座、プレアデス星団も南寄りの空に現れます。高緯度では季節による夜の長さの差も大きくなります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"帰る灯りと、遠くへ向かう空","lore":"火災を何度も受けながら、伝統的な木造の町並みを旧来の方法で再建し続けた港地区 港では、陸の灯りと海の暗さが隣り合い、帰る方向と出ていく方向が同時に見えます。","story":"遠くへ行く人がいるから、帰ってくる場所の灯りも残る。","discovery":"誰かと離れたいのではなく、離れても消えないつながりがあるか確かめたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/59","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"port_city","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"58":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"水面が空をもう一つつくる","lore":"ヨーロッパ最古級の湖の一つと、長い宗教・都市文化が重なる自然文化複合景観 水辺では、上の空と映った空が重なり、同じ光が二つの場所にあるように見えます。","story":"同じ光が、水の上では別の形になる。\n違って見えることと、違うものであることは同じではない。","discovery":"気持ちを止めたいのではなく、揺れているものと変わらないものを分けたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/99","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"water","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"59":{"skyTitle":"南十字星と天の川","skyFact":"南半球の中緯度では、南十字星やケンタウルス座が見え、季節によってさそり座・いて座と濃い天の川、夏にはオリオン座やプレアデス星団も現れます。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"地平線まで遮るものがない夜","lore":"乾燥地の内陸に季節的な水が広がり、多様な生態系を支える巨大デルタ 遮るものの少ない地平線では、星の動きそのものが時間の感覚になります。","story":"昼の輪郭が消えたあと、星だけが残る。\n決めなくても、方向はなくならない。","discovery":"何も欲しくないのではなく、余計なもののないところで本当に欲しいものを見たかったのかもしれない。","sources":["https://whc.unesco.org/en/list/1432","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"desert","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["オリオン座","プレアデス星団","さそり座","南十字星","ケンタウルス座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"60":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"景色の輪郭が、空の見え方を変える","lore":"14〜15世紀に人と自然の調和を意識して形づくられ、芸術にも影響した農村景観 山・谷・街・海の輪郭によって、同じ星でも見える高さや切り取られ方が変わります。","story":"景色の輪郭が変わると、季節の星まで違って見える。\n星が変わったのではなく、立つ場所が変わった。","discovery":"景色を変えたいのではなく、同じ自分を別の場所から見たかったのかもしれない。","sources":["https://whc.unesco.org/en/list/1026","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"landscape","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"61":{"skyTitle":"南十字星と天の川","skyFact":"南半球の中緯度では、南十字星やケンタウルス座が見え、季節によってさそり座・いて座と濃い天の川、夏にはオリオン座やプレアデス星団も現れます。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"地上の長い時間と、空の長い時間","lore":"火山地形と、マオリにとって文化的・精神的に重要な山々が重なる文化的景観 地形が変わる時間と星が巡る時間は尺度が違っても、どちらも『動いているのに止まって見える』ものです。","story":"変化は、起きた瞬間だけが変化ではない。\n見えない速さで続いているものがある。","discovery":"早く変わりたいのではなく、見えない変化も変化だと認めたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/421","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"geology","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["オリオン座","プレアデス星団","さそり座","南十字星","ケンタウルス座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"62":{"skyTitle":"長い夜に残る北の星","skyFact":"この地域では、北の空にカシオペヤ座やおおぐま座が長く見えやすく、秋から冬にはオリオン座やおうし座、プレアデス星団も南寄りの空に現れます。高緯度では季節による夜の長さの差も大きくなります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"水面が空をもう一つつくる","lore":"巨大な氷河が海へ大量の氷を送り続ける、氷河変動を観察できる代表的景観 水辺では、上の空と映った空が重なり、同じ光が二つの場所にあるように見えます。","story":"同じ光が、水の上では別の形になる。\n違って見えることと、違うものであることは同じではない。","discovery":"気持ちを止めたいのではなく、揺れているものと変わらないものを分けたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/1149","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"water","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"63":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"水面が空をもう一つつくる","lore":"考えているだけでは分からないことを、今日は少し近くで見てみる。 水辺では、上の空と映った空が重なり、同じ光が二つの場所にあるように見えます。","story":"向こう岸が遠い夜ほど、水面には空が増える。\n離れている時間にも、見えるものはある。","discovery":"気持ちを止めたいのではなく、揺れているものと変わらないものを分けたかったのかもしれない。","sources":["https://www.japan.travel/en/spot/615/","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"water","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"64":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"景色の輪郭が、空の見え方を変える","lore":"昔好きだったものを、今の自分に合う形で使い直してみる日。 山・谷・街・海の輪郭によって、同じ星でも見える高さや切り取られ方が変わります。","story":"同じ季節の星でも、初めての土地で見ると、まだ名前のない気持ちに見える。","discovery":"景色を変えたいのではなく、同じ自分を別の場所から見たかったのかもしれない。","sources":["https://www.japan.travel/en/spot/915/","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"landscape","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"65":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"地平線まで遮るものがない夜","lore":"今日は、一度決めた形にこだわりすぎなくていい日。 遮るものの少ない地平線では、星の動きそのものが時間の感覚になります。","story":"何もないように見える夜ほど、季節の星が多い。\n足りないのではなく、余計なものが少ないだけかもしれない。","discovery":"答えを減らしたいのではなく、自分で選べる余白を取り戻したかったのかもしれない。","sources":["https://www.japan.travel/en/spot/949/","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"desert","reflection":"広く感じたなら、何から離れた時にその広さが生まれるのかを思い出してみてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"66":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"人が整えた景色と、整えられない空","lore":"丘陵に棚田が連なり、季節や水の張り方で空を映す鏡のような景色になる 人が手を入れて整えた地上と、誰にも整えられない空が一つの視界に入ります。","story":"水路や道は人が引ける。\nでも星の位置までは変えられない。\n手を入れることと、任せること。","discovery":"もっと頑張りたいのではなく、すでにあるものを丁寧に育てたかったのかもしれない。","sources":["https://www.japan.travel/en/spot/279/","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"garden","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"69":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"景色の輪郭が、空の見え方を変える","lore":"仕事と生活をきれいに分けられない日もあります。今日は境目を少し心地よくする方へ。 山・谷・街・海の輪郭によって、同じ星でも見える高さや切り取られ方が変わります。","story":"景色の輪郭が変わると、季節の星まで違って見える。\n星が変わったのではなく、立つ場所が変わった。","discovery":"知らない場所へ行きたいのではなく、知らない角度から自分を見てみたかったのかもしれない。","sources":["https://www.japan.travel/en/spot/1120/","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"landscape","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"70":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"海の向こうに方角を探す","lore":"今日はゴールより、途中の景色を楽しむ方へ。 島では海が境界になる一方、空だけはどこまでも続いています。","story":"海に囲まれると、終わりがはっきりする。\nその上の空には、境界がない。","discovery":"遠くへ逃げたいのではなく、戻る場所を持ったまま知らない方へ行きたかったのかもしれない。","sources":["https://www.japan.travel/en/spot/822/","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"island","reflection":"少し行ってみたいと思ったなら、場所より先に動きたがっている気持ちがあるのかもしれません。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"71":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"木々の向こうに残る空","lore":"高山の谷に青緑や紫がかった湖、滝、石灰華地形、森林が連なる自然景観 森では視界が狭くなるぶん、枝の切れ間から見える空が小さな出口になります。","story":"見えないものが多い森では、\n小さな空の切れ目だけで方向が変わることがある。","discovery":"変わりたいのではなく、急がなくても変わっている自分を信じたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/637","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"forest","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"72":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"景色の輪郭が、空の見え方を変える","lore":"メコン川とナムカン川に挟まれた町で、ラオス伝統建築と欧州由来の都市建築が融合 山・谷・街・海の輪郭によって、同じ星でも見える高さや切り取られ方が変わります。","story":"景色の輪郭が変わると、季節の星まで違って見える。\n星が変わったのではなく、立つ場所が変わった。","discovery":"知らない場所へ行きたいのではなく、知らない角度から自分を見てみたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/479","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"landscape","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"73":{"skyTitle":"塔の影の上を動く星","skyFact":"Baganは北緯約21度。冬にはオリオン座やプレアデス、季節によって天の川や南寄りの星々も見えます。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"積み重ねられた祈りの景観","lore":"UNESCOはBaganを、11〜13世紀の寺院・仏塔・僧院・巡礼地が広がる聖なる景観として説明しています。星の伝承を無理に結びつけず、長い時間の祈りと、毎晩繰り返し訪れる空を重ねます。","story":"一度の祈りで景色ができたわけではない。\n小さく積み重ねたものが、いつか地平線になる。","discovery":"大きく変わりたいのではなく、続けてきた小さなものが無駄ではなかったと確かめたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/1588","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"sacred-landscape","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["オリオン座","プレアデス星団","天の川"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"74":{"skyTitle":"南十字星と天の川","skyFact":"南半球の中緯度では、南十字星やケンタウルス座が見え、季節によってさそり座・いて座と濃い天の川、夏にはオリオン座やプレアデス星団も現れます。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"地上の長い時間と、空の長い時間","lore":"アンデス高地を縦断する谷で、約1万年にわたり交易・移動の主要ルートとして使われてきた 地形が変わる時間と星が巡る時間は尺度が違っても、どちらも『動いているのに止まって見える』ものです。","story":"変化は、起きた瞬間だけが変化ではない。\n見えない速さで続いているものがある。","discovery":"元に戻りたいのではなく、変わってしまった自分にも続きがあると知りたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/1116","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"geology","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","プレアデス星団","さそり座","南十字星","ケンタウルス座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"75":{"skyTitle":"南十字星と天の川","skyFact":"南半球の中緯度では、南十字星やケンタウルス座が見え、季節によってさそり座・いて座と濃い天の川、夏にはオリオン座やプレアデス星団も現れます。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"帰る灯りと、遠くへ向かう空","lore":"ポルトガルとスペインの影響が混ざり、直線格子ではない自由な街路が残る川沿いの旧市街 港では、陸の灯りと海の暗さが隣り合い、帰る方向と出ていく方向が同時に見えます。","story":"港には出ていく船と戻る船がある。\n同じ空の下で、方向だけが違う。","discovery":"遠くへ行きたいのではなく、帰れる場所を持ったまま外の世界を見たかったのかもしれない。","sources":["https://whc.unesco.org/en/list/747","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"port_city","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","プレアデス星団","さそり座","南十字星","ケンタウルス座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"77":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"地上の長い時間と、空の長い時間","lore":"石灰岩をモルタルなしで積む古い技法による円錐屋根の住居群が今も町として残る 地形が変わる時間と星が巡る時間は尺度が違っても、どちらも『動いているのに止まって見える』ものです。","story":"昔の形に戻らなくても、景色は終わらない。\n新しい輪郭になるまでの時間も、景色の一部。","discovery":"早く変わりたいのではなく、見えない変化も変化だと認めたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/787","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"geology","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"78":{"skyTitle":"守られている南の夜空","skyFact":"アオラキ・マッケンジーでは南十字星、天の川、季節によってオリオン座やプレアデス星団を見ることができます。この地域は国際ダークスカイ・リザーブとして夜空そのものが保全されています。","loreEyebrow":"この土地と空に残る見聞","loreTitle":"暗さを守ることも、景色を守ること","lore":"DarkSky Internationalは、当地で1980年代から屋外照明の管理が進められ、天文観測だけでなく自然環境と夜空を守ってきたとしています。また、マオリが航海や暮らしの中で夜空の知識を用いてきた歴史にも触れています。","story":"遠くを見るために、光を足すのではなく減らす場所がある。\n見えなくなっていたものは、消えたのではなかった。","discovery":"新しい刺激を探していたのではなく、静かにしないと見えない自分の気持ちを確かめたかったのかもしれない。","sources":["https://darksky.org/places/aoraki-mackenzie-dark-sky-reserve/","https://www.tepapa.govt.nz/digital-museum/explore-digital-museum/matariki-maori-new-year/what-and-who-matariki/what-matariki"],"evidenceLevel":"A","contextType":"dark-sky-culture","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["オリオン座","プレアデス星団","南十字星","天の川"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"79":{"skyTitle":"砂漠の上を横切る天の川","skyFact":"ナミブランドでは南十字星から北十字星方向へ伸びる天の川、大小マゼラン雲、黄道光などが見える夜があります。世界でも特に暗い夜空を守る地域として知られています。","loreEyebrow":"この土地と空に残る見聞","loreTitle":"暗さそのものを保護する","lore":"NamibRand Nature Reserveは国際ダークスカイ・リザーブで、保護対象には砂漠の生態系だけでなく星空も含まれます。教育施設では地上の環境と空を一緒に学ぶ活動も行われています。","story":"何もないように見える暗さの中に、\n普段は明るさに消されているものが残っている。\n足りないのではなく、見えすぎていたのかもしれない。","discovery":"もっと何かを足したいのではなく、余計なものを少し減らしたときに残る自分を見たかったのかもしれない。","sources":["https://darksky.org/places/namibrand-dark-sky-reserve/"],"evidenceLevel":"A","contextType":"dark-sky","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["南十字星","天の川","マゼラン雲"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"80":{"skyTitle":"観測するために守られた空","skyFact":"ラ・パルマ島のロケ・デ・ロス・ムチャーチョス天文台は標高約2,400mにあり、暗く澄んだ空と安定した大気条件を生かして多くの望遠鏡が置かれています。夜空は光害から守るための制度でも保護されています。","loreEyebrow":"この土地と空に残る見聞","loreTitle":"見えないほど遠いものを見る場所","lore":"IACは、ラ・パルマの空が天文学研究に非常に優れた条件を持つため、世界有数の望遠鏡群が集まっていると説明しています。ここでは『暗いこと』と『よく見えること』が矛盾しません。","story":"暗くするほど、遠くが見える場所がある。\n答えを明るく照らしすぎない方が、見つかるものもある。","discovery":"はっきりさせたいのではなく、まだ輪郭のないものを急いで消さずに見ていたかったのかもしれない。","sources":["https://www.iac.es/en/observatorios-de-canarias/roque-de-los-muchachos-observatory"],"evidenceLevel":"A","contextType":"observatory","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["天の川","オリオン座","プレアデス星団","さそり座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"81":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"帰る灯りと、遠くへ向かう空","lore":"今日は、閉じているところに少しだけ外の風を入れる日。 港では、陸の灯りと海の暗さが隣り合い、帰る方向と出ていく方向が同時に見えます。","story":"岸の灯りが小さくなると、季節の星が増える。\n離れることと、見失うことは同じではない。","discovery":"誰かと離れたいのではなく、離れても消えないつながりがあるか確かめたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/753","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"port_city","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"82":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"人が整えた景色と、整えられない空","lore":"城壁内に市場、庭園、宮殿、モスクなどが重なる歴史都市。色・香り・音の密度が高い 人が手を入れて整えた地上と、誰にも整えられない空が一つの視界に入ります。","story":"育てるものには手をかける。\n待つしかないものには、空を見上げる時間を残す。","discovery":"全部を整えたいのではなく、手をかけるものと任せるものを分けたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/331","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"garden","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"83":{"skyTitle":"南北の空が近づく場所","skyFact":"赤道に近い地域では、季節や時刻によって北天・南天の双方の星々が見えます。オリオン座は空高く見えやすく、さそり座やいて座、南十字星も時期によって見ることができます。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"木々の向こうに残る空","lore":"19世紀の植民地期庭園から発展し、熱帯植物研究とゴム栽培史にも関わる植物園 森では視界が狭くなるぶん、枝の切れ間から見える空が小さな出口になります。","story":"見えないものが多い森では、\n小さな空の切れ目だけで方向が変わることがある。","discovery":"変わりたいのではなく、急がなくても変わっている自分を信じたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/1483","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"forest","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","さそり座","南十字星"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"85":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"水面が空をもう一つつくる","lore":"レマン湖畔の急斜面に何世紀もかけて築かれた段々畑と集落の文化景観 水辺では、上の空と映った空が重なり、同じ光が二つの場所にあるように見えます。","story":"同じ光が、水の上では別の形になる。\n違って見えることと、違うものであることは同じではない。","discovery":"離れたいのではなく、少し距離を置いたときに残るものを見たかったのかもしれない。","sources":["https://whc.unesco.org/en/list/1243","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"water","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"86":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"水面が空をもう一つつくる","lore":"アドリア海の湾奥に山・海・城壁都市・教会が密接に重なる景観 水辺では、上の空と映った空が重なり、同じ光が二つの場所にあるように見えます。","story":"同じ光が、水の上では別の形になる。\n違って見えることと、違うものであることは同じではない。","discovery":"離れたいのではなく、少し距離を置いたときに残るものを見たかったのかもしれない。","sources":["https://whc.unesco.org/en/list/125","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"water","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"87":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"離れたもののあいだに線を引く","lore":"元通りにしなくても、もう一度つながる方法はあります。 橋は離れた岸をつなぎ、星は離れた点を人の目の中で線にします。","story":"離れた点を線にすると、星座になる。\n離れた岸を線でつなぐと、橋になる。\nつながりは、間があるから見える。","discovery":"忘れたいのではなく、切れたものともう一度つながれる方法があるか知りたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/946","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"bridge","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"88":{"skyTitle":"南十字星と天の川","skyFact":"南半球の中緯度では、南十字星やケンタウルス座が見え、季節によってさそり座・いて座と濃い天の川、夏にはオリオン座やプレアデス星団も現れます。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"水面が空をもう一つつくる","lore":"太平洋岸の急斜面に港・丘・階段・ケーブルカーが重なる、19世紀の海上交易で栄えた都市景観 水辺では、上の空と映った空が重なり、同じ光が二つの場所にあるように見えます。","story":"同じ光が、水の上では別の形になる。\n違って見えることと、違うものであることは同じではない。","discovery":"気持ちを止めたいのではなく、揺れているものと変わらないものを分けたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/959","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"water","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","プレアデス星団","さそり座","南十字星","ケンタウルス座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"89":{"skyTitle":"南北の空が近づく場所","skyFact":"赤道に近い地域では、季節や時刻によって北天・南天の双方の星々が見えます。オリオン座は空高く見えやすく、さそり座やいて座、南十字星も時期によって見ることができます。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"帰る灯りと、遠くへ向かう空","lore":"カリブ海の重要港として発展し、長い城壁・要塞と色彩豊かな旧市街が残る 港では、陸の灯りと海の暗さが隣り合い、帰る方向と出ていく方向が同時に見えます。","story":"岸の灯りが小さくなると、南北をつなぐ星が増える。\n離れることと、見失うことは同じではない。","discovery":"誰かと離れたいのではなく、離れても消えないつながりがあるか確かめたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/285","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"port_city","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","さそり座","南十字星"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"90":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"海の向こうに方角を探す","lore":"火山に囲まれた旧都。地震被害を繰り返しながら、低層の街並みと宗教建築が残る 島では海が境界になる一方、空だけはどこまでも続いています。","story":"遠い島の夜に見える季節の星。\n知らない土地なのに、帰り道のように思える光もある。","discovery":"遠くへ逃げたいのではなく、戻る場所を持ったまま知らない方へ行きたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/65","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"island","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"92":{"skyTitle":"長い夜に残る北の星","skyFact":"この地域では、北の空にカシオペヤ座やおおぐま座が長く見えやすく、秋から冬にはオリオン座やおうし座、プレアデス星団も南寄りの空に現れます。高緯度では季節による夜の長さの差も大きくなります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"帰る灯りと、遠くへ向かう空","lore":"英国植民都市計画をよく残す港町で、木造建築と海に向かう街路景観が続く 港では、陸の灯りと海の暗さが隣り合い、帰る方向と出ていく方向が同時に見えます。","story":"遠くへ行く人がいるから、帰ってくる場所の灯りも残る。","discovery":"遠くへ行きたいのではなく、帰れる場所を持ったまま外の世界を見たかったのかもしれない。","sources":["https://whc.unesco.org/en/list/741","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"port_city","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"94":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"帰る灯りと、遠くへ向かう空","lore":"ヴルタヴァ川の蛇行に沿って城と旧市街が残り、数世紀の穏やかな発展で中世都市の姿を保つ 港では、陸の灯りと海の暗さが隣り合い、帰る方向と出ていく方向が同時に見えます。","story":"岸の灯りが小さくなると、季節の星が増える。\n離れることと、見失うことは同じではない。","discovery":"誰かと離れたいのではなく、離れても消えないつながりがあるか確かめたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/617","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"port_city","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"95":{"skyTitle":"長い夜に残る北の星","skyFact":"この地域では、北の空にカシオペヤ座やおおぐま座が長く見えやすく、秋から冬にはオリオン座やおうし座、プレアデス星団も南寄りの空に現れます。高緯度では季節による夜の長さの差も大きくなります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"帰る灯りと、遠くへ向かう空","lore":"中世都市の核と、19世紀以降の木造建築・アールヌーヴォー建築が重なるバルト海の都市 港では、陸の灯りと海の暗さが隣り合い、帰る方向と出ていく方向が同時に見えます。","story":"港には出ていく船と戻る船がある。\n同じ空の下で、方向だけが違う。","discovery":"遠くへ行きたいのではなく、帰れる場所を持ったまま外の世界を見たかったのかもしれない。","sources":["https://whc.unesco.org/en/list/852","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"port_city","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"96":{"skyTitle":"南北の空が近づく場所","skyFact":"赤道に近い地域では、季節や時刻によって北天・南天の双方の星々が見えます。オリオン座は空高く見えやすく、さそり座やいて座、南十字星も時期によって見ることができます。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"帰る灯りと、遠くへ向かう空","lore":"ブラジル最初の首都として欧州・アフリカ・先住民文化が重なり、色鮮やかな街並みが残る 港では、陸の灯りと海の暗さが隣り合い、帰る方向と出ていく方向が同時に見えます。","story":"港には出ていく船と戻る船がある。\n同じ空の下で、方向だけが違う。","discovery":"遠くへ行きたいのではなく、帰れる場所を持ったまま外の世界を見たかったのかもしれない。","sources":["https://whc.unesco.org/en/list/309","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"port_city","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","さそり座","南十字星"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"97":{"skyTitle":"南北の空が近づく場所","skyFact":"赤道に近い地域では、季節や時刻によって北天・南天の双方の星々が見えます。オリオン座は空高く見えやすく、さそり座やいて座、南十字星も時期によって見ることができます。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"帰る灯りと、遠くへ向かう空","lore":"マグダレナ川沿いに発展した植民都市で、川と平行する街路と、今も使われる歴史建築が残る 港では、陸の灯りと海の暗さが隣り合い、帰る方向と出ていく方向が同時に見えます。","story":"遠くへ行く人がいるから、帰ってくる場所の灯りも残る。","discovery":"遠くへ行きたいのではなく、帰れる場所を持ったまま外の世界を見たかったのかもしれない。","sources":["https://whc.unesco.org/en/list/742","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"port_city","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","さそり座","南十字星"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"98":{"skyTitle":"太陽の動きを建築に刻んだ山上都市","skyFact":"Machupicchuは南緯約13度のアンデス高地にあり、季節によって南十字星や天の川など南天の星々が見えます。インカは太陽・月・天の川の周期を文化と時間の理解に取り込んでいました。","loreEyebrow":"この土地に残る天文学","loreTitle":"空の周期を、石と場所に重ねる","lore":"ペルー外務省が2026年に紹介した「Astronomía Inca」展は、Machupicchuを含むインカの代表的空間で、太陽・月・天の川の周期が観察され、象徴的な道具として理解されていたことを紹介しています。文化省もMachupicchuに太陽の神殿とIntiwatanaが残ることを案内しています。","story":"山の上に残った石は、\n空を止めたのではなく、\n移り変わるものを見失わないために置かれたのかもしれない。","discovery":"変わらない答えが欲しかったのではなく、変わり続ける中でも戻れる基準が欲しかったのかもしれない。","sources":["https://www.gob.pe/institucion/rree/noticias/1360174-cancilleria-cusco-presenta-exposicion-astronomia-inca","https://www.gob.pe/institucion/cultura/noticias/28253-cusco-regularan-visitas-a-espacios-de-machupicchu"],"evidenceLevel":"A/B","contextType":"inca-astronomy","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["南十字星","天の川","月"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"99":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"海の向こうに方角を探す","lore":"三つの川に囲まれた島に築かれ、国際交易で栄えた後に破壊され、仏塔や寺院遺構が残る旧都 島では海が境界になる一方、空だけはどこまでも続いています。","story":"遠い島の夜に見える季節の星。\n知らない土地なのに、帰り道のように思える光もある。","discovery":"一人になりたいのではなく、どこまでが自分なのかを静かに確かめたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/576","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"island","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"100":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"地平線まで遮るものがない夜","lore":"赤い砂岩を削って造られた都市で、乾燥地に水路・貯水設備を組み込み、交易の交差点として栄えた 遮るものの少ない地平線では、星の動きそのものが時間の感覚になります。","story":"昼の輪郭が消えたあと、星だけが残る。\n決めなくても、方向はなくならない。","discovery":"答えを減らしたいのではなく、自分で選べる余白を取り戻したかったのかもしれない。","sources":["https://whc.unesco.org/en/list/326","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"desert","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"101":{"skyTitle":"赤道の近くで、空を測り続ける街","skyFact":"Quitoは赤道近くの高地にあり、北天と南天の両方へ視野が開ける緯度にあります。市内のQuito Astronomical Observatoryは1873年創設で、現在も観測と研究を続けています。","loreEyebrow":"この街に残る天文学","loreTitle":"空を測ることが、街の科学になった","lore":"Quito Astronomical Observatoryは1873年に設立され、アメリカ大陸でも古い天文台の一つです。観測所はQuitoの子午線や地理測量、天文学研究の歴史とも結びついています。","story":"北と南の空が近づく場所では、\nひとつの方向だけを正しいと決めにくい。\n見方が増えると、迷いは少し違って見える。","discovery":"一つに決められない自分を直したかったのではなく、複数の見方を持ったまま立てる場所が欲しかったのかもしれない。","sources":["https://oaq.epn.edu.ec/index.php/nosotros/introduccion","https://oaq.epn.edu.ec/index.php/noticias-2023/584-boletin-de-prensa-150-anos-de-fundacion-del-observatorio-astronomico-de-quito"],"evidenceLevel":"A","contextType":"equatorial-observatory","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","南十字星","さそり座","天の川"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"102":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"人が整えた景色と、整えられない空","lore":"限られた都市空間の中に、池・岩・建築・植物で自然景観を凝縮した中国古典庭園群 人が手を入れて整えた地上と、誰にも整えられない空が一つの視界に入ります。","story":"整えられた地上の上に、整えられない季節の星がある。\n全部を管理しなくても、美しいものは残る。","discovery":"全部を整えたいのではなく、手をかけるものと任せるものを分けたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/813","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"garden","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"103":{"skyTitle":"南北の空が近づく場所","skyFact":"赤道に近い地域では、季節や時刻によって北天・南天の双方の星々が見えます。オリオン座は空高く見えやすく、さそり座やいて座、南十字星も時期によって見ることができます。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"帰る灯りと、遠くへ向かう空","lore":"インド洋交易で発展し、スワヒリ・アラブ・インド・欧州の影響が建築と街路に重なる港町 港では、陸の灯りと海の暗さが隣り合い、帰る方向と出ていく方向が同時に見えます。","story":"遠くへ行く人がいるから、帰ってくる場所の灯りも残る。","discovery":"誰かと離れたいのではなく、離れても消えないつながりがあるか確かめたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/173","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"port_city","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","さそり座","南十字星"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"104":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"道を歩く人が空を見上げるとき","lore":"13世紀に岩盤を掘り下げて造られた11の一枚岩教会が、今も巡礼地として使われている 歩く道では、空は目的地ではなく、今いる位置を確かめる背景になります。","story":"道が続いているから進むのではない。\n戻ってもいいと思えたとき、また歩けることがある。","discovery":"急いで答えに着きたいのではなく、自分の歩幅で進める道を確かめたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/18","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"pilgrimage","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"105":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"海の向こうに方角を探す","lore":"今日は、人から離れる時間を『逃げ』と決めなくていい日。 島では海が境界になる一方、空だけはどこまでも続いています。","story":"海に囲まれると、終わりがはっきりする。\nその上の空には、境界がない。","discovery":"一人になりたいのではなく、どこまでが自分なのかを静かに確かめたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/757","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"island","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"106":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"水面が空をもう一つつくる","lore":"砂漠の島々・断崖・砂浜と、豊かな海洋生態系が隣り合う大規模な自然地域 水辺では、上の空と映った空が重なり、同じ光が二つの場所にあるように見えます。","story":"向こう岸が遠い夜ほど、水面には空が増える。\n離れている時間にも、見えるものはある。","discovery":"離れたいのではなく、少し距離を置いたときに残るものを見たかったのかもしれない。","sources":["https://whc.unesco.org/en/list/1182","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"water","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"107":{"skyTitle":"都市の中心で、太陽と金星を測った空","skyFact":"Mexico-Tenochtitlanの宗教建築には、太陽や金星の位置と結びつく天文学的方位が研究されています。現在のメキシコシティ中心部にはTemplo Mayorの遺構が残ります。","loreEyebrow":"この土地に残る天文の読み方","loreTitle":"都市の中心に、空の基準を置く","lore":"メキシコ国立人類学歴史研究所（INAH）は、Templo Mayor周辺の建築方位について、太陽や金星との天文学的対応を研究・公開しています。Templo MayorはMexicaにとって宇宙の中心と考えられた場所でもありました。","story":"街の真ん中にも、\n空を見失わないための軸があった。\n人は忙しい場所ほど、基準を必要とするのかもしれない。","discovery":"環境を変えたかったのではなく、人の多い場所でも自分の中心を見失わない基準が欲しかったのかもしれない。","sources":["https://revistas.inah.gob.mx/index.php/arqueologia/article/view/12239","https://templomayor.inah.gob.mx/historia/zona-arqueologica-del-templo-mayor"],"evidenceLevel":"A","contextType":"mesoamerican-astronomy","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["金星","オリオン座","プレアデス星団","さそり座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"108":{"skyTitle":"空を測るためにつくられた都市の一角","skyFact":"ジャイプールには18世紀初頭に築かれたJantar Mantarがあり、肉眼で天体位置を測る約20の固定式天文観測器具が残ります。","loreEyebrow":"この土地に残る天文学","loreTitle":"分からない空を、建築で測る","lore":"UNESCOはJantar Mantarを、天体位置を肉眼で観測するための巨大な器具群として評価しています。科学・社会・信仰が一つの場所で交わった天文台です。","story":"遠すぎて触れないものでも、\n位置を測ることはできる。\n気持ちも、答えにしなくても今いる場所は確かめられる。","discovery":"未来を当てたかったのではなく、まだ決められない自分の現在地を知りたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/1338","https://whc.unesco.org/en/list/1605"],"evidenceLevel":"A","contextType":"historic-observatory","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","シリウス","プレアデス星団","さそり座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"109":{"skyTitle":"南の空へひらく星","skyFact":"南半球のこの緯度帯では、南十字星やケンタウルス座が方角の目印になり、季節によってさそり座・いて座と天の川、オリオン座やプレアデス星団も見られます。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"地上の長い時間と、空の長い時間","lore":"火山性の白い石を使った建築と、中庭・アーチ・街路がアンデスと欧州の技法を融合する高地都市 地形が変わる時間と星が巡る時間は尺度が違っても、どちらも『動いているのに止まって見える』ものです。","story":"大地は止まって見える。\n南の星も止まって見える。\n長い時間で見れば、どちらも動いている。","discovery":"早く変わりたいのではなく、見えない変化も変化だと認めたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/1016","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"geology","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","プレアデス星団","さそり座","南十字星","ケンタウルス座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"111":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"人が整えた景色と、整えられない空","lore":"川沿いに城館、庭園、町、農地が連なり、長い時間をかけて人と自然が形づくった文化景観 人が手を入れて整えた地上と、誰にも整えられない空が一つの視界に入ります。","story":"水路や道は人が引ける。\nでも星の位置までは変えられない。\n手を入れることと、任せること。","discovery":"もっと頑張りたいのではなく、すでにあるものを丁寧に育てたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/933","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"garden","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"112":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"地上の長い時間と、空の長い時間","lore":"石灰岩の独特な丘陵と赤土の農地、伝統的な農法や集落が一体になった文化景観 地形が変わる時間と星が巡る時間は尺度が違っても、どちらも『動いているのに止まって見える』ものです。","story":"変化は、起きた瞬間だけが変化ではない。\n見えない速さで続いているものがある。","discovery":"元に戻りたいのではなく、変わってしまった自分にも続きがあると知りたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/840","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"geology","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"113":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"帰る灯りと、遠くへ向かう空","lore":"カリブ海の港町として発展し、広場・中庭・バロック建築・要塞が残る歴史都市 港では、陸の灯りと海の暗さが隣り合い、帰る方向と出ていく方向が同時に見えます。","story":"岸の灯りが小さくなると、季節の星が増える。\n離れることと、見失うことは同じではない。","discovery":"遠くへ行きたいのではなく、帰れる場所を持ったまま外の世界を見たかったのかもしれない。","sources":["https://whc.unesco.org/en/list/204","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"port_city","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"114":{"skyTitle":"南北の空が近づく場所","skyFact":"赤道に近い地域では、季節や時刻によって北天・南天の双方の星々が見えます。オリオン座は空高く見えやすく、さそり座やいて座、南十字星も時期によって見ることができます。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"海の向こうに方角を探す","lore":"大西洋上の島々と周辺海域に豊かな海洋生態系があり、海鳥・イルカ・ウミガメなどを支える 島では海が境界になる一方、空だけはどこまでも続いています。","story":"遠い島の夜に見える南北をつなぐ星。\n知らない土地なのに、帰り道のように思える光もある。","discovery":"一人になりたいのではなく、どこまでが自分なのかを静かに確かめたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/1000","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"island","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","さそり座","南十字星"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"115":{"skyTitle":"南十字星と天の川","skyFact":"南半球の中緯度では、南十字星やケンタウルス座が見え、季節によってさそり座・いて座と濃い天の川、夏にはオリオン座やプレアデス星団も現れます。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"水面が空をもう一つつくる","lore":"アンデスの氷原から巨大な氷河が湖へ流れ込み、崩落と再形成を繰り返す壮大な氷河景観 水辺では、上の空と映った空が重なり、同じ光が二つの場所にあるように見えます。","story":"同じ光が、水の上では別の形になる。\n違って見えることと、違うものであることは同じではない。","discovery":"気持ちを止めたいのではなく、揺れているものと変わらないものを分けたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/145","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"water","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["オリオン座","プレアデス星団","さそり座","南十字星","ケンタウルス座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"116":{"skyTitle":"島の時間を知らせる太陽と星","skyFact":"Rapa Nuiは南太平洋の孤島で、南天の星空と広い海の地平線に囲まれます。島内には天文学的な方向性を持つ遺構があり、冬至は現在も文化的記憶と結びつけて語られています。","loreEyebrow":"この土地に残る空との関わり","loreTitle":"空が、時間と土地の記憶を結ぶ","lore":"Rapa Nui博物館はAhu Huri a Urengaを天文学的に東へ向けられた遺構として紹介しています。2025年の冬至行事では、太陽が「時間を示すだけでなく、土地とRapa Nuiの記憶を整える」と現地の知見とともに紹介されました。","story":"海しか見えない場所では、\n空の小さな変化が、帰る時刻になる。\n遠さは、目印を必要とする。","discovery":"離れたい気持ちではなく、遠くへ行っても自分を見失わない目印を探していたのかもしれない。","sources":["https://www.museorapanui.gob.cl/conozca-rapa-nui","https://www.museorapanui.gob.cl/noticias/solsticio-de-invierno-en-rapa-nui-en-el-dia-nacional-de-los-pueblos-originarios","https://www.museorapanui.gob.cl/noticias/una-gran-noche-en-el-museo-rapa-nui"],"evidenceLevel":"A","contextType":"island-archaeoastronomy","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["南十字星","ケンタウルス座","マゼラン雲","冬至の太陽"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"117":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"水面が空をもう一つつくる","lore":"海上に多数の石灰岩島・塔状地形が立ち並び、海とカルスト地形がつくる独特の景観 水辺では、上の空と映った空が重なり、同じ光が二つの場所にあるように見えます。","story":"向こう岸が遠い夜ほど、水面には空が増える。\n離れている時間にも、見えるものはある。","discovery":"気持ちを止めたいのではなく、揺れているものと変わらないものを分けたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/672","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"water","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"118":{"skyTitle":"春分と秋分、塔の向こうから昇る太陽","skyFact":"Angkor Watでは毎年、春分と秋分の頃に、正面から見た朝日が中央塔付近に重なる現象が見られます。APSARA National Authorityはこの現象を継続して案内しています。","loreEyebrow":"この土地に残る天文と建築","loreTitle":"建物の向こうに、季節の位置を読む","lore":"APSARA National Authorityは、Angkor Watの中央塔に朝日が重なる春分・秋分の現象を、Khmer Empireの天文学と建築知識を示すものとして紹介しています。","story":"同じ場所に立っていても、\n太陽が重なる日は一年にわずかしかない。\n合う瞬間は、急いで作るものではない。","discovery":"早く答えを出したいのではなく、自分のタイミングと何かが重なる瞬間を待っていたのかもしれない。","sources":["https://apsaraauthority.gov.kh/2026/03/22/amazing-angkor-equinox/","https://apsaraauthority.gov.kh/2024/03/21/sunrise-event-at-angkor-wat/"],"evidenceLevel":"A","contextType":"equinox-architecture","reflection":"最初に浮かんだ人、場所、場面があれば、なぜそれが浮かんだのかだけ、答えを決めずに残してみてください。","skySigns":["春分の太陽","秋分の太陽"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"119":{"skyTitle":"庭の四つの区画に映された宇宙の秩序","skyFact":"Persian Gardenは空・大地・水・植物を結びつける幾何学的な庭園思想を持ちます。ここでは星座そのものより、「空を含む宇宙の秩序」が庭の構成へ移されたことが重要です。","loreEyebrow":"この土地に残る宇宙観","loreTitle":"空を見上げる代わりに、地上へ形にする","lore":"UNESCOはPersian GardenのChahar Baghを、古代イランの人々が考えた自然と宇宙秩序の反映と説明しています。庭は空・大地・水・植物という要素を、歩ける景色へ組み直した場所です。","story":"空にある秩序を、\n人は地上に小さく写してみた。\n整えることは、閉じ込めることではない。","discovery":"全部をコントロールしたかったのではなく、散らばったものの間に自分なりの秩序を見つけたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/1372"],"evidenceLevel":"A","contextType":"cosmic-garden","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["月","オリオン座","プレアデス星団","夏の天の川"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"120":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"景色の輪郭が、空の見え方を変える","lore":"土壁建築が密集する南モロッコの伝統的な要塞集落で、サハラ交易路の景観を伝える 山・谷・街・海の輪郭によって、同じ星でも見える高さや切り取られ方が変わります。","story":"景色の輪郭が変わると、季節の星まで違って見える。\n星が変わったのではなく、立つ場所が変わった。","discovery":"知らない場所へ行きたいのではなく、知らない角度から自分を見てみたかったのかもしれない。","sources":["https://whc.unesco.org/en/list/444","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"landscape","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"121":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"景色の輪郭が、空の見え方を変える","lore":"熱帯林、マングローブ、湿地、ラグーン、サンゴ礁が連続する大規模な自然保護地域 山・谷・街・海の輪郭によって、同じ星でも見える高さや切り取られ方が変わります。","story":"同じ季節の星でも、初めての土地で見ると、まだ名前のない気持ちに見える。","discovery":"景色を変えたいのではなく、同じ自分を別の場所から見たかったのかもしれない。","sources":["https://whc.unesco.org/en/list/410","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"landscape","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"122":{"skyTitle":"星を見るために立てられた塔","skyFact":"慶州には新羅時代のCheomseongdae（瞻星臺）が残ります。韓国の国家遺産ポータルは、天体の動きを観察した天文観測台として紹介しています。","loreEyebrow":"この土地に残る天文学","loreTitle":"空を見ることが、暮らしと国の時間につながっていた","lore":"国家遺産ポータルは、Cheomseongdaeでの天文観測が農耕の指針になり、古代社会では国の出来事を考えるうえでも重要だったと説明しています。","story":"空を見ることは、遠いものを見ることではなかった。\n明日の暮らしを決めるために、夜を見上げていた。","discovery":"遠い未来を知りたかったのではなく、次の季節へ進むための小さな目印が欲しかったのかもしれない。","sources":["https://www.heritage.go.kr/heri/cul/culGuidePostDetail.do?ccbaCpno=1113700310000&ccgbGbtype=IND&ccgbGbtypeNo=1&pageNo=1_5_0_0"],"evidenceLevel":"A","contextType":"historic-observatory","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"123":{"skyTitle":"季節を連れてくる星","skyFact":"北半球の中緯度では、秋から冬にオリオン座やおうし座、プレアデス星団が目立ち、北の空ではおおぐま座やカシオペヤ座が方角の手掛かりになります。夏ははくちょう座付近の天の川も見どころになります。","loreEyebrow":"この土地の事実と、その上の空","loreTitle":"地平線まで遮るものがない夜","lore":"エジプトの砂漠に、陸で暮らしていた祖先から海で暮らすようになったクジラ類の化石が残る。 遮るものの少ない地平線では、星の動きそのものが時間の感覚になります。","story":"地平線まで空いている。\n逃げ道ではなく、選べる方向が増えた景色。","discovery":"何も欲しくないのではなく、余計なもののないところで本当に欲しいものを見たかったのかもしれない。","sources":["https://whc.unesco.org/en/list/1186","https://www.iau.org/public/themes/constellations/"],"evidenceLevel":"B","contextType":"desert","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","おうし座","プレアデス星団","おおぐま座","カシオペヤ座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"124":{"skyTitle":"街の中で、空の動きを時計にした場所","skyFact":"Bern旧市街のZytgloggeには1530年にさかのぼる天文時計があります。太陽・月・星、黄道十二宮、月相、日の出・日の入り、日付を表示します。","loreEyebrow":"この街に残る天文時計","loreTitle":"遠い空を、毎日の時間に変える","lore":"Bern Welcomeによると、Zytgloggeのアストロラーベは北半球の天体を表し、太陽・月・星の動きや月相、日の出・日の入りまで示します。かつて塔の時刻は街の日常のリズムそのものでもありました。","story":"空の大きな動きが、\n一日の時刻にまで降りてくる。\n遠いものほど、暮らしの近くに置くこともできる。","discovery":"壮大な答えが欲しかったのではなく、今日の生活の中で確かめられる小さな尺度が欲しかったのかもしれない。","sources":["https://bern.com/en/explore/tourist-attractions/attractions/zytglogge-clock-tower"],"evidenceLevel":"A","contextType":"astronomical-clock","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["月","おおぐま座","カシオペヤ座","オリオン座"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"},"125":{"skyTitle":"古い街に残された、天文を学ぶための写本","skyFact":"Sana’aの旧市街そのものに固有の星座伝承を無理に結びつけません。一方、Sana’aに保存されるYemenite manuscript collectionsには天文学を扱う非コーラン写本が含まれています。","loreEyebrow":"この街に残る知識の記憶","loreTitle":"夜空を、紙の上にも残す","lore":"UNESCOが紹介するSana’a Manuscriptsのコレクションには、地理・天文学・医学などを扱う希少な非宗教写本が含まれます。街は建物だけでなく、見上げた空を理解しようとした知識も保存してきました。","story":"見上げたものは消えても、\n書き残した問いは次の人に渡る。\n理解できなかった夜も、無駄にはならない。","discovery":"答えを残したかったのではなく、まだ分からないことを大切に持ち続ける方法を探していたのかもしれない。","sources":["https://www.unesco.org/en/articles/yemen-sanaa-manuscripts?hub=66973"],"evidenceLevel":"A/B","contextType":"astronomy-manuscripts","reflection":"気になったものがあれば、理由より先に、その小さな興味を残しておいてください。","skySigns":["オリオン座","シリウス","さそり座","天の川"],"skySignsNote":"同じ夜にすべてが同時に見えるとは限りません。季節・時刻・天候で見え方は変わります。"}};
@@ -692,7 +1597,7 @@ function showReading(){trackPO?.('po_result_view');
   $('readingIntro').textContent='行ったことはない。なのに、少し知っている気がする。';
   const regionLabel=current.place.country||current.place.region||'';$('placeName').textContent=current.place.name;$('placeCountry').textContent=regionWithFlag(regionLabel);
   $('placeScene').textContent=current.sceneLine;$('placeHeart').textContent=current.heart;
-  const photo=PO_PLACE_PHOTOS[current.place.name];
+  const photo=PO_PLACE_PHOTOS[current.place.name]||PO_PLACE_PHOTOS[current.place.id];
   const img=$('placePhoto'),fb=$('photoFallback'),credit=$('photoCredit');
   $('photoFallbackName').textContent=current.place.name;$('photoFallbackRegion').textContent=regionWithFlag(regionLabel);
   if(photo){
