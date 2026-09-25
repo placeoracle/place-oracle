@@ -797,7 +797,12 @@ function init(){
     {id:49,tone:"bright",scene:"光の路地",title:"朝のホーム",img:"story_49.jpg",fallback:"story_4.jpg",alt:"朝のホーム",focus:'48% 52%',zoom:'1.00',teaser:"昨日の続きを、今日も少しだけ育てればいい。",text:'昨日の続きを、今日も少しだけ育てればいい。\\n少し歩みを緩めると、同じ道にも昨日とは違う入口が見えてくる。',end:'今日は、一つだけ違う角度から見てみる。'},
     {id:50,tone:"quiet",scene:"夕暮れの遠景",title:"次の光",img:"story_50.jpg",fallback:"story_5.jpg",alt:"次の光",focus:'52% 50%',zoom:'1.00',teaser:"先が見えなくても、光の向きはわかる。",text:'先が見えなくても、光の向きはわかる。\\n先を全部見通せなくても、今いる場所から見える範囲は確かにある。',end:'次の一歩は、見えるところまででいい。'}
   ];
-  const activeStories=shuffle(storyPool).slice(0,10);
+  const activeStories=storyPool.slice();
+  for(let i=activeStories.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [activeStories[i],activeStories[j]]=[activeStories[j],activeStories[i]];
+  }
+  activeStories.length=10;
   const storyButtons=[...document.querySelectorAll('.story-card')];
   storyButtons.forEach((button,i)=>{
     const x=activeStories[i]; if(!x){button.hidden=true;return}
