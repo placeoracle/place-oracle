@@ -1632,7 +1632,7 @@ $('skySignsNote').textContent=sky.skySignsNote||'';$('loreEyebrow').textContent=
     sky.sources.forEach((url,i)=>{const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=`資料${i+1}`;$('skySources').append(a);if(i<sky.sources.length-1)$('skySources').append(document.createTextNode(' / '));});
   }
   $('mapNoteInput').value=localGet(mapKey,[]).find(x=>x.date===current.date&&!x.legacy)?.note||'';
-  $('save').textContent='この場所を私の地図に残す';
+  $('save').textContent='カードと星空を私の地図に残す';
   const c=current.cycle,p=profile;$('basisText').textContent=`生年月日の本命星 ${names[p.stars.h]}、月命星 ${names[p.stars.g]}、出生日の干支 ${p.stars.day.label}。${c.precise?`年盤中宮 ${names[c.yearStar]}、月盤中宮 ${names[c.monthStar]}。${c.term?`二十四節気 ${c.term}。`:''}`:'年盤・月盤と二十四節気は、この年の節入り時刻データを収録していないため表示を保留しています。'}日干支 ${c.day.label}。${p.entryStory?` 最初に惹かれた景色「${p.entryStory.scene}」と、ONE MOMENTで選んだ「${current.scene.name}」の重なりも解釈の入口として使っています。`:''}`;
   const fact=$('placeFact');fact.replaceChildren();
   const factText=document.createElement('span');factText.textContent=current.place.fact?`場所のFACT：${current.place.fact}　`:'この場所のFACTは資料確認中です。';fact.append(factText);
