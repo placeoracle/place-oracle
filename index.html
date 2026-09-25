@@ -1622,7 +1622,7 @@ function showReading(){trackPO?.('po_result_view');
   const sky=PO_SKY_STORIES[current.place.id];
   $('skySection').hidden=!sky;$('discoverySection').hidden=!sky;$('skySources').replaceChildren();
   if(sky){
-    $('skyTitle').textContent=sky.skyTitle;$('skyFact').textContent=sky.skyFact;$('skyCardPlace').textContent=[current.place.name,regionLabel].filter(Boolean).join(' · ');$('skyCardTitle').textContent=sky.skyTitle;$('skyCardSigns').textContent=(sky.skySigns||[]).join('　·　');$('skyCardNote').textContent=sky.skySignsNote||'星の見え方は季節・時刻・天候で変わります。';$('skyCardStatus').textContent='';$('skyCardSave').disabled=false;$('skyCardSave').onclick=()=>saveSkyCard(sky,current.place);
+    $('skyTitle').textContent=sky.skyTitle;$('skyFact').textContent=sky.skyFact;$('skyCardPlace').textContent=[current.place.name,regionLabel].filter(Boolean).join(' · ');$('skyCardTitle').textContent=sky.skyTitle;$('skyCardSigns').textContent=(sky.skySigns||[]).join('　·　');$('skyCardNote').textContent=(sky.skySignsNote||'星の見え方は季節・時刻・天候で変わります。')+' 星空の図柄はイメージです。';$('skyCardStatus').textContent='';$('skyCardSave').disabled=false;$('skyCardSave').onclick=()=>saveSkyCard(sky,current.place);
 const signs=$('skySigns');
 signs.innerHTML='';
 (sky.skySigns||[]).forEach(function(label){const span=document.createElement('span');span.className='sky-sign';span.textContent=label;signs.appendChild(span);});
@@ -1781,7 +1781,7 @@ async function saveSkyCard(sky,place){
     const glow=ctx.createRadialGradient(W*.72,H*.23,5,W*.72,H*.23,390);glow.addColorStop(0,'rgba(175,199,210,.24)');glow.addColorStop(1,'rgba(175,199,210,0)');
     ctx.fillStyle=glow;ctx.fillRect(0,0,W,H);
     ctx.fillStyle='rgba(5,17,27,.48)';ctx.fillRect(0,740,W,610);
-    ctx.fillStyle='#e3c992';ctx.font='600 24px system-ui,sans-serif';ctx.fillText('PLACE ORACLE  ·  SKY POSTCARD',72,820);
+    ctx.fillStyle='#a9c4cf';ctx.font='400 19px system-ui,sans-serif';ctx.fillText('この場所の星空イメージ',72,770);ctx.fillStyle='#e3c992';ctx.font='600 24px system-ui,sans-serif';ctx.fillText('PLACE ORACLE  ·  SKY POSTCARD',72,820);
     ctx.fillStyle='#dce7e7';ctx.font='400 26px system-ui,sans-serif';ctx.fillText([place.name,place.country||place.region].filter(Boolean).join(' · '),72,880);
     ctx.fillStyle='#fffaf0';ctx.font='600 54px "Yu Mincho","Hiragino Mincho ProN",serif';
     const wrap=(text,x,y,maxWidth,lineHeight,maxLines,font)=>{
