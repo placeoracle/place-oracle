@@ -271,7 +271,7 @@ footer small{color:#b9cfcc}
 <button class="story-card" data-story="9" type="button"><img src="story_05.jpg" onerror="this.onerror=null;this.src='story_5.jpg'" alt=""><span>PLACE ORACLE</span><strong>景色を読み込んでいます。</strong></button>
 </div>
 <div class="story-inline" id="storyInline" aria-live="polite">
-  <div class="story-inline-copy"><span class="eyebrow" id="inlineScene">SOMEONE'S VIEW</span><h3 id="inlineTitle">気になる景色を選んでみてください。</h3><p id="inlineText">短い物語を読んだあと、生年月日と今日惹かれる景色から、あなたの場所を見つけます。</p><strong id="inlineEnd"></strong></div><button class="text-button story-card-save" id="storyCardSave" type="button" hidden>このカードを画像で保存</button><p class="story-card-save-status" id="storyCardSaveStatus" role="status" aria-live="polite"></p>
+  <div class="story-inline-copy"><span class="eyebrow" id="inlineScene">SOMEONE'S VIEW</span><h3 id="inlineTitle">気になる景色を選んでみてください。</h3><p id="inlineText">短い物語を読んだあと、生年月日と今日惹かれる景色から、あなたの場所を見つけます。</p><strong id="inlineEnd"></strong><button class="text-button story-card-save" id="storyCardSave" type="button" hidden>このカードを画像で保存</button><p class="story-card-save-status" id="storyCardSaveStatus" role="status" aria-live="polite"></p></div>
   <p class="story-bridge" id="storyBridge">この景色に何かが残ったら、今の自分が惹かれる景色を選んでみてください。</p><button class="primary story-next-cta" id="storyNextCta" type="button">生年月日を入力して鑑定へ →</button>
 </div>
 <div class="swipe-note" id="storyHint" aria-live="polite"><span class="desktop-note">まだ景色は続きます →</span><span class="mobile-note">横にスワイプして、景色に触れる →</span></div></section>
@@ -1715,7 +1715,7 @@ async function saveStoryCard(story,sourceImage){
     ctx.fillStyle='#17363c';ctx.font='600 53px "Yu Mincho","Hiragino Mincho ProN",serif';
     const drawWrapped=(text,x,y,maxWidth,lineHeight,maxLines)=>{
       const lines=[];let line='';
-      for(const para of String(text||'').split('\\n')){
+      for(const para of String(text||'').split('\n')){
         if(!para){if(line)lines.push(line);line='';continue}
         for(const ch of para){
           const next=line+ch;
