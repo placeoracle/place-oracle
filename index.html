@@ -251,6 +251,7 @@ footer small{color:#b9cfcc}
   .form-inner .quiet-note{margin-top:18px;margin-bottom:0;font-size:.82rem;line-height:1.8}
   .theme-block{margin-bottom:34px}
 }
+.map-entry-visual{margin:14px 0 4px}.map-entry-photo{display:block;width:100%;max-height:210px;aspect-ratio:16/9;object-fit:cover;border-radius:8px;background:#e6e8e2}.map-entry-visual figcaption{margin-top:5px;font-size:10px;line-height:1.5;color:#7b8279;text-align:right}.map-entry-actions{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:7px}.map-entry-map{display:inline-block;padding:10px 0;color:var(--sea);font-size:13px;font-weight:600;text-decoration:none}.map-entry-map:focus-visible{outline:3px solid #dbab55;outline-offset:3px}
 </style></head>
 <body>
 <header class="topbar"><a href="#top" class="brand">PLACE <span>ORACLE</span></a><button class="map-link" id="mapOpen" type="button">私の地図 <span id="mapCount">0</span></button></header>
@@ -1634,7 +1635,44 @@ function openForToday(){
 }
 function buildDays(){const y=+$('birthYear').value,m=+$('birthMonth').value,old=$('birthDay').value;$('birthDay').innerHTML='<option value="">日</option>';if(!y||!m)return;const count=new Date(y,m,0).getDate();for(let d=1;d<=count;d++)$('birthDay').add(new Option(d+'日',d));if(old&&+old<=count)$('birthDay').value=old}
 function submit(){const y=+$('birthYear').value,m=+$('birthMonth').value,d=+$('birthDay').value,scene=document.querySelector('[name="scene"]:checked')?.value,theme=document.querySelector('[name="theme"]:checked')?.value||'';const err=$('formError');err.textContent='';if(!y||!m||!d||!scene){err.textContent='生年月日と、惹かれる景色を選んでください。';return}const stars=birthStars(y,m,d);if(stars.boundary){err.textContent='この生年月日は節入りに近く、出生時刻を使わない計算では星を確定できません。現在の版では鑑定を保留します。';return}const birth=`${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;profile={birth,scene,theme,stars,entryStory:entryStory||profile?.entryStory||null,firstSeen:profile?.birth===birth?profile.firstSeen:undefined,lastChoiceDate:dateKey()};localSet(storeKey,profile);$('begin').textContent='今の自分に重なる場所を見る →';$('begin').onclick=openForToday;showReading()}
-function updateMap(){const rows=localGet(mapKey,[]);$('mapCount').textContent=rows.length;$('mapEntries').replaceChildren();const recent=rows.filter(x=>!x.legacy).slice(-2);$('mapReflection').textContent=recent.length<2?'気になる景色や、そこに残した一言を、あとから見返せます。':recent[0].scene===recent[1].scene?`「${recent[1].scene}」をまた選んだ日。前回の気持ちと並べて眺めてみてください。`:`前は「${recent[0].scene}」、今度は「${recent[1].scene}」。惹かれる景色が変わったことも、地図に残っています。`;if(!rows.length){const p=document.createElement('p');p.textContent='まだ景色はありません。最初の一枚から始まります。';$('mapEntries').append(p);return}rows.slice().reverse().forEach((row,revIndex)=>{const index=rows.length-1-revIndex;const div=document.createElement('div');div.className='map-entry';const d=document.createElement('small');d.textContent=row.date;const h=document.createElement('strong');h.textContent=row.title;const s=document.createElement('span');s.textContent=`${row.place}${row.scene?' · '+row.scene:''}`;div.append(d,h,s);if(row.note){const note=document.createElement('p');note.className='map-entry-note';note.textContent=row.note;div.append(note)}const b=document.createElement('button');b.type='button';b.textContent='削除';b.addEventListener('click',()=>{localSet(mapKey,localGet(mapKey,[]).filter((_,i)=>i!==index));updateMap()});div.append(b);$('mapEntries').append(div)})}
+function updateMap(){
+  const rows=localGet(mapKey,[]);
+  $('mapCount').textContent=rows.length;
+  $('mapEntries').replaceChildren();
+  const recent=rows.filter(x=>!x.legacy).slice(-2);
+  $('mapReflection').textContent=recent.length<2?'気になる景色や、そこに残した一言を、あとから見返せます。':recent[0].scene===recent[1].scene?`「${recent[1].scene}」をまた選んだ日。前回の気持ちと並べて眺めてみてください。`:`前は「${recent[0].scene}」、今度は「${recent[1].scene}」。惹かれる景色が変わったことも、地図に残っています。`;
+  if(!rows.length){
+    const p=document.createElement('p');p.textContent='まだ景色はありません。最初の一枚から始まります。';
+    $('mapEntries').append(p);return;
+  }
+  rows.slice().reverse().forEach((row,revIndex)=>{
+    const index=rows.length-1-revIndex;
+    const div=document.createElement('div');div.className='map-entry';
+    const d=document.createElement('small');d.textContent=row.date;
+    const h=document.createElement('strong');h.textContent=row.title;
+    const s=document.createElement('span');s.textContent=`${row.place}${row.scene?' · '+row.scene:''}`;
+    div.append(d,h,s);
+    const photo=PO_PLACE_PHOTOS[row.place]||PO_PLACE_PHOTOS[row.placeId]||PO_PLACE_PHOTOS[(row.placeId||'').replace(/^daily-/,'')];
+    if(photo?.remote){
+      const figure=document.createElement('figure');figure.className='map-entry-visual';
+      const img=document.createElement('img');img.className='map-entry-photo';img.src=photo.remote;img.alt=`${row.place}の景色`;img.loading='lazy';
+      img.onerror=()=>figure.remove();
+      const caption=document.createElement('figcaption');
+      caption.textContent=[photo.author&&`Photo: ${photo.author}`,photo.license,'Wikimedia Commons'].filter(Boolean).join(' / ');
+      figure.append(img,caption);div.append(figure);
+    }
+    if(row.note){const note=document.createElement('p');note.className='map-entry-note';note.textContent=row.note;div.append(note)}
+    const actions=document.createElement('div');actions.className='map-entry-actions';
+    const mapLink=document.createElement('a');mapLink.className='map-entry-map';mapLink.textContent='この場所の地図を見る →';mapLink.target='_blank';mapLink.rel='noopener';
+    const query=[row.place,row.placeCountry].filter(Boolean).join(' ');
+    mapLink.href='https://maps.apple.com/?q='+encodeURIComponent(query);
+    actions.append(mapLink);
+    const b=document.createElement('button');b.type='button';b.textContent='削除';
+    b.addEventListener('click',()=>{localSet(mapKey,localGet(mapKey,[]).filter((_,i)=>i!==index));updateMap()});
+    actions.append(b);div.append(actions);
+    $('mapEntries').append(div);
+  });
+}
 function save(){
   if(!current)return;
   const existing=localGet(mapKey,[]);
@@ -1642,7 +1680,7 @@ function save(){
   const freeSaved=existing.filter(x=>!x.legacy).length>=1;
   if(!already&&freeSaved&&!isMember()){openMembership();return}
   const rows=existing.filter(x=>!(x.date===current.date&&!x.legacy));
-  rows.push({id:`current-${current.date}`,date:current.date,title:current.title,place:current.place.name,placeId:current.first?current.place.id:`daily-${current.place.id}`,scene:current.scene.name,sceneKey:profile.scene,poem:current.sceneLine,theme:current.theme.name,note:$('mapNoteInput').value.trim().slice(0,160)});
+  rows.push({id:`current-${current.date}`,date:current.date,title:current.title,place:current.place.name,placeCountry:current.place.country||current.place.region||'',placeId:current.first?current.place.id:`daily-${current.place.id}`,scene:current.scene.name,sceneKey:profile.scene,poem:current.sceneLine,theme:current.theme.name,note:$('mapNoteInput').value.trim().slice(0,160)});
   const ok=localSet(mapKey,rows.slice(-120));if(ok)trackPO?.('po_map_save',{place:current.place.name});
   $('save').textContent=ok?'私の地図に残しました ✓':'保存できませんでした';
   updateMap();
