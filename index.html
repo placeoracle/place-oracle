@@ -253,6 +253,7 @@ footer small{color:#b9cfcc}
 }
 .map-entry-visual{margin:14px 0 4px}.map-entry-photo{display:block;width:100%;max-height:210px;aspect-ratio:16/9;object-fit:cover;border-radius:8px;background:#e6e8e2}.map-entry-visual figcaption{margin-top:5px;font-size:10px;line-height:1.5;color:#7b8279;text-align:right}.map-entry-actions{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:7px}.map-entry-map{display:inline-block;padding:10px 0;color:var(--sea);font-size:13px;font-weight:600;text-decoration:none}.map-entry-map:focus-visible{outline:3px solid #dbab55;outline-offset:3px}
 .story-card-save{display:block;margin-top:12px;font-weight:600}.story-card-save-status{margin:4px 0 0;font-size:12px;color:#607476;line-height:1.6}
+.sky-postcard{margin:38px 0 0;padding-top:30px;border-top:1px solid rgba(255,255,255,.18)}.sky-postcard-preview{position:relative;isolation:isolate;overflow:hidden;display:flex;min-height:360px;flex-direction:column;justify-content:flex-end;gap:13px;padding:28px;border-radius:12px;color:#f8f4e9;background:radial-gradient(circle at 18% 24%,#f7eedb 0 1px,transparent 2px),radial-gradient(circle at 72% 17%,#d8e8ed 0 1px,transparent 2px),radial-gradient(circle at 54% 38%,#fff7df 0 1px,transparent 2px),radial-gradient(circle at 84% 55%,#c7dfe5 0 1px,transparent 2px),radial-gradient(ellipse at 68% 15%,#47657c 0,#22384e 36%,#102432 80%)}.sky-postcard-preview:before{content:"";position:absolute;inset:0;z-index:-1;opacity:.55;background-image:radial-gradient(1px 1px at 12% 18%,#fff 99%,transparent),radial-gradient(1px 1px at 39% 28%,#fff 99%,transparent),radial-gradient(2px 2px at 62% 24%,#fff 99%,transparent),radial-gradient(1px 1px at 89% 32%,#fff 99%,transparent),radial-gradient(1px 1px at 30% 50%,#fff 99%,transparent),radial-gradient(1px 1px at 76% 48%,#fff 99%,transparent)}.sky-postcard-kicker{font-size:10px;letter-spacing:.2em;color:#e2c98e}.sky-postcard-location{font-size:13px;letter-spacing:.12em;color:#d8e4e5}.sky-postcard-preview h4{max-width:620px;margin:0;font-size:clamp(25px,4vw,40px);line-height:1.55;color:#fffaf0}.sky-postcard-signs{margin:0;font-size:14px;line-height:1.8;color:#d9e2de}.sky-postcard-note,.sky-card-status{font-size:12px;line-height:1.7;color:#d9dfdb;margin:12px 0 0}.sky-postcard #skyCardSave{color:#f4ddb0;font-weight:600;margin-top:12px}.sky-card-status:empty{display:none}
 </style></head>
 <body>
 <header class="topbar"><a href="#top" class="brand">PLACE <span>ORACLE</span></a><button class="map-link" id="mapOpen" type="button">私の地図 <span id="mapCount">0</span></button></header>
@@ -287,7 +288,17 @@ footer small{color:#b9cfcc}
 <figure class="place-photo"><div class="place-photo-frame"><img id="placePhoto" alt=""><div class="photo-fallback" id="photoFallback" hidden><span>PLACE ORACLE</span><strong id="photoFallbackName"></strong><small id="photoFallbackRegion"></small></div></div><figcaption id="photoCredit"></figcaption></figure>
 <article class="place-story"><span class="eyebrow">今の自分に重なる場所</span><h3 id="placeName"></h3><span class="place-country" id="placeCountry"></span><p id="placeScene"></p></article>
 <article class="resonance"><span class="eyebrow">なぜ、この場所なのか</span><h3>あなたの何と重なっているのか</h3><p class="place-heart" id="placeHeart"></p></article>
-<article class="sky-section" id="skySection"><div class="lore-block"><span class="eyebrow" id="loreEyebrow">この土地と空に残る見聞</span><h4 id="loreTitle"></h4><p id="skyLore"></p></div><div class="sky-fact-block"><span class="eyebrow">この場所から見える空</span><h3 id="skyTitle"></h3><p id="skyFact"></p><div class="sky-signs-wrap"><span class="sky-signs-label">この空のしるし</span><div class="sky-signs" id="skySigns"></div><p class="sky-signs-note" id="skySignsNote"></p></div></div><div class="sky-story"><span class="eyebrow">空から生まれた物語</span><p id="skyStory"></p></div></article>
+<article class="sky-section" id="skySection"><div class="lore-block"><span class="eyebrow" id="loreEyebrow">この土地と空に残る見聞</span><h4 id="loreTitle"></h4><p id="skyLore"></p></div><div class="sky-fact-block"><span class="eyebrow">この場所から見える空</span><h3 id="skyTitle"></h3><p id="skyFact"></p><div class="sky-signs-wrap"><span class="sky-signs-label">この空のしるし</span><div class="sky-signs" id="skySigns"></div><p class="sky-signs-note" id="skySignsNote"></p></div></div><div class="sky-story"><span class="eyebrow">空から生まれた物語</span><p id="skyStory"></p></div><section class="sky-postcard" aria-label="この場所の星空カード">
+  <div class="sky-postcard-preview">
+    <span class="sky-postcard-kicker">PLACE ORACLE · SKY POSTCARD</span>
+    <span class="sky-postcard-location" id="skyCardPlace"></span>
+    <h4 id="skyCardTitle"></h4>
+    <p class="sky-postcard-signs" id="skyCardSigns"></p>
+  </div>
+  <p class="sky-postcard-note" id="skyCardNote"></p>
+  <button class="text-button" id="skyCardSave" type="button">この場所の星空カードを保存</button>
+  <p class="sky-card-status" id="skyCardStatus" role="status" aria-live="polite"></p>
+</section></article>
 <article class="discovery" id="discoverySection"><span class="eyebrow">あなたに残るもの</span><p id="skyDiscovery"></p><p class="reflection-question" id="skyReflection"></p></article>
 <div class="map-note-field"><label for="mapNoteInput">残しておきたい一言 <small>任意・160字まで</small></label><textarea id="mapNoteInput" maxlength="160" rows="2" placeholder="あとで自分が読み返したい言葉を一つ"></textarea></div>
 <div class="reading-actions"><button class="primary" id="save" type="button">この場所を私の地図に残す</button><button class="text-button" id="openMapFromReading" type="button">私の地図を見る</button></div>
@@ -1611,7 +1622,7 @@ function showReading(){trackPO?.('po_result_view');
   const sky=PO_SKY_STORIES[current.place.id];
   $('skySection').hidden=!sky;$('discoverySection').hidden=!sky;$('skySources').replaceChildren();
   if(sky){
-    $('skyTitle').textContent=sky.skyTitle;$('skyFact').textContent=sky.skyFact;
+    $('skyTitle').textContent=sky.skyTitle;$('skyFact').textContent=sky.skyFact;$('skyCardPlace').textContent=[current.place.name,regionLabel].filter(Boolean).join(' · ');$('skyCardTitle').textContent=sky.skyTitle;$('skyCardSigns').textContent=(sky.skySigns||[]).join('　·　');$('skyCardNote').textContent=sky.skySignsNote||'星の見え方は季節・時刻・天候で変わります。';$('skyCardStatus').textContent='';$('skyCardSave').disabled=false;$('skyCardSave').onclick=()=>saveSkyCard(sky,current.place);
 const signs=$('skySigns');
 signs.innerHTML='';
 (sky.skySigns||[]).forEach(function(label){const span=document.createElement('span');span.className='sky-sign';span.textContent=label;signs.appendChild(span);});
@@ -1749,6 +1760,66 @@ async function saveStoryCard(story,sourceImage){
   }catch(error){
     status.textContent=error?.name==='AbortError'?'保存をキャンセルしました。':'カード画像を作成できませんでした。もう一度お試しください。';
     console.error('PLACE ORACLE card save error:',error);
+  }finally{button.disabled=false}
+}
+async function saveSkyCard(sky,place){
+  const button=$('skyCardSave'),status=$('skyCardStatus');
+  if(!sky||!place||!button)return;
+  button.disabled=true;status.textContent='星空カードを作成しています…';
+  try{
+    const canvas=document.createElement('canvas');canvas.width=1080;canvas.height=1350;
+    const ctx=canvas.getContext('2d');if(!ctx)throw new Error('Canvas is unavailable');
+    const W=canvas.width,H=canvas.height;
+    const bg=ctx.createLinearGradient(0,0,W,H);bg.addColorStop(0,'#294760');bg.addColorStop(.5,'#132b40');bg.addColorStop(1,'#091924');
+    ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+    let seed=0;for(const ch of String(place.id||place.name))seed=(seed*31+ch.charCodeAt(0))>>>0;
+    const rand=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296};
+    for(let n=0;n<210;n++){
+      const x=45+rand()*(W-90),y=50+rand()*710,r=rand()>.94?3:rand()>.6?1.8:1;
+      ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fillStyle=n%5===0?'rgba(240,220,166,.9)':'rgba(232,242,246,.82)';ctx.fill();
+    }
+    const glow=ctx.createRadialGradient(W*.72,H*.23,5,W*.72,H*.23,390);glow.addColorStop(0,'rgba(175,199,210,.24)');glow.addColorStop(1,'rgba(175,199,210,0)');
+    ctx.fillStyle=glow;ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='rgba(5,17,27,.48)';ctx.fillRect(0,740,W,610);
+    ctx.fillStyle='#e3c992';ctx.font='600 24px system-ui,sans-serif';ctx.fillText('PLACE ORACLE  ·  SKY POSTCARD',72,820);
+    ctx.fillStyle='#dce7e7';ctx.font='400 26px system-ui,sans-serif';ctx.fillText([place.name,place.country||place.region].filter(Boolean).join(' · '),72,880);
+    ctx.fillStyle='#fffaf0';ctx.font='600 54px "Yu Mincho","Hiragino Mincho ProN",serif';
+    const wrap=(text,x,y,maxWidth,lineHeight,maxLines,font)=>{
+      ctx.font=font;const lines=[];let line='';
+      for(const para of String(text||'').split(String.fromCharCode(10))){
+        if(!para){if(line)lines.push(line);line='';continue}
+        for(const ch of Array.from(para)){
+          const next=line+ch;
+          if(line&&ctx.measureText(next).width>maxWidth){lines.push(line);line=ch}else line=next;
+        }
+        if(line){lines.push(line);line=''}
+      }
+      const visible=lines.slice(0,maxLines);
+      if(lines.length>maxLines&&visible.length)visible[visible.length-1]=visible[visible.length-1].slice(0,-1)+'…';
+      visible.forEach((lineText,index)=>ctx.fillText(lineText,x,y+index*lineHeight));
+      return y+visible.length*lineHeight;
+    };
+    let y=wrap(sky.skyTitle||'この場所から見上げる空',72,965,W-144,70,2,'600 54px "Yu Mincho","Hiragino Mincho ProN",serif');
+    ctx.fillStyle='#d6e0de';ctx.font='400 29px system-ui,sans-serif';
+    y=wrap(sky.skyFact||'',72,y+24,W-144,45,3,'400 29px system-ui,sans-serif');
+    const labels=(sky.skySigns||[]).slice(0,5);
+    ctx.fillStyle='#e4cb94';ctx.font='600 25px system-ui,sans-serif';
+    wrap(labels.length?labels.join('  ·  '):'星の見え方は季節と時刻で移り変わります',72,1190,W-144,39,2,'600 25px system-ui,sans-serif');
+    ctx.fillStyle='#becdd0';ctx.font='400 18px system-ui,sans-serif';
+    wrap(sky.skySignsNote||'星の見え方は季節・時刻・天候で変わります。',72,1300,W-144,28,1,'400 18px system-ui,sans-serif');
+    const blob=await new Promise((resolve,reject)=>canvas.toBlob(file=>file?resolve(file):reject(new Error('Image export failed')),'image/png'));
+    const safeName=String(place.name||'sky').replace(/[\\/:*?"<>|]/g,'_').slice(0,32);
+    const filename='PLACE-ORACLE-SKY-'+safeName+'.png',file=new File([blob],filename,{type:'image/png'});
+    if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){
+      await navigator.share({files:[file],title:'PLACE ORACLE｜'+place.name+'の星空'});
+      status.textContent='星空カードを共有しました。保存先を選べます。';
+    }else{
+      const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(url),60000);
+      status.textContent='星空カード画像を保存しました。';
+    }
+  }catch(error){
+    status.textContent=error?.name==='AbortError'?'保存をキャンセルしました。':'星空カードを作成できませんでした。もう一度お試しください。';
+    console.error('PLACE ORACLE sky card save error:',error);
   }finally{button.disabled=false}
 }
 function init(){
