@@ -828,7 +828,7 @@ function init(){
   const openSceneForm=()=>showForm(profile?'daily':'first');
   $('storyNextCta').onclick=openSceneForm;
   processMembershipReturn();
-  const year=new Date().getFullYear();for(let y=year;y>=1900;y--)$('birthYear').add(new Option(y+'年',y));for(let m=1;m<=12;m++)$('birthMonth').add(new Option(m+'月',m));$('birthYear').addEventListener('change',buildDays);$('birthMonth').addEventListener('change',buildDays);migratePreviousMap();profile=localGet(storeKey,null);if(profile?.entryStory)entryStory=profile.entryStory;if(profile?.birth&&profile?.scene&&profile?.stars){$('begin').textContent='今の自分に重なる場所を見る →';$('begin').onclick=openForToday}else $('begin').onclick=()=>showForm();$('changeBirth').onclick=()=>{$('birthBlock').hidden=false;$('changeBirth').hidden=true};$('back').onclick=()=>{ $('formSection').hidden=true;$('someone').scrollIntoView({behavior:'smooth'})};$('readBack').onclick=()=>{$('reading').hidden=true;$('membership').hidden=true;$('someone').scrollIntoView({behavior:'smooth'})};$('read').onclick=submit;$('save').onclick=save;$('mapOpen').onclick=$('openMapFromReading').onclick=()=>{$('mapDialog').showModal()};$('mapClose').onclick=()=>$('mapDialog').close();$('mapClear').onclick=()=>{if(confirm('この端末に残した景色をすべて消しますか？')){localSet(mapKey,[]);updateMap()}};
+  const year=new Date().getFullYear();for(let y=year;y>=1900;y--)$('birthYear').add(new Option(y+'年',y));for(let m=1;m<=12;m++)$('birthMonth').add(new Option(m+'月',m));$('birthYear').addEventListener('change',buildDays);$('birthMonth').addEventListener('change',buildDays);migratePreviousMap();profile=localGet(storeKey,null);if(profile?.entryStory)entryStory=profile.entryStory;if(profile?.birth&&profile?.scene&&profile?.stars){$('begin').textContent='今の自分に重なる場所を見る →';$('begin').onclick=openForToday}else $('begin').onclick=()=>showForm();$('changeBirth').onclick=()=>{$('birthBlock').hidden=false;$('changeBirth').hidden=true};$('back').onclick=()=>{ $('formSection').hidden=true;$('someone').scrollIntoView({behavior:'smooth'})};$('readBack').onclick=()=>{$('reading').hidden=true;$('membership').hidden=true;$('someone').scrollIntoView({behavior:'smooth'})};$('save').onclick=save;$('mapOpen').onclick=$('openMapFromReading').onclick=()=>{$('mapDialog').showModal()};$('mapClose').onclick=()=>$('mapDialog').close();$('mapClear').onclick=()=>{if(confirm('この端末に残した景色をすべて消しますか？')){localSet(mapKey,[]);updateMap()}};
 
   const storyRail=document.querySelector('.story-rail'),storyHint=$('storyHint');
   const updateStoryHint=()=>{
@@ -846,6 +846,21 @@ function init(){
   $('buyYearly').onclick=()=>goToCheckout('yearly');
   updateMap()
 }
+const readButton=$('read');
+readButton?.addEventListener('click',()=>{
+  try{
+    submit();
+  }catch(error){
+    console.error('PLACE ORACLE result display error:',error);
+    const message=$('formError');
+    if(message){
+      $('reading').hidden=true;
+      $('formSection').hidden=false;
+      message.textContent='鑑定結果を表示できませんでした。入力内容は残っています。再度お試しください。';
+      $('formSection').scrollIntoView({behavior:'smooth',block:'start'});
+    }
+  }
+});
 if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init,{once:true});}else{init();}
 })();
 
