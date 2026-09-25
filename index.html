@@ -252,7 +252,6 @@ footer small{color:#b9cfcc}
   .theme-block{margin-bottom:34px}
 }
 .map-entry-visual{margin:14px 0 4px}.map-entry-photo{display:block;width:100%;max-height:210px;aspect-ratio:16/9;object-fit:cover;border-radius:8px;background:#e6e8e2}.map-entry-visual figcaption{margin-top:5px;font-size:10px;line-height:1.5;color:#7b8279;text-align:right}.map-entry-actions{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:7px}.map-entry-map{display:inline-block;padding:10px 0;color:var(--sea);font-size:13px;font-weight:600;text-decoration:none}.map-entry-map:focus-visible{outline:3px solid #dbab55;outline-offset:3px}
-.story-card-save{display:block;margin-top:12px;font-weight:600}.story-card-save-status{margin:4px 0 0;font-size:12px;color:#607476;line-height:1.6}
 .sky-postcard{margin:38px 0 0;padding-top:30px;border-top:1px solid rgba(255,255,255,.18)}.sky-postcard-preview{position:relative;isolation:isolate;overflow:hidden;display:flex;min-height:360px;flex-direction:column;justify-content:flex-end;gap:13px;padding:28px;border-radius:12px;color:#f8f4e9;background:radial-gradient(circle at 18% 24%,#f7eedb 0 1px,transparent 2px),radial-gradient(circle at 72% 17%,#d8e8ed 0 1px,transparent 2px),radial-gradient(circle at 54% 38%,#fff7df 0 1px,transparent 2px),radial-gradient(circle at 84% 55%,#c7dfe5 0 1px,transparent 2px),radial-gradient(ellipse at 68% 15%,#47657c 0,#22384e 36%,#102432 80%)}.sky-postcard-preview:before{content:"";position:absolute;inset:0;z-index:-1;opacity:.55;background-image:radial-gradient(1px 1px at 12% 18%,#fff 99%,transparent),radial-gradient(1px 1px at 39% 28%,#fff 99%,transparent),radial-gradient(2px 2px at 62% 24%,#fff 99%,transparent),radial-gradient(1px 1px at 89% 32%,#fff 99%,transparent),radial-gradient(1px 1px at 30% 50%,#fff 99%,transparent),radial-gradient(1px 1px at 76% 48%,#fff 99%,transparent)}.sky-postcard-kicker{font-size:10px;letter-spacing:.2em;color:#e2c98e}.sky-postcard-location{font-size:13px;letter-spacing:.12em;color:#d8e4e5}.sky-postcard-preview h4{max-width:620px;margin:0;font-size:clamp(25px,4vw,40px);line-height:1.55;color:#fffaf0}.sky-postcard-signs{margin:0;font-size:14px;line-height:1.8;color:#d9e2de}.sky-postcard-note,.sky-card-status{font-size:12px;line-height:1.7;color:#d9dfdb;margin:12px 0 0}.sky-postcard #skyCardSave{color:#f4ddb0;font-weight:600;margin-top:12px}.sky-card-status:empty{display:none}
 .map-result-card,.map-story-card{margin-top:18px;padding:18px;border-radius:10px;background:#f5f1e8}.map-card-label{display:block;font-size:10px;letter-spacing:.16em;color:#ad8a52}.map-result-card h4,.map-story-card h4,.map-sky-card h4{margin:8px 0;font-size:20px;line-height:1.5;color:var(--ink)}.map-card-poem,.map-story-card p{white-space:pre-line;line-height:1.8;color:#536c6b}.map-card-details{margin-top:12px}.map-card-details summary{cursor:pointer;color:var(--sea);font-size:13px}.map-card-details p{white-space:pre-line;line-height:1.8;color:#536c6b}.map-card-action{padding-top:10px;border-top:1px solid var(--line)}.map-story-card-image{display:block;width:100%;max-height:220px;aspect-ratio:16/9;object-fit:cover;border-radius:8px;margin-top:12px}.map-story-card strong{display:block;margin-top:10px;line-height:1.7}.map-sky-card{position:relative;overflow:hidden;margin-top:18px;padding:22px;border-radius:10px;color:#f8f4e9;background:radial-gradient(circle at 80% 12%,#47657c,#22384e 44%,#102432 86%)}.map-sky-label{display:block;font-size:10px;letter-spacing:.16em;color:#e2c98e}.map-sky-card h4{color:#fffaf0}.map-sky-card p{line-height:1.8;color:#dce5e3;white-space:pre-line}.map-sky-signs{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}.map-sky-signs span{display:inline-flex;padding:6px 10px;border:1px solid #d9e3df55;border-radius:99px;color:#f2e2bb;font-size:12px}.map-sky-note{display:block;margin-top:13px;color:#b9c9cc;line-height:1.7}.map-sky-story{padding-top:12px;border-top:1px solid #d9e3df33;font-family:serif;font-size:18px}
 .location-help{margin:-28px 0 42px;color:#637c7d;font-size:13px;line-height:1.8}.location-selects{display:grid;gap:10px}.location-selects select{width:100%;min-height:50px;border:1px solid #becbc7;border-radius:3px;padding:12px;background:#fff;color:var(--ink);font-size:16px}.location-block small{display:block;font-size:12px;font-weight:400;color:#637c7d;margin-top:8px}.location-block select:disabled{background:#f0eee8;color:#9b9b92}</style></head>
@@ -273,7 +272,7 @@ footer small{color:#b9cfcc}
 <button class="story-card" data-story="9" type="button"><img src="story_05.jpg" onerror="this.onerror=null;this.src='story_5.jpg'" alt=""><span>PLACE ORACLE</span><strong>景色を読み込んでいます。</strong></button>
 </div>
 <div class="story-inline" id="storyInline" aria-live="polite">
-  <div class="story-inline-copy"><span class="eyebrow" id="inlineScene">SOMEONE'S VIEW</span><h3 id="inlineTitle">気になる景色を選んでみてください。</h3><p id="inlineText">短い物語を読んだあと、生年月日と今日惹かれる景色から、あなたの場所を見つけます。</p><strong id="inlineEnd"></strong><button class="text-button story-card-save" id="storyCardSave" type="button" hidden>このカードを画像で保存</button><p class="story-card-save-status" id="storyCardSaveStatus" role="status" aria-live="polite"></p></div>
+  <div class="story-inline-copy"><span class="eyebrow" id="inlineScene">SOMEONE'S VIEW</span><h3 id="inlineTitle">気になる景色を選んでみてください。</h3><p id="inlineText">短い物語を読んだあと、生年月日と今日惹かれる景色から、あなたの場所を見つけます。</p><strong id="inlineEnd"></strong></div>
   <p class="story-bridge" id="storyBridge">この景色に何かが残ったら、今の自分が惹かれる景色を選んでみてください。</p><button class="primary story-next-cta" id="storyNextCta" type="button">生年月日を入力して鑑定へ →</button>
 </div>
 <div class="swipe-note" id="storyHint" aria-live="polite"><span class="desktop-note">まだ景色は続きます →</span><span class="mobile-note">横にスワイプして、景色に触れる →</span></div></section>
@@ -1788,70 +1787,6 @@ function save(){
   updateMap();
   if(ok&&!isMember()&&rows.filter(x=>!x.legacy).length===1)setTimeout(openMembership,650);
 }
-async function saveStoryCard(story,sourceImage){
-  const button=$('storyCardSave'),status=$('storyCardSaveStatus');
-  if(!story||!button)return;
-  button.disabled=true;status.textContent='カード画像を作成しています…';
-  try{
-    const canvas=document.createElement('canvas');canvas.width=1080;canvas.height=1350;
-    const ctx=canvas.getContext('2d');if(!ctx)throw new Error('Canvas is unavailable');
-    const W=canvas.width,H=canvas.height,photoH=720;
-    ctx.fillStyle='#f4f0e7';ctx.fillRect(0,0,W,H);
-    if(sourceImage&&sourceImage.complete&&sourceImage.naturalWidth){
-      const sw=sourceImage.naturalWidth,sh=sourceImage.naturalHeight,scale=Math.max(W/sw,photoH/sh);
-      const cw=W/scale,ch=photoH/scale,sx=(sw-cw)/2,sy=(sh-ch)/2;
-      ctx.drawImage(sourceImage,sx,sy,cw,ch,0,0,W,photoH);
-      const shade=ctx.createLinearGradient(0,photoH*.45,0,photoH);
-      shade.addColorStop(0,'rgba(9,30,39,0)');shade.addColorStop(1,'rgba(9,30,39,.82)');
-      ctx.fillStyle=shade;ctx.fillRect(0,0,W,photoH);
-    }else{
-      const bg=ctx.createLinearGradient(0,0,W,photoH);bg.addColorStop(0,'#315f67');bg.addColorStop(1,'#102f3b');
-      ctx.fillStyle=bg;ctx.fillRect(0,0,W,photoH);
-    }
-    ctx.fillStyle='#f5e6c4';ctx.font='600 25px system-ui,sans-serif';ctx.letterSpacing='5px';
-    ctx.fillText('PLACE ORACLE',72,76);ctx.letterSpacing='0px';
-    ctx.fillStyle='#fffaf0';ctx.font='500 31px system-ui,sans-serif';
-    ctx.fillText('#'+String(story.id).padStart(2,'0')+'  ·  '+(story.title||story.alt||''),72,photoH-62);
-    ctx.fillStyle='#ad8a52';ctx.font='600 23px system-ui,sans-serif';ctx.fillText('SOMEONE’S VIEW',72,photoH+72);
-    ctx.fillStyle='#17363c';ctx.font='600 53px "Yu Mincho","Hiragino Mincho ProN",serif';
-    const drawWrapped=(text,x,y,maxWidth,lineHeight,maxLines)=>{
-      const lines=[];let line='';
-      for(const para of String(text||'').split('\n')){
-        if(!para){if(line)lines.push(line);line='';continue}
-        for(const ch of para){
-          const next=line+ch;
-          if(line&&ctx.measureText(next).width>maxWidth){lines.push(line);line=ch}else line=next;
-        }
-        if(line){lines.push(line);line=''}
-      }
-      const show=lines.slice(0,maxLines);
-      if(lines.length>maxLines&&show.length)show[show.length-1]=show[show.length-1].slice(0,-1)+'…';
-      show.forEach((lineText,i)=>ctx.fillText(lineText,x,y+i*lineHeight));
-      return y+show.length*lineHeight;
-    };
-    let y=drawWrapped(story.title||story.alt,72,photoH+150,W-144,68,2);
-    ctx.fillStyle='#425b5c';ctx.font='400 31px "Yu Mincho","Hiragino Mincho ProN",serif';
-    y=drawWrapped(story.text||story.teaser,72,y+25,W-144,48,4);
-    ctx.fillStyle='#ad8a52';ctx.fillRect(72,H-170,72,3);
-    ctx.fillStyle='#17363c';ctx.font='600 27px system-ui,sans-serif';drawWrapped(story.end||story.teaser,72,H-120,W-144,38,2);
-    ctx.fillStyle='#7b8983';ctx.font='400 18px system-ui,sans-serif';ctx.fillText('遠い景色から、まだ知らない自分へ。',72,H-36);
-    const blob=await new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(new Error('Image export failed')),'image/png'));
-    const safeTitle=(story.title||'scene').replace(/[\\/:*?"<>|]/g,'_').slice(0,32);
-    const filename='PLACE-ORACLE-'+String(story.id).padStart(2,'0')+'-'+safeTitle+'.png';
-    const file=new File([blob],filename,{type:'image/png'});
-    if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){
-      await navigator.share({files:[file],title:'PLACE ORACLE｜'+(story.title||'景色')});
-      status.textContent='カードを共有しました。保存先を選べます。';
-    }else{
-      const url=URL.createObjectURL(blob),a=document.createElement('a');
-      a.href=url;a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(url),60000);
-      status.textContent='カード画像を保存しました。';
-    }
-  }catch(error){
-    status.textContent=error?.name==='AbortError'?'保存をキャンセルしました。':'カード画像を作成できませんでした。もう一度お試しください。';
-    console.error('PLACE ORACLE card save error:',error);
-  }finally{button.disabled=false}
-}
 async function saveSkyCard(sky,place){
   const button=$('skyCardSave'),status=$('skyCardStatus');
   if(!sky||!place||!button)return;
@@ -1988,7 +1923,6 @@ function init(){
     $('inlineTitle').textContent=x.title;
     $('inlineText').textContent=x.text||x.teaser;
     $('inlineEnd').textContent=x.end||'';
-    $('storyCardSave').hidden=false;$('storyCardSaveStatus').textContent='';$('storyCardSave').onclick=()=>saveStoryCard(x,storyButtons[i].querySelector('img'));
     entryStory={id:x.id,tone:x.tone,scene:x.title,title:x.title,img:x.img,fallback:x.fallback,text:x.text,sceneKey:storySceneKey[x.scene]||'',teaser:x.teaser,end:x.end};
     storyButtons.forEach((b,n)=>b.setAttribute('aria-pressed',n===i?'true':'false'));
     $('storyInline').classList.add('is-active');
