@@ -1343,6 +1343,7 @@ const PO_SKY_STORIES={"geiranger":{"skyTitle":"北の空に残る星","skyFact":
 
 </script><script>
 const PLACE_ORACLE_BILLING = {
+  billingEnabled: false, // 決済と会員確認が整うまで会員制限を停止
   currency: "JPY",
   monthly: {
     price: 480,
@@ -1436,6 +1437,7 @@ const storeKey='place_oracle_v5_profile', mapKey='place_oracle_v5_map', membersh
 function membershipState(){return localGet(membershipKey,{active:false,plan:null});}
 function isMember(){return Boolean(PLACE_ORACLE_BILLING?.localPreviewMember||membershipState().active);}
 function configuredLink(v){return typeof v==='string'&&/^https:\/\//.test(v)&&!v.includes('STRIPE_');}
+function membershipGateEnabled(){return PLACE_ORACLE_BILLING.billingEnabled&&configuredLink(PLACE_ORACLE_BILLING.monthly.paymentLink)&&configuredLink(PLACE_ORACLE_BILLING.yearly.paymentLink);}
 function openMembership(){trackPO?.('po_paywall_view');
   const msg=$('billingMessage');if(msg)msg.textContent='';
   $('membershipDialog').showModal();
@@ -1669,12 +1671,12 @@ $('skySignsNote').textContent=sky.skySignsNote||'';$('loreEyebrow').textContent=
 function showForm(mode='first'){trackPO?.('po_start',{mode});$('membership').hidden=true;const returning=mode==='daily'&&Boolean(profile);formStage='input';pendingProfile=null;$('formSection').hidden=false;$('reading').hidden=true;$('formTitle').innerHTML=returning?'今日の景色から、<br>新しい場所へ。':'生年月日と、<br>いまの景色から。';$('formLead').innerHTML=returning?'生まれた日はそのままに。今日惹かれる景色から場所を探します。':'生まれた日と、今この瞬間に惹かれる景色から、あなたに重なる場所を見つけます。';$('birthBlock').hidden=returning;document.querySelectorAll('.location-block').forEach(x=>x.hidden=false);document.querySelector('.location-help').hidden=false;$('sceneBlock').hidden=false;$('themeBlock').hidden=true;$('placePreview').hidden=true;$('quietNote').hidden=false;$('changeBirth').hidden=!returning;$('desktopReadLabel').textContent='景色から場所を探す';$('mobileReadLabel').textContent='場所を探す';$('formError').textContent='';document.querySelectorAll('[name="scene"],[name="theme"]').forEach(x=>x.checked=false);$('formSection').scrollIntoView({behavior:'smooth'});if(profile){const [y,m,d]=profile.birth.split('-');$('birthYear').value=y;$('birthMonth').value=Number(m);buildDays();$('birthDay').value=Number(d)}restoreLocationSelectors()}
 function openForToday(){
   if(profile?.lastChoiceDate===dateKey()){showReading();return}
-  if(profile?.firstSeen&&!isMember()){openMembership();return}
+  if(membershipGateEnabled()&&profile?.firstSeen&&!isMember()){openMembership();return}
   showForm('daily')
 }
 function findNewPlace(){
   $('mapDialog').close();
-  if(profile?.firstSeen&&!isMember()){openMembership();return}
+  if(membershipGateEnabled()&&profile?.firstSeen&&!isMember()){openMembership();return}
   showForm(profile?.birth?'daily':'first');
 }
 function populateMunicipalities(prefId,cityId,selectedCode=''){const pref=$(prefId).value,select=$(cityId);select.replaceChildren(new Option(pref?'市町村を選択':'先に都道府県を選択',''));select.disabled=!pref;if(pref){for(const [code,name] of (JP_MUNICIPALITIES[pref]||[]))select.add(new Option(name,code));if(selectedCode)select.value=selectedCode}}
@@ -1778,7 +1780,7 @@ function save(){
   const existing=localGet(mapKey,[]);
   const already=existing.some(x=>x.date===current.date&&!x.legacy);
   const freeSaved=existing.filter(x=>!x.legacy).length>=1;
-  if(!already&&freeSaved&&!isMember()){openMembership();return}
+  if(membershipGateEnabled()&&!already&&freeSaved&&!isMember()){openMembership();return}
   const rows=existing.filter(x=>!(x.date===current.date&&!x.legacy));
   const sky=PO_SKY_STORIES[current.place.id];
   const savedStory=entryStory?{id:entryStory.id,title:entryStory.title||entryStory.scene,img:entryStory.img||'',fallback:entryStory.fallback||'',text:entryStory.text||'',teaser:entryStory.teaser||'',end:entryStory.end||''}:null;
@@ -1787,7 +1789,7 @@ function save(){
   const ok=localSet(mapKey,rows.slice(-120));if(ok)trackPO?.('po_map_save',{place:current.place.name});
   $('save').textContent=ok?'カードと星空を私の地図に残しました ✓':'保存できませんでした';
   updateMap();
-  if(ok&&!isMember()&&rows.filter(x=>!x.legacy).length===1)setTimeout(openMembership,650);
+  if(ok&&membershipGateEnabled()&&!isMember()&&rows.filter(x=>!x.legacy).length===1)setTimeout(openMembership,650);
 }
 async function saveSkyCard(sky,place){
   const button=$('skyCardSave'),status=$('skyCardStatus');
