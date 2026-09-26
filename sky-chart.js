@@ -20,7 +20,7 @@
   function chartSpec(id,dateKey){
     const point=data&&data.coords[id];if(!point)return null;
     const date=localDateAt21(dateKey,point[2]);if(!date||Number.isNaN(+date))return null;
-    return {id,dateKey,date,lat:point[0],lon:point[1],timeZone:point[2],source:'https://whc.unesco.org/en/list/'+point[3]+'/maps/'};
+    return {id,dateKey,date,lat:point[0],lon:point[1],timeZone:point[2],source:String(point[3]).startsWith('https://')?point[3]:'https://whc.unesco.org/en/list/'+point[3]+'/maps/',reference:point[4]||'世界遺産の登録地点'};
   }
   function position(ra,dec,spec){
     const jd=spec.date.getTime()/86400000+2440587.5,T=(jd-2451545)/36525;
