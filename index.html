@@ -284,6 +284,19 @@ footer small{color:#b9cfcc}
 .resonance .eyebrow,.discovery .eyebrow{width:max-content;max-width:100%;padding-bottom:7px;border-bottom:2px solid var(--gold)}
 .reading-actions .text-button,.sky-postcard #skyCardSave,.back,.map-entry-map,.basis a,#skySources a{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}
 .theme-options label:has(input:checked) span,.scene-options label:has(input:checked) span{font-weight:700}
+
+/* Story paragraphs: sentence units stay readable on mobile */
+.story-inline .story-text{margin:12px 0 0;color:#587174}
+.story-inline .story-text p{margin:0;font-size:16px;line-height:1.9;white-space:normal}
+.story-inline .story-text p+p{margin-top:12px}
+.story-inline-copy strong{padding-top:15px;border-top:1px solid rgba(83,112,111,.22);font-size:17px;line-height:1.75}
+@media(max-width:650px){
+  .story-inline{padding:22px 16px}
+  .story-inline .story-text p{font-size:15px;line-height:1.9;letter-spacing:-.01em}
+  .story-inline .story-text p+p{margin-top:10px}
+  .story-inline-copy strong{margin-top:17px;padding-top:15px;font-size:17px;line-height:1.7}
+  .story-bridge{margin-top:15px!important}
+}
 </style></head>
 <body>
 <header class="topbar"><a href="#top" class="brand">PLACE <span>ORACLE</span></a><button class="map-link" id="mapOpen" type="button">私の地図 <span id="mapCount">0</span></button></header>
@@ -302,7 +315,7 @@ footer small{color:#b9cfcc}
 <button class="story-card" data-story="9" type="button"><img src="story_05.jpg" onerror="this.onerror=null;this.src='story_5.jpg'" alt=""><span>PLACE ORACLE</span><strong>景色を読み込んでいます。</strong></button>
 </div>
 <div class="story-inline" id="storyInline" aria-live="polite">
-  <div class="story-inline-copy"><span class="eyebrow" id="inlineScene">SOMEONE'S VIEW</span><h3 id="inlineTitle">気になる景色を選んでみてください。</h3><p id="inlineText">短い物語を読んだあと、生年月日と今日惹かれる景色から、あなたの場所を見つけます。</p><strong id="inlineEnd"></strong></div>
+  <div class="story-inline-copy"><span class="eyebrow" id="inlineScene">SOMEONE'S VIEW</span><h3 id="inlineTitle">気になる景色を選んでみてください。</h3><div id="inlineText" class="story-text">短い物語を読んだあと、生年月日と今日惹かれる景色から、あなたの場所を見つけます。</div><strong id="inlineEnd"></strong></div>
   <p class="story-bridge" id="storyBridge">この景色に何かが残ったら、今の自分が惹かれる景色を選んでみてください。</p><button class="primary story-next-cta" id="storyNextCta" type="button">生年月日を入力して鑑定へ →</button>
 </div>
 <div class="swipe-note" id="storyHint" aria-live="polite"><span class="desktop-note">まだ景色は続きます →</span><span class="mobile-note">横にスワイプして、景色に触れる →</span></div></section>
@@ -2013,7 +2026,8 @@ function init(){
     const x=activeStories[i]; if(!x)return;
     $('inlineScene').textContent=`#${String(x.id).padStart(2,'0')} · ${x.title}`;
     $('inlineTitle').textContent=x.title;
-    $('inlineText').textContent=x.text||x.teaser;
+    const storyText=$('inlineText');storyText.replaceChildren();
+    String(x.text||x.teaser).split('\n').filter(Boolean).forEach(line=>{const paragraph=document.createElement('p');paragraph.textContent=line;storyText.append(paragraph)});
     $('inlineEnd').textContent=x.end||'';
     entryStory={id:x.id,tone:x.tone,scene:x.title,title:x.title,img:x.img,fallback:x.fallback,text:x.text,sceneKey:storySceneKey[x.scene]||'',teaser:x.teaser,end:x.end};
     storyButtons.forEach((b,n)=>b.setAttribute('aria-pressed',n===i?'true':'false'));
