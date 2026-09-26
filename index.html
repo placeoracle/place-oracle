@@ -277,6 +277,13 @@ footer small{color:#b9cfcc}
   .scene-options span,.theme-options span{font-size:15px}
   .sky-postcard-preview h4{font-size:clamp(25px,7vw,32px)}
 }
+
+/* Emphasis for the reading path */
+.resonance .place-heart{font-weight:400}
+.resonance .place-heart strong{font-weight:700;color:var(--deep)}
+.resonance .eyebrow,.discovery .eyebrow{width:max-content;max-width:100%;padding-bottom:7px;border-bottom:2px solid var(--gold)}
+.reading-actions .text-button,.sky-postcard #skyCardSave,.back,.map-entry-map,.basis a,#skySources a{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}
+.theme-options label:has(input:checked) span,.scene-options label:has(input:checked) span{font-weight:700}
 </style></head>
 <body>
 <header class="topbar"><a href="#top" class="brand">PLACE <span>ORACLE</span></a><button class="map-link" id="mapOpen" type="button">私の地図 <span id="mapCount">0</span></button></header>
@@ -1658,7 +1665,11 @@ function showReading(){trackPO?.('po_result_view');
   $('readingTitle').textContent=`今の自分に重なる場所──\n${current.place.name}`;
   $('readingIntro').textContent='行ったことはない。なのに、少し知っている気がする。';
   const regionLabel=current.place.country||current.place.region||'';$('placeName').textContent=current.place.name;$('placeCountry').textContent=regionWithFlag(regionLabel);
-  $('placeScene').textContent=current.sceneLine;$('placeHeart').textContent=current.heart;
+  $('placeScene').textContent=current.sceneLine;
+  const heart=$('placeHeart'),heartLines=current.heart.split('\n');
+  const lead=document.createElement('strong');lead.textContent=heartLines.shift()||'';
+  heart.replaceChildren(lead);
+  if(heartLines.length)heart.append(document.createTextNode('\n'+heartLines.join('\n')));
   const photo=PO_PLACE_PHOTOS[current.place.name]||PO_PLACE_PHOTOS[current.place.id];
   const img=$('placePhoto'),fb=$('photoFallback'),credit=$('photoCredit');
   $('photoFallbackName').textContent=current.place.name;$('photoFallbackRegion').textContent=regionWithFlag(regionLabel);
