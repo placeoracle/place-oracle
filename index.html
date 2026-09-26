@@ -289,7 +289,7 @@ footer small{color:#b9cfcc}
 <article class="place-story"><span class="eyebrow">今の自分に重なる場所</span><h3 id="placeName"></h3><span class="place-country" id="placeCountry"></span><p id="placeScene"></p></article>
 <article class="resonance"><span class="eyebrow">なぜ、この場所なのか</span><h3>あなたの何と重なっているのか</h3><p class="place-heart" id="placeHeart"></p></article>
 <article class="sky-section" id="skySection"><div class="lore-block"><span class="eyebrow" id="loreEyebrow">この土地と空に残る見聞</span><h4 id="loreTitle"></h4><p id="skyLore"></p></div><div class="sky-fact-block"><span class="eyebrow">この場所から見える空</span><h3 id="skyTitle"></h3><p id="skyFact"></p><div class="sky-signs-wrap"><span class="sky-signs-label">この空のしるし</span><div class="sky-signs" id="skySigns"></div><p class="sky-signs-note" id="skySignsNote"></p></div></div><div class="sky-story"><span class="eyebrow">空から生まれた物語</span><p id="skyStory"></p></div><section class="sky-postcard" aria-label="この場所の星空カード">
-  <div class="sky-postcard-preview"><canvas class="sky-chart-preview" id="skyChartPreview" width="600" height="600" aria-label="選ばれた場所の現地時間21時の星空図" hidden></canvas>
+  <div class="sky-postcard-preview"><canvas class="sky-chart-preview" id="skyChartPreview" width="600" height="600" aria-label="選ばれた日の現地時間24時（翌日0時）の星空図" hidden></canvas>
     <span class="sky-postcard-kicker">PLACE ORACLE · SKY POSTCARD</span>
     <span class="sky-postcard-location" id="skyCardPlace"></span>
     <h4 id="skyCardTitle"></h4>
@@ -1623,7 +1623,7 @@ function showReading(){trackPO?.('po_result_view');
   const sky=PO_SKY_STORIES[current.place.id];
   $('skySection').hidden=!sky;$('discoverySection').hidden=!sky;$('skySources').replaceChildren();
   if(sky){
-    $('skyTitle').textContent=sky.skyTitle;$('skyFact').textContent=sky.skyFact;$('skyCardPlace').textContent=[current.place.name,regionLabel].filter(Boolean).join(' · ');$('skyCardTitle').textContent=sky.skyTitle;$('skyCardSigns').textContent=(sky.skySigns||[]).join('　·　');const chartInfo=window.PO_SKY_CHART?.chartSpec(current.place.id,current.date);const chartReady=chartInfo&&window.PO_SKY_CHART.preview($('skyChartPreview'),current.place.id,current.date);$('skyCardSigns').textContent=chartReady?current.date.replace(/-/g,'.')+' 21:00 · 現地時間':(sky.skySigns||[]).join('　·　');$('skyCardNote').textContent=chartReady?'代表地点：'+chartInfo.reference+'。星の位置と星座線の概略図です。天候、地形、街明かりは反映していません。':(sky.skySignsNote||'星の見え方は季節・時刻・天候で変わります。')+' 星空の図柄はイメージです。';$('skyCardStatus').textContent='';$('skyCardSave').disabled=false;$('skyCardSave').onclick=()=>saveSkyCard(sky,current.place);
+    $('skyTitle').textContent=sky.skyTitle;$('skyFact').textContent=sky.skyFact;$('skyCardPlace').textContent=[current.place.name,regionLabel].filter(Boolean).join(' · ');$('skyCardTitle').textContent=sky.skyTitle;$('skyCardSigns').textContent=(sky.skySigns||[]).join('　·　');const chartInfo=window.PO_SKY_CHART?.chartSpec(current.place.id,current.date);const chartReady=chartInfo&&window.PO_SKY_CHART.preview($('skyChartPreview'),current.place.id,current.date);$('skyCardSigns').textContent=chartReady?current.date.replace(/-/g,'.')+' 24:00 · 現地時間':(sky.skySigns||[]).join('　·　');$('skyCardNote').textContent=chartReady?'代表地点：'+chartInfo.reference+'。星の位置と星座線の概略図です。天候、地形、街明かりは反映していません。':(sky.skySignsNote||'星の見え方は季節・時刻・天候で変わります。')+' 星空の図柄はイメージです。';$('skyCardStatus').textContent='';$('skyCardSave').disabled=false;$('skyCardSave').onclick=()=>saveSkyCard(sky,current.place);
 const signs=$('skySigns');
 signs.innerHTML='';
 (sky.skySigns||[]).forEach(function(label){const span=document.createElement('span');span.className='sky-sign';span.textContent=label;signs.appendChild(span);});
@@ -1751,7 +1751,7 @@ function updateMap(){
       const title=document.createElement('h4');title.textContent=sky.title||'この場所から見上げる空';
       const fact=document.createElement('p');fact.textContent=sky.fact||'';
       card.append(label,title,fact);
-      const mapChartInfo=window.PO_SKY_CHART?.chartSpec(skyKey,row.date);if(mapChartInfo){const chart=document.createElement('canvas');chart.className='map-sky-chart';chart.width=560;chart.height=560;chart.setAttribute('aria-label',row.date+' 現地時間21時の星空図');card.insertBefore(chart,fact);window.PO_SKY_CHART.preview(chart,skyKey,row.date);const stamp=document.createElement('small');stamp.className='map-sky-note';stamp.textContent=row.date+' 21:00 · 現地時間 ／ 代表地点：'+mapChartInfo.reference;card.insertBefore(stamp,fact);}
+      const mapChartInfo=window.PO_SKY_CHART?.chartSpec(skyKey,row.date);if(mapChartInfo){const chart=document.createElement('canvas');chart.className='map-sky-chart';chart.width=560;chart.height=560;chart.setAttribute('aria-label',row.date+' 現地時間24時（翌日0時）の星空図');card.insertBefore(chart,fact);window.PO_SKY_CHART.preview(chart,skyKey,row.date);const stamp=document.createElement('small');stamp.className='map-sky-note';stamp.textContent=row.date+' 24:00 · 現地時間 ／ 代表地点：'+mapChartInfo.reference;card.insertBefore(stamp,fact);}
       if(!window.PO_SKY_CHART?.chartSpec(skyKey,row.date)&&Array.isArray(sky.signs)&&sky.signs.length){
         const signs=document.createElement('div');signs.className='map-sky-signs';
         sky.signs.forEach(name=>{const chip=document.createElement('span');chip.textContent=name;signs.append(chip)});
@@ -1861,7 +1861,7 @@ async function saveSkyCard(sky,place){
       roundRect(tagX,tagY-25,width,36,18);ctx.fillStyle='#e8e1d1';ctx.fill();
       ctx.fillStyle='#315d62';ctx.fillText(label,tagX+17,tagY);tagX+=width+10;
     }
-    const note=chartSpec?current.date.replace(/-/g,'.')+' 21:00 現地時間 · 代表地点：'+chartSpec.reference:(sky.skySignsNote||'星空の見え方は、季節・時刻・天候で変わります。');
+    const note=chartSpec?current.date.replace(/-/g,'.')+' 24:00 現地時間 · 代表地点：'+chartSpec.reference:(sky.skySignsNote||'星空の見え方は、季節・時刻・天候で変わります。');
     ctx.strokeStyle='#d7cfbd';ctx.beginPath();ctx.moveTo(108,1208);ctx.lineTo(972,1208);ctx.stroke();
     wrap(note,108,1247,864,25,2,'400 17px system-ui,sans-serif','#75817c');
     ctx.fillStyle='#a58c5e';ctx.font='600 14px system-ui,sans-serif';ctx.textAlign='right';ctx.fillText('PLACE ORACLE  ·  SKY POSTCARD',972,1280);ctx.textAlign='left';
