@@ -1,12 +1,12 @@
-/* Observed sky chart: positions from a J2000 bright-star catalogue, projected at 21:00 local time. */
+/* Observed sky chart: positions from a J2000 bright-star catalogue, projected at the selected date's 24:00 local time. */
 (function(){
   'use strict';
   const data=window.PO_SKY_DATA;
   const rad=Math.PI/180;
   const mod=(n,m)=>((n%m)+m)%m;
-  function localDateAt21(dateKey,timeZone){
+  function localDateAt24(dateKey,timeZone){
     if(!/^\d{4}-\d{2}-\d{2}$/.test(String(dateKey||'')))return null;
-    const [y,m,d]=dateKey.split('-').map(Number),target=Date.UTC(y,m-1,d,21);
+    const [y,m,d]=dateKey.split('-').map(Number),target=Date.UTC(y,m-1,d+1,0);
     if(!Number.isFinite(target))return null;
     const formatter=new Intl.DateTimeFormat('en-US',{timeZone,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'});
     let utc=target;
@@ -19,7 +19,7 @@
   }
   function chartSpec(id,dateKey){
     const point=data&&data.coords[id];if(!point)return null;
-    const date=localDateAt21(dateKey,point[2]);if(!date||Number.isNaN(+date))return null;
+    const date=localDateAt24(dateKey,point[2]);if(!date||Number.isNaN(+date))return null;
     return {id,dateKey,date,lat:point[0],lon:point[1],timeZone:point[2],source:String(point[3]).startsWith('https://')?point[3]:'https://whc.unesco.org/en/list/'+point[3]+'/maps/',reference:point[4]||'世界遺産の登録地点'};
   }
   function position(ra,dec,spec){
