@@ -1794,27 +1794,15 @@ async function saveSkyCard(sky,place){
     const canvas=document.createElement('canvas');canvas.width=1080;canvas.height=1350;
     const ctx=canvas.getContext('2d');if(!ctx)throw new Error('Canvas is unavailable');
     const W=canvas.width,H=canvas.height;
-    const bg=ctx.createLinearGradient(0,0,W,H);bg.addColorStop(0,'#294760');bg.addColorStop(.5,'#132b40');bg.addColorStop(1,'#091924');
-    ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
-    let seed=0;for(const ch of String(place.id||place.name))seed=(seed*31+ch.charCodeAt(0))>>>0;
-    const rand=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296};
-    for(let n=0;n<210;n++){
-      const x=45+rand()*(W-90),y=50+rand()*710,r=rand()>.94?3:rand()>.6?1.8:1;
-      ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fillStyle=n%5===0?'rgba(240,220,166,.9)':'rgba(232,242,246,.82)';ctx.fill();
-    }
-    const glow=ctx.createRadialGradient(W*.72,H*.23,5,W*.72,H*.23,390);glow.addColorStop(0,'rgba(175,199,210,.24)');glow.addColorStop(1,'rgba(175,199,210,0)');
-    ctx.fillStyle=glow;ctx.fillRect(0,0,W,H);
-    ctx.fillStyle='rgba(5,17,27,.48)';ctx.fillRect(0,740,W,610);
-    ctx.fillStyle='#a9c4cf';ctx.font='400 19px system-ui,sans-serif';ctx.fillText('この場所の星空イメージ',72,770);ctx.fillStyle='#e3c992';ctx.font='600 24px system-ui,sans-serif';ctx.fillText('PLACE ORACLE  ·  SKY POSTCARD',72,820);
-    ctx.fillStyle='#dce7e7';ctx.font='400 26px system-ui,sans-serif';ctx.fillText([place.name,place.country||place.region].filter(Boolean).join(' · '),72,880);
-    ctx.fillStyle='#fffaf0';ctx.font='600 54px "Yu Mincho","Hiragino Mincho ProN",serif';
-    const wrap=(text,x,y,maxWidth,lineHeight,maxLines,font)=>{
-      ctx.font=font;const lines=[];let line='';
+    const roundRect=(x,y,w,h,r)=>{
+      ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();
+    };
+    const wrap=(text,x,y,maxWidth,lineHeight,maxLines,font,color)=>{
+      ctx.font=font;ctx.fillStyle=color;const lines=[];let line='';
       for(const para of String(text||'').split(String.fromCharCode(10))){
         if(!para){if(line)lines.push(line);line='';continue}
         for(const ch of Array.from(para)){
-          const next=line+ch;
-          if(line&&ctx.measureText(next).width>maxWidth){lines.push(line);line=ch}else line=next;
+          if(line&&ctx.measureText(line+ch).width>maxWidth){lines.push(line);line=ch}else line+=ch;
         }
         if(line){lines.push(line);line=''}
       }
@@ -1823,14 +1811,53 @@ async function saveSkyCard(sky,place){
       visible.forEach((lineText,index)=>ctx.fillText(lineText,x,y+index*lineHeight));
       return y+visible.length*lineHeight;
     };
-    let y=wrap(sky.skyTitle||'この場所から見上げる空',72,965,W-144,70,2,'600 54px "Yu Mincho","Hiragino Mincho ProN",serif');
-    ctx.fillStyle='#d6e0de';ctx.font='400 29px system-ui,sans-serif';
-    y=wrap(sky.skyFact||'',72,y+24,W-144,45,3,'400 29px system-ui,sans-serif');
-    const labels=(sky.skySigns||[]).slice(0,5);
-    ctx.fillStyle='#e4cb94';ctx.font='600 25px system-ui,sans-serif';
-    wrap(labels.length?labels.join('  ·  '):'星の見え方は季節と時刻で移り変わります',72,1190,W-144,39,2,'600 25px system-ui,sans-serif');
-    ctx.fillStyle='#becdd0';ctx.font='400 18px system-ui,sans-serif';
-    wrap(sky.skySignsNote||'星の見え方は季節・時刻・天候で変わります。',72,1300,W-144,28,1,'400 18px system-ui,sans-serif');
+    ctx.fillStyle='#eee8d9';ctx.fillRect(0,0,W,H);
+    const bg=ctx.createLinearGradient(50,50,W-50,H-50);bg.addColorStop(0,'#173c49');bg.addColorStop(.55,'#102d39');bg.addColorStop(1,'#091e29');
+    roundRect(42,42,W-84,H-84,36);ctx.fillStyle=bg;ctx.fill();
+    ctx.save();roundRect(42,42,W-84,H-84,36);ctx.clip();
+    let seed=0;for(const ch of String(place.id||place.name))seed=(seed*31+ch.charCodeAt(0))>>>0;
+    const rand=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296};
+    const glow=ctx.createRadialGradient(780,340,8,780,340,460);glow.addColorStop(0,'rgba(159,197,207,.27)');glow.addColorStop(.58,'rgba(107,151,164,.10)');glow.addColorStop(1,'rgba(107,151,164,0)');
+    ctx.fillStyle=glow;ctx.fillRect(420,80,620,690);
+    for(let n=0;n<240;n++){
+      const x=72+rand()*(W-144),y=82+rand()*680,r=rand()>.96?2.8:rand()>.65?1.7:.9;
+      ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fillStyle=n%7===0?'rgba(231,203,145,.9)':'rgba(236,244,242,.78)';ctx.fill();
+    }
+    const points=Array.from({length:8},(_,i)=>({x:620+rand()*330,y:185+rand()*420}));
+    ctx.strokeStyle='rgba(226,202,151,.45)';ctx.lineWidth=1.5;ctx.beginPath();points.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.stroke();
+    points.forEach((p,i)=>{ctx.beginPath();ctx.arc(p.x,p.y,i%3===0?4:2.4,0,Math.PI*2);ctx.fillStyle=i%3===0?'#e6cb91':'#f4eee0';ctx.fill()});
+    const moon=ctx.createRadialGradient(846,365,8,846,365,112);moon.addColorStop(0,'rgba(255,248,222,.96)');moon.addColorStop(.72,'rgba(218,222,207,.90)');moon.addColorStop(1,'rgba(218,222,207,.12)');
+    ctx.beginPath();ctx.arc(846,365,104,0,Math.PI*2);ctx.fillStyle=moon;ctx.fill();
+    ctx.beginPath();ctx.arc(886,330,93,0,Math.PI*2);ctx.fillStyle='#153644';ctx.fill();
+    const horizon=ctx.createLinearGradient(0,620,0,810);horizon.addColorStop(0,'rgba(34,76,86,0)');horizon.addColorStop(1,'rgba(5,22,30,.78)');
+    ctx.fillStyle=horizon;ctx.fillRect(42,600,W-84,210);
+    ctx.fillStyle='rgba(238,232,217,.08)';ctx.fillRect(86,92,2,42);
+    ctx.fillStyle='#e4cd9d';ctx.font='600 21px system-ui,sans-serif';ctx.fillText('P L A C E   O R A C L E',104,124);
+    ctx.textAlign='right';ctx.fillStyle='rgba(238,232,217,.72)';ctx.font='500 16px system-ui,sans-serif';ctx.fillText('SKY CARD',974,124);ctx.textAlign='left';
+    ctx.strokeStyle='rgba(226,202,151,.36)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(104,151);ctx.lineTo(976,151);ctx.stroke();
+    ctx.fillStyle='#e4cd9d';ctx.font='600 18px system-ui,sans-serif';ctx.fillText('YOUR PLACE',104,213);
+    const name=String(place.name||'この場所').replace(/\\s+/g,' ');
+    const nameEnd=wrap(name,104,285,690,68,2,'600 55px "Yu Mincho","Hiragino Mincho ProN",serif','#fffaf0');
+    wrap([place.country||place.region].filter(Boolean).join(''),104,nameEnd+8,620,36,1,'400 25px system-ui,sans-serif','#d1dfdc');
+    ctx.fillStyle='rgba(10,29,37,.54)';roundRect(78,704,924,3,1);ctx.fill();
+    ctx.restore();
+    roundRect(66,762,948,520,24);ctx.fillStyle='#f4efe4';ctx.fill();
+    ctx.fillStyle='#9b7d46';ctx.font='600 17px system-ui,sans-serif';ctx.fillText('THE NIGHT SKY',108,817);
+    let y=wrap(sky.skyTitle||'この場所から見上げる空',108,882,850,59,2,'600 43px "Yu Mincho","Hiragino Mincho ProN",serif','#173c43');
+    y=wrap(sky.skyFact||'星空は季節や時刻によって表情を変えます。',108,y+18,850,37,3,'400 25px system-ui,sans-serif','#5b6d6c');
+    const labels=(sky.skySigns||[]).slice(0,4);
+    let tagX=108,tagY=Math.max(1090,y+28);
+    ctx.font='600 18px system-ui,sans-serif';
+    for(const label of labels){
+      const width=ctx.measureText(label).width+34;
+      if(tagX+width>970){tagX=108;tagY+=48}
+      roundRect(tagX,tagY-25,width,36,18);ctx.fillStyle='#e8e1d1';ctx.fill();
+      ctx.fillStyle='#315d62';ctx.fillText(label,tagX+17,tagY);tagX+=width+10;
+    }
+    const note=sky.skySignsNote||'星空の見え方は、季節・時刻・天候で変わります。';
+    ctx.strokeStyle='#d7cfbd';ctx.beginPath();ctx.moveTo(108,1208);ctx.lineTo(972,1208);ctx.stroke();
+    wrap(note,108,1247,864,25,2,'400 17px system-ui,sans-serif','#75817c');
+    ctx.fillStyle='#a58c5e';ctx.font='600 14px system-ui,sans-serif';ctx.textAlign='right';ctx.fillText('PLACE ORACLE  ·  SKY POSTCARD',972,1280);ctx.textAlign='left';
     const blob=await new Promise((resolve,reject)=>canvas.toBlob(file=>file?resolve(file):reject(new Error('Image export failed')),'image/png'));
     const safeName=String(place.name||'sky').replace(/[\\/:*?"<>|]/g,'_').slice(0,32);
     const filename='PLACE-ORACLE-SKY-'+safeName+'.png',file=new File([blob],filename,{type:'image/png'});
