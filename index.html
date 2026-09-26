@@ -1570,8 +1570,7 @@ function choosePlace(p,cycle,map){
   const recently=map.filter(x=>x.date!==dateKey()).slice(-3).map(x=>x.placeId);
   const scenePlaces={alley:['thingvellir','plitvice','rockies'],sea:['geiranger','tewahipounamu','plitvice'],light:['thingvellir','laurisilva','yakushima'],green:['laurisilva','yakushima','tasmania'],distance:['jungfrau','rockies','thingvellir']};
   const eligible=new Set(scenePlaces[p.scene]);
-  const entryKey=entrySceneKey(p),entryScene=entryKey?scenes[entryKey]:null;
-  const target=scene.v.map((v,i)=>v*(entryScene?.v?.[i]!=null?.46:.58)+(entryScene?.v?.[i]??0)*.12+(((p.stars.h*3+p.stars.g*5+p.stars.day.index+i*7)%10)+1)*.22+(((cycle.yearStar+cycle.monthStar+cycle.day.index+i*3)%10)+1)*.2);
+  const target=scene.v.map((v,i)=>v*.58+(((p.stars.h*3+p.stars.g*5+p.stars.day.index+i*7)%10)+1)*.22+(((cycle.yearStar+cycle.monthStar+cycle.day.index+i*3)%10)+1)*.2);
   const scored=ORACLE_DATA.places.filter(x=>x.active&&eligible.has(x.id)).map(x=>({place:x,score:x.v.reduce((s,v,i)=>s+(v-target[i])**2,0)+(recently.includes(x.id)?7:0)})).sort((a,b)=>a.score-b.score);
   return scored[seed%Math.min(3,scored.length)].place;
 }
@@ -1674,7 +1673,7 @@ function openForToday(){
 function findNewPlace(){
   $('mapDialog').close();
   if(profile?.firstSeen&&!isMember()){openMembership();return}
-  showForm('first');
+  showForm(profile?.birth?'daily':'first');
 }
 function populateMunicipalities(prefId,cityId,selectedCode=''){const pref=$(prefId).value,select=$(cityId);select.replaceChildren(new Option(pref?'市町村を選択':'先に都道府県を選択',''));select.disabled=!pref;if(pref){for(const [code,name] of (JP_MUNICIPALITIES[pref]||[]))select.add(new Option(name,code));if(selectedCode)select.value=selectedCode}}
 function readLocation(prefId,cityId){const pref=$(prefId).value,code=$(cityId).value;if(!pref||!code)return null;const row=(JP_MUNICIPALITIES[pref]||[]).find(x=>x[0]===code);return row?{prefecture:pref,municipality:row[1],code}:null}
