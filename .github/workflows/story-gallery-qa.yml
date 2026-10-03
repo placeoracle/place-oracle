@@ -1,0 +1,48 @@
+name: Story gallery QA
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'PHOTO_QA.html'
+      - 'story_*.jpg'
+      - '.github/workflows/story-gallery-qa.yml'
+      - '.github/scripts/**'
+  pull_request:
+    paths:
+      - 'index.html'
+      - 'PHOTO_QA.html'
+      - 'story_*.jpg'
+      - '.github/workflows/story-gallery-qa.yml'
+      - '.github/scripts/**'
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check STORY, PHOTO_QA, fallback files, and Pexels image availability
+        run: node .github/scripts/verify-story-gallery.mjs
+      - name: Install browser test dependency
+        run: |
+          npm install --no-save playwright@1.52.0
+          npx playwright install --with-deps chromium
+      - name: Check mobile gallery and selected frame
+        run: |
+          python3 -m http.server 4173 --directory . > /tmp/place-oracle-http.log 2>&1 &
+          node .github/scripts/check-mobile-story-gallery.mjs
+      - name: Upload mobile check screenshot
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: story-gallery-mobile-check
+          path: qa-artifacts/story-gallery-mobile.png
+          if-no-files-found: warn

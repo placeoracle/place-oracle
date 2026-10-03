@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Place Oracle Google Login Test</title>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="./google-auth-client.js"></script>
+  <style>
+    body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;max-width:720px;margin:40px auto;padding:0 20px;line-height:1.7}
+    .card{border:1px solid #ddd;border-radius:12px;padding:20px}
+    button{padding:10px 16px;margin:4px 2px}
+    .checkout{margin-top:18px;padding-top:18px;border-top:1px solid #ddd}
+    pre{background:#f6f6f6;padding:12px;white-space:pre-wrap;word-break:break-word}
+  </style>
+</head>
+<body>
+  <h1>Google Login 接続テスト</h1>
+  <div class="card">
+    <div id="googleBtn"></div>
+    <p><button id="meBtn">/auth/me を確認</button> <button id="logoutBtn">ログアウト</button></p>
+
+    <div class="checkout">
+      <strong>Stripe Checkout テスト</strong>
+      <p>
+        <button id="monthlyBtn">月額480円で購入</button>
+        <button id="yearlyBtn">年額4,800円で購入</button>
+      </p>
+    </div>
+
+    <pre id="out">Google Identity Services の読込待ちです…</pre>
+  </div>
+<script>
+const GOOGLE_CLIENT_ID = '559524100347-3hiiar1bmlcqbtb4q0adlahgojjfslj5.apps.googleusercontent.com';
+const out = document.getElementById('out');
+const show = (v) => out.textContent = typeof v === 'string' ? v : JSON.stringify(v, null, 2);
+
+function initGoogle() {
+  if (!window.google || !google.accounts || !google.accounts.id) {
+    setTimeout(initGoogle, 250);
+    return;
+  }
+  google.accounts.id.initialize({
+    client_id: GOOGLE_CLIENT_ID,
+    callback: async (response) => {
+      try {
+        const result = await PlaceOracleAuth.exchangeGoogleCredential(response.credential);
+        show(result);
+      } catch (e) {
+        show({error:e.message,status:e.status,body:e.body || null});
+      }
+    }
+  });
+  google.accounts.id.renderButton(document.getElementById('googleBtn'), {
+    theme: 'outline',
+    size: 'large',
+    text: 'signin_with'
+  });
+  show('Googleログインボタンを準備しました');
+}
+
+document.getElementById('meBtn').onclick = async () => {
+  try { show(await PlaceOracleAuth.currentUser()); }
+  catch (e) { show({error:e.message,status:e.status,body:e.body || null}); }
+};
+
+document.getElementById('logoutBtn').onclick = async () => {
+  try { await PlaceOracleAuth.logout(); show({ok:true,logged_out:true}); }
+  catch (e) { show({error:e.message,status:e.status,body:e.body || null}); }
+};
+
+async function startCheckout(plan) {
+  try {
+    show('Stripe Checkoutを作成しています…');
+    const data = await PlaceOracleAuth.createCheckout(plan);
+    window.location.href = data.url;
+  } catch (e) {
+    show({error:e.message,status:e.status,body:e.body || null});
+  }
+}
+
+document.getElementById('monthlyBtn').onclick = () => startCheckout('monthly');
+document.getElementById('yearlyBtn').onclick = () => startCheckout('yearly');
+
+const checkoutResult = new URLSearchParams(location.search).get('checkout');
+if (checkoutResult) {
+  show({checkout: checkoutResult});
+}
+
+initGoogle();
+</script>
+</body>
+</html>

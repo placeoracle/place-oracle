@@ -1,0 +1,73 @@
+import { access, readFile } from 'node:fs/promises';
+import { constants as fsConstants } from 'node:fs';
+
+const fail = message => { throw new Error(message); };
+const index = await readFile('index.html', 'utf8');
+const qa = await readFile('PHOTO_QA.html', 'utf8');
+
+const poolMatch = index.match(/const storyPool=\[([\s\S]*?)\n  \];\n  const activeStories=/);
+if (!poolMatch) fail('storyPool was not found');
+const stories = Function('"use strict"; return [' + poolMatch[1] + '];')();
+if (stories.length !== 50) fail('Expected 50 STORY records, found ' + stories.length);
+
+const expectedIds = Array.from({ length: 50 }, (_, i) => i + 1);
+if (stories.map(x => x.id).join(',') !== expectedIds.join(',')) fail('STORY IDs must be 1–50 in order');
+
+const cards = [...qa.matchAll(/<article class="card" data-id="(\d+)"([\s\S]*?)<\/article>/g)].map(match => {
+  const [, id, body] = match;
+  const image = body.match(/<img src="([^"]+)" alt="([^"]*)" loading="lazy" onerror="this\.onerror=null;this\.src='([^']+)'"/);
+  return {
+    id: Number(id),
+    img: image?.[1],
+    alt: image?.[2],
+    fallback: image?.[3],
+    scene: body.match(/<div class="scene">([^<]*)<\/div>/)?.[1],
+    title: body.match(/<h2>([^<]*)<\/h2>/)?.[1],
+    sourceUrl: body.match(/<a class="source" href="([^"]+)"/)?.[1]
+  };
+});
+if (cards.length !== 50) fail('Expected 50 PHOTO_QA cards, found ' + cards.length);
+
+const cardById = new Map(cards.map(card => [card.id, card]));
+const photoId = value => value?.match(/(?:photos\/|pexels\.com\/photo\/)(\d+)/)?.[1] || value?.match(/-(\d+)\/?$/)?.[1];
+const external = [];
+for (const story of stories) {
+  const card = cardById.get(story.id);
+  if (!card) fail('PHOTO_QA card missing for STORY ' + story.id);
+  for (const key of ['img', 'fallback', 'alt', 'scene', 'title']) {
+    if (story[key] !== card[key]) fail('Mismatch for STORY ' + story.id + ': ' + key);
+  }
+  if (!/^https?:/.test(story.img)) await access(story.img, fsConstants.R_OK);
+  await access(story.fallback, fsConstants.R_OK);
+  if (/^https:/.test(story.img)) {
+    if (!story.sourceUrl || !card.sourceUrl) fail('Source URL missing for STORY ' + story.id);
+    if (photoId(story.img) !== photoId(story.sourceUrl) || photoId(story.img) !== photoId(card.sourceUrl)) {
+      fail('Pexels source mismatch for STORY ' + story.id);
+    }
+    external.push(story);
+  }
+}
+if (external.length !== 50) fail('Expected 50 external Pexels images, found ' + external.length);
+if (new Set(external.map(story => photoId(story.img))).size !== external.length) fail('Duplicate Pexels image IDs found');
+
+const fallbackIds = new Map();
+for (const story of stories) {
+  const ids = fallbackIds.get(story.fallback) ?? [];
+  ids.push(story.id);
+  fallbackIds.set(story.fallback, ids);
+}
+for (const [fallback, ids] of fallbackIds) {
+  if (ids.length !== 1) fail('Duplicate fallback image used by STORY ' + ids.join(', ') + ': ' + fallback);
+}
+
+const timeout = AbortSignal.timeout(20000);
+const results = await Promise.all(external.map(async story => {
+  const response = await fetch(story.img, { headers: { Range: 'bytes=0-0' }, signal: timeout });
+  const contentType = response.headers.get('content-type') || '';
+  if (!response.ok || !contentType.startsWith('image/')) {
+    fail('External image unavailable for STORY ' + story.id + ' (' + response.status + ', ' + contentType + ')');
+  }
+  await response.body?.cancel();
+  return story.id;
+}));
+console.log(JSON.stringify({ stories: stories.length, qaCards: cards.length, externalImages: results.length, result: 'pass' }));

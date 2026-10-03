@@ -1,0 +1,614 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PLACE ORACLE｜写真QA</title><style>
+:root{--ink:#173d43;--muted:#718784;--paper:#f5f1e8;--line:#d8d1c4;--ok:#7b9d84;--review:#c8a253;--ng:#b86e65}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,"Hiragino Sans","Yu Gothic",sans-serif}header{position:sticky;top:0;z-index:5;background:#fffdf8ed;backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:18px clamp(16px,4vw,40px)}h1{font-size:22px;margin:0}.lead{margin:5px 0 0;color:var(--muted);font-size:13px;line-height:1.6}.bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:13px}.bar button{border:1px solid var(--line);background:white;border-radius:999px;padding:8px 12px}.count{font-size:12px;color:var(--muted)}.notice{padding:12px clamp(16px,4vw,40px);font-size:12px;line-height:1.7;color:#526d6e;background:#ece8df;border-bottom:1px solid var(--line)}main{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px;padding:22px clamp(14px,3vw,34px) 60px}.card{background:#fffdf8;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 8px 26px #173d4310}.card[data-result="ok"]{outline:3px solid var(--ok)}.card[data-result="review"]{outline:3px solid var(--review)}.card[data-result="ng"]{outline:3px solid var(--ng)}.photo{aspect-ratio:4/3;background:#e4ded3;position:relative}.photo img{width:100%;height:100%;object-fit:cover;display:block}.status{position:absolute;top:10px;left:10px;background:#fffdf8dc;border-radius:999px;padding:5px 8px;font-weight:700;font-size:11px}.meta{padding:15px}.scene{font-size:11px;letter-spacing:.12em;color:#78908e}.meta h2{font-size:19px;margin:5px 0 7px}.file{font-size:11px;color:var(--muted);line-height:1.55}.source{display:inline-block;margin:7px 0 12px;color:#286f7a;font-size:12px}.source.muted{color:#9a7564}.checks{display:grid;gap:7px;font-size:13px;border-top:1px solid #ece6da;padding-top:12px}.checks input{accent-color:#286f7a}textarea{width:100%;min-height:64px;margin-top:12px;border:1px solid var(--line);border-radius:9px;background:white;padding:9px;resize:vertical}.actions{display:flex;gap:7px;margin-top:9px}.actions button{flex:1;background:white;border:1px solid var(--line);border-radius:8px;padding:8px}.actions [data-set=ok]{border-color:var(--ok)}.actions [data-set=review]{border-color:var(--review)}.actions [data-set=ng]{border-color:var(--ng)}@media(max-width:620px){main{grid-template-columns:1fr}}
+</style></head><body>
+<header><h1>PLACE ORACLE｜写真QA</h1><p class="lead">現在サイトで使う50枚を、そのまま確認するページです。</p><div class="bar"><button data-filter="all">すべて</button><button data-filter="pending">未確認</button><button data-filter="review">要確認</button><button data-filter="ng">差し替え</button><button id="save">この端末に保存</button><span id="count" class="count"></span></div></header>
+<div class="notice">Pexels写真は各カードの「出典を確認」から個別ページを開けます。ローカル写真は出典情報がリポジトリ内で確認できないため、権利欄を自動でOKにはしていません。</div>
+<main><article class="card" data-id="1" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/5746248/pexels-photo-5746248.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="日差しの路地にあるカフェ" loading="lazy" onerror="this.onerror=null;this.src='story_01.jpg'"><span class="status">#01</span></div>
+<div class="meta"><div class="scene">光の路地</div><h2>陽だまりの路地</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/5746248/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="2" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/34329890/pexels-photo-34329890.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="青い海と水平線" loading="lazy" onerror="this.onerror=null;this.src='story_02.jpg'"><span class="status">#02</span></div>
+<div class="meta"><div class="scene">海と水平線</div><h2>青い水平線</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/34329890/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="3" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/12467878/pexels-photo-12467878.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="カフェの窓と入口" loading="lazy" onerror="this.onerror=null;this.src='story_03.jpg'"><span class="status">#03</span></div>
+<div class="meta"><div class="scene">灯りのある店</div><h2>カフェの窓</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/12467878/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="4" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/19682206/pexels-photo-19682206.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="緑に囲まれたカフェの入口" loading="lazy" onerror="this.onerror=null;this.src='story_04.jpg'"><span class="status">#04</span></div>
+<div class="meta"><div class="scene">窓辺の緑</div><h2>緑のある窓辺</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/19682206/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="5" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/28831129/pexels-photo-28831129.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="夕暮れの湖と山の景色" loading="lazy" onerror="this.onerror=null;this.src='story_05.jpg'"><span class="status">#05</span></div>
+<div class="meta"><div class="scene">夕暮れの遠景</div><h2>夕暮れの湖</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/28831129/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="6" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/35544343/pexels-photo-35544343.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="窓辺の本とコーヒー" loading="lazy" onerror="this.onerror=null;this.src='story_06.jpg'"><span class="status">#06</span></div>
+<div class="meta"><div class="scene">窓辺の本</div><h2>窓辺の本とコーヒー</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/35544343/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="7" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/8704693/pexels-photo-8704693.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="出発を待つ窓" loading="lazy" onerror="this.onerror=null;this.src='story_07.jpg'"><span class="status">#07</span></div>
+<div class="meta"><div class="scene">空港</div><h2>出発を待つ窓</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/8704693/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="8" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/30105085/pexels-photo-30105085.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="日差しが入る教室" loading="lazy" onerror="this.onerror=null;this.src='story_08.jpg'"><span class="status">#08</span></div>
+<div class="meta"><div class="scene">学校</div><h2>陽だまりの教室</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/sunlit-empty-classroom-with-modern-design-30105085/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="9" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/23964499/pexels-photo-23964499.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="窓越しのホーム" loading="lazy" onerror="this.onerror=null;this.src='story_09.jpg'"><span class="status">#09</span></div>
+<div class="meta"><div class="scene">駅</div><h2>窓越しのホーム</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/23964499/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="10" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/14830461/pexels-photo-14830461.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="本屋の窓" loading="lazy" onerror="this.onerror=null;this.src='story_10.jpg'"><span class="status">#10</span></div>
+<div class="meta"><div class="scene">本屋</div><h2>本屋の窓</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/14830461/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="11" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/9622380/pexels-photo-9622380.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="雨の日の窓辺" loading="lazy" onerror="this.onerror=null;this.src='story_11.jpg'"><span class="status">#11</span></div>
+<div class="meta"><div class="scene">喫茶店</div><h2>雨の日の窓辺</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/9622380/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="12" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/30722813/pexels-photo-30722813.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="旅先の窓" loading="lazy" onerror="this.onerror=null;this.src='story_12.jpg'"><span class="status">#12</span></div>
+<div class="meta"><div class="scene">ホテル</div><h2>旅先の窓</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/30722813/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="13" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/3952095/pexels-photo-3952095.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="日差しが入る本屋" loading="lazy" onerror="this.onerror=null;this.src='story_13.jpg'"><span class="status">#13</span></div>
+<div class="meta"><div class="scene">本屋</div><h2>光の本屋</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/modern-style-interior-of-bookstore-in-sunlight-3952095/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="14" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/32941676/pexels-photo-32941676.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="日差しの中の遊具" loading="lazy" onerror="this.onerror=null;this.src='story_14.jpg'"><span class="status">#14</span></div>
+<div class="meta"><div class="scene">公園</div><h2>昼下がりの公園</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/sunny-playground-with-slide-and-swings-32941676/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="15" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/20584545/pexels-photo-20584545.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="滑走路を眺める席" loading="lazy" onerror="this.onerror=null;this.src='story_15.jpg'"><span class="status">#15</span></div>
+<div class="meta"><div class="scene">空港</div><h2>滑走路を眺める席</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/20584545/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="16" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/14556070/pexels-photo-14556070.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="灯りのあるランドリー" loading="lazy" onerror="this.onerror=null;this.src='story_16.jpg'"><span class="status">#16</span></div>
+<div class="meta"><div class="scene">ランドリー</div><h2>ランドリーの灯り</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/14556070/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="17" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/4377112/pexels-photo-4377112.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="電車の車内と窓の向こうのホーム" loading="lazy" onerror="this.onerror=null;this.src='story_17.jpg'"><span class="status">#17</span></div>
+<div class="meta"><div class="scene">電車</div><h2>車内から見るホーム</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/4377112/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="18" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/6958400/pexels-photo-6958400.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="窓越しに見える本屋の店内" loading="lazy" onerror="this.onerror=null;this.src='story_18.jpg'"><span class="status">#18</span></div>
+<div class="meta"><div class="scene">本屋</div><h2>古い本屋の窓</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/6958400/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="19" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/30719253/pexels-photo-30719253.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="雨の窓辺に置かれたコーヒー" loading="lazy" onerror="this.onerror=null;this.src='story_19.jpg'"><span class="status">#19</span></div>
+<div class="meta"><div class="scene">雨の窓辺</div><h2>雨音とコーヒー</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/30719253/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="20" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/20038905/pexels-photo-20038905.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="大きな窓のある空港の待合席" loading="lazy" onerror="this.onerror=null;this.src='story_20.jpg'"><span class="status">#20</span></div>
+<div class="meta"><div class="scene">空港</div><h2>静かな待合席</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/20038905/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="21" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/34164757/pexels-photo-34164757.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="朝の公園のブランコ" loading="lazy" onerror="this.onerror=null;this.src='story_21.jpg'"><span class="status">#21</span></div>
+<div class="meta"><div class="scene">公園</div><h2>朝のブランコ</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/34164757/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="22" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/30629968/pexels-photo-30629968.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="雨の日の窓辺にある本とコーヒー" loading="lazy" onerror="this.onerror=null;this.src='story_22.jpg'"><span class="status">#22</span></div>
+<div class="meta"><div class="scene">窓辺の本</div><h2>雨の日の読書</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/30629968/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="23" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/10595443/pexels-photo-10595443.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="灯りがともる本屋の窓" loading="lazy" onerror="this.onerror=null;this.src='story_23.jpg'"><span class="status">#23</span></div>
+<div class="meta"><div class="scene">本屋</div><h2>灯りの本屋</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/10595443/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="24" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/34922463/pexels-photo-34922463.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="喫茶店の窓から雨の街を眺める席" loading="lazy" onerror="this.onerror=null;this.src='story_24.jpg'"><span class="status">#24</span></div>
+<div class="meta"><div class="scene">喫茶店</div><h2>雨の街を眺める席</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/34922463/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="25" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/37039663/pexels-photo-37039663.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="電車の窓越しに見える駅で待つ人" loading="lazy" onerror="this.onerror=null;this.src='story_25.jpg'"><span class="status">#25</span></div>
+<div class="meta"><div class="scene">駅</div><h2>窓越しに待つ人</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/man-waiting-at-train-platform-through-window-37039663/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="26" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/17792802/pexels-photo-17792802.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="日中の街角のバス停" loading="lazy" onerror="this.onerror=null;this.src='story_26.jpg'"><span class="status">#26</span></div>
+<div class="meta"><div class="scene">バス停</div><h2>昼のバス停</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/bus-stop-in-city-17792802/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="27" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/9871139/pexels-photo-9871139.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="窓辺の机に開いた本とノートと灯り" loading="lazy" onerror="this.onerror=null;this.src='story_27.jpg'"><span class="status">#27</span></div>
+<div class="meta"><div class="scene">机</div><h2>開いたノートと灯り</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/9871139/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="28" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/36500357/pexels-photo-36500357.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="窓辺の明るい本棚" loading="lazy" onerror="this.onerror=null;this.src='story_28.jpg'"><span class="status">#28</span></div>
+<div class="meta"><div class="scene">窓辺の本</div><h2>窓辺の本棚</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/colorful-bookshelf-beside-a-bright-window-36500357/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="29" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/17881625/pexels-photo-17881625.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="海が見えるフェリーの席" loading="lazy" onerror="this.onerror=null;this.src='story_29.jpg'"><span class="status">#29</span></div>
+<div class="meta"><div class="scene">フェリー</div><h2>海を眺める席</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/17881625/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="30" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/31369860/pexels-photo-31369860.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="朝の光が差す静かな住宅街" loading="lazy" onerror="this.onerror=null;this.src='story_30.jpg'"><span class="status">#30</span></div>
+<div class="meta"><div class="scene">朝の道</div><h2>朝の住宅街</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/31369860/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="31" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/4906513/pexels-photo-4906513.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="日差しのあるカフェの入口" loading="lazy" onerror="this.onerror=null;this.src='story_31.jpg'"><span class="status">#31</span></div>
+<div class="meta"><div class="scene">光の路地</div><h2>カフェの入口</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/4906513/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="32" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/19939688/pexels-photo-19939688.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="青空の下の海岸の波" loading="lazy" onerror="this.onerror=null;this.src='story_32.jpg'"><span class="status">#32</span></div>
+<div class="meta"><div class="scene">海と水平線</div><h2>波打ち際の線</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/19939688/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="33" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/35068510/pexels-photo-35068510.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="日差しのある店先" loading="lazy" onerror="this.onerror=null;this.src='story_33.jpg'"><span class="status">#33</span></div>
+<div class="meta"><div class="scene">灯りのある店</div><h2>陽だまりの店先</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/35068510/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="34" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/17344850/pexels-photo-17344850.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="紅葉と山を映す湖" loading="lazy" onerror="this.onerror=null;this.src='story_34.jpg'"><span class="status">#34</span></div>
+<div class="meta"><div class="scene">湖と紅葉</div><h2>紅葉を映す湖</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/17344850/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="35" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/1525064/pexels-photo-1525064.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="山を映す静かな湖" loading="lazy" onerror="this.onerror=null;this.src='story_35.jpg'"><span class="status">#35</span></div>
+<div class="meta"><div class="scene">夕暮れの遠景</div><h2>山を映す湖</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/1525064/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="36" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/30441325/pexels-photo-30441325.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="日中のカフェが並ぶ路地" loading="lazy" onerror="this.onerror=null;this.src='story_36.jpg'"><span class="status">#36</span></div>
+<div class="meta"><div class="scene">光の路地</div><h2>午後の坂道</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/30441325/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="37" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/26831130/pexels-photo-26831130.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="日差しのある海岸の波" loading="lazy" onerror="this.onerror=null;this.src='story_37.jpg'"><span class="status">#37</span></div>
+<div class="meta"><div class="scene">海と水平線</div><h2>風のある海岸</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/26831130/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="38" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/38714353/pexels-photo-38714353.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="海を望むカフェの窓" loading="lazy" onerror="this.onerror=null;this.src='story_38.jpg'"><span class="status">#38</span></div>
+<div class="meta"><div class="scene">灯りのある店</div><h2>海辺のカフェ</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/38714353/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="39" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/34613805/pexels-photo-34613805.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="紅葉の山と湖の景色" loading="lazy" onerror="this.onerror=null;this.src='story_39.jpg'"><span class="status">#39</span></div>
+<div class="meta"><div class="scene">湖と紅葉</div><h2>紅葉の湖畔</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/34613805/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="40" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/36803978/pexels-photo-36803978.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="青空と海の水平線" loading="lazy" onerror="this.onerror=null;this.src='story_40.jpg'"><span class="status">#40</span></div>
+<div class="meta"><div class="scene">夕暮れの遠景</div><h2>海の向こうの青</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/36803978/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="41" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/30893335/pexels-photo-30893335.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="日中の屋外市場" loading="lazy" onerror="this.onerror=null;this.src='story_41.jpg'"><span class="status">#41</span></div>
+<div class="meta"><div class="scene">市場</div><h2>朝市のにぎわい</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/30893335/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="42" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/29078068/pexels-photo-29078068.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="湯けむりのある温泉風景" loading="lazy" onerror="this.onerror=null;this.src='story_42.jpg'"><span class="status">#42</span></div>
+<div class="meta"><div class="scene">温泉</div><h2>湯けむりの朝</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/29078068/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="43" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/4552138/pexels-photo-4552138.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="日差しのあるカフェの入口" loading="lazy" onerror="this.onerror=null;this.src='story_43.jpg'"><span class="status">#43</span></div>
+<div class="meta"><div class="scene">灯りのある店</div><h2>光のある店先</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/4552138/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="44" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/16499543/pexels-photo-16499543.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="木々に囲まれた日差しの階段" loading="lazy" onerror="this.onerror=null;this.src='story_44.jpg'"><span class="status">#44</span></div>
+<div class="meta"><div class="scene">窓辺の緑</div><h2>木漏れ日の階段</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/16499543/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="45" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/1139556/pexels-photo-1139556.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="空を映す町の建物" loading="lazy" onerror="this.onerror=null;this.src='story_45.jpg'"><span class="status">#45</span></div>
+<div class="meta"><div class="scene">朝の町</div><h2>空の色が変わる町</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/1139556/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="46" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/994605/pexels-photo-994605.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="海辺のヤシの木と道" loading="lazy" onerror="this.onerror=null;this.src='story_46.jpg'"><span class="status">#46</span></div>
+<div class="meta"><div class="scene">海と水平線</div><h2>海へ続く道</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/994605/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="47" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/23964488/pexels-photo-23964488.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="車窓から見える日差しの駅" loading="lazy" onerror="this.onerror=null;this.src='story_47.jpg'"><span class="status">#47</span></div>
+<div class="meta"><div class="scene">車窓</div><h2>窓から見える駅</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/23964488/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="48" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/28728339/pexels-photo-28728339.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="緑に囲まれた湖畔のカフェ" loading="lazy" onerror="this.onerror=null;this.src='story_48.jpg'"><span class="status">#48</span></div>
+<div class="meta"><div class="scene">湖畔のカフェ</div><h2>湖畔の一席</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/28728339/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="49" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/10059003/pexels-photo-10059003.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="日差しのある駅のホーム" loading="lazy" onerror="this.onerror=null;this.src='story_49.jpg'"><span class="status">#49</span></div>
+<div class="meta"><div class="scene">駅</div><h2>朝のホーム</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/10059003/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article>
+<article class="card" data-id="50" data-result="">
+<div class="photo"><img src="https://images.pexels.com/photos/23964494/pexels-photo-23964494.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="日差しの入る駅のホーム" loading="lazy" onerror="this.onerror=null;this.src='story_50.jpg'"><span class="status">#50</span></div>
+<div class="meta"><div class="scene">駅</div><h2>次の光</h2><div class="file">外部写真 · Pexels：Free to use（個別ページで最終確認）</div>
+<a class="source" href="https://www.pexels.com/photo/23964494/" target="_blank" rel="noopener">出典を確認 ↗</a>
+<div class="checks">
+<label><input type="checkbox" data-check="visual"> 写真内容とタイトルが合う</label>
+<label><input type="checkbox" data-check="crop"> 構図・トリミングOK</label>
+<label><input type="checkbox" data-check="mood"> PLACE ORACLEの世界観に合う</label>
+<label><input type="checkbox" data-check="rights"> 権利・出典を確認した</label>
+</div>
+<textarea maxlength="300" placeholder="気になる点、差し替え理由、権利メモなど"></textarea>
+<div class="actions"><button type="button" data-set="ok">OK</button><button type="button" data-set="review">要確認</button><button type="button" data-set="ng">差し替え</button></div></div></article></main>
+<script>
+const cards=[...document.querySelectorAll('.card')];let filter='all';
+function key(c){return 'po_photoqa_v2_'+c.dataset.id}
+function saveOne(c){localStorage.setItem(key(c),JSON.stringify({result:c.dataset.result||'',checks:[...c.querySelectorAll('input')].map(x=>x.checked),note:c.querySelector('textarea').value}))}
+function refresh(){cards.forEach(c=>c.hidden=filter==='pending'?!!c.dataset.result:filter==='review'?c.dataset.result!=='review':filter==='ng'?c.dataset.result!=='ng':false);document.querySelector('#count').textContent=cards.filter(c=>!c.hidden).length+' / '+cards.length+' 枚';}
+cards.forEach(c=>{const d=JSON.parse(localStorage.getItem(key(c))||'{}');if(d.result)c.dataset.result=d.result;if(Array.isArray(d.checks))c.querySelectorAll('input').forEach((x,i)=>x.checked=!!d.checks[i]);if(d.note)c.querySelector('textarea').value=d.note;c.querySelectorAll('[data-set]').forEach(b=>b.onclick=()=>{c.dataset.result=b.dataset.set;saveOne(c);refresh()});c.querySelectorAll('input,textarea').forEach(el=>el.addEventListener('change',()=>saveOne(c)))});
+document.querySelectorAll('[data-filter]').forEach(b=>b.onclick=()=>{filter=b.dataset.filter;refresh()});document.querySelector('#save').onclick=()=>{cards.forEach(saveOne);alert('この端末に保存しました。')};refresh();
+</script></body></html>
