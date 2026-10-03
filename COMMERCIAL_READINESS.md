@@ -116,3 +116,10 @@ GitHub Pages の静的な HTML だけでは、秘密鍵を保護した Webhook �
 - index.html が参照していた旧 `story_1.jpg`〜`story_5.jpg` は、監査済み `story_01.jpg`〜`story_05.jpg` と別ファイルで、個別出典記録を確認できなかった。
 - 公開時の未確認画像使用を避けるため、index.html 内の旧 `story_1.jpg`〜`story_5.jpg` 参照20箇所を監査対象の `story_01.jpg`〜`story_05.jpg` に統一した。
 - `hero_clean_photo.jpg` は公開トップで使用中のため、出典・第三者権利の確認が終わるまで写真ゲートは閉じたままとする。
+
+
+### Hero写真の処置（2026-10-03）
+- `hero_clean_photo.jpg` はGit履歴を初回公開コミットまで確認したが、元写真URL・作者・ライセンスを裏付ける記録を確認できなかったため、商用利用可とは判定しない。
+- `index.html` の `hero_clean_photo.jpg` 参照2箇所を、PHOTO_SOURCES.md / PHOTO_QA.html でPexels出典を記録済みの `story_46.jpg` に置換した。
+- これにより、出典不明のhero画像は商用公開画面から参照されない。元ファイルがリポジトリに残ること自体を、商用画面での利用許諾確認済みとは扱わない。
+- Pexels LicenseはWeb/商用利用を許諾するが、第三者権利は別途確認が必要という条件は継続して適用する。
