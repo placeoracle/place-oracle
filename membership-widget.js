@@ -74,6 +74,7 @@
           <button class="po-secondary" data-po-plan="yearly">年額5,000円で利用する</button>
         </div>
         <div id="poPreparing" hidden>メンバーシップは現在準備中です。</div>
+        <button id="poPortalBtn" class="po-secondary" hidden>契約・お支払い管理</button>
         <button id="poLogoutBtn" class="po-secondary" hidden>ログアウト</button>
         <div id="poMemberResult"></div>
       </section>
@@ -85,6 +86,7 @@
     const googleBtn = shade.querySelector('#poGoogleBtn');
     const purchase = shade.querySelector('#poPurchase');
     const preparing = shade.querySelector('#poPreparing');
+    const portalBtn = shade.querySelector('#poPortalBtn');
     const logoutBtn = shade.querySelector('#poLogoutBtn');
     const result = shade.querySelector('#poMemberResult');
 
@@ -97,6 +99,7 @@
       googleBtn.style.display = authed ? 'none' : 'block';
       purchase.hidden = !TEST_MODE || !authed || active;
       preparing.hidden = TEST_MODE || !authed || active;
+      portalBtn.hidden = !active;
       logoutBtn.hidden = !authed;
 
       if (!authed) statusEl.textContent = 'Googleでログインすると、メンバーシップを確認できます。';
@@ -137,6 +140,16 @@
     btn.onclick = () => { shade.classList.add('po-open'); refresh(); };
     shade.querySelector('#poMemberClose').onclick = () => shade.classList.remove('po-open');
     shade.addEventListener('click', e => { if (e.target === shade) shade.classList.remove('po-open'); });
+    portalBtn.onclick = async () => {
+      try {
+        result.textContent = 'Stripeの契約管理画面を準備しています…';
+        const data = await window.PlaceOracleAuth.createPortal();
+        location.href = data.url;
+      } catch (e) {
+        result.textContent = e?.message || String(e);
+      }
+    };
+
     logoutBtn.onclick = async () => {
       try {
         await window.PlaceOracleAuth.logout();
@@ -153,6 +166,20 @@
     shade.querySelectorAll('[data-po-plan]').forEach(el => {
       el.onclick = async () => {
         try {
+          const yearly = el.dataset.poPlan === 'yearly';
+          const price = yearly ? '年額5,000円（税込）' : '月額500円（税込）';
+          const cycle = yearly ? '1年ごと' : '1か月ごと';
+          const ok = window.confirm(
+            'PLACE ORACLE メンバーシップ\n\n' +
+            '料金：' + price + '\n' +
+            '自動更新：' + cycle + '\n' +
+            '提供開始：決済完了後\n' +
+            '解約：次回更新日前までに契約管理画面から手続き\n' +
+            '解約後：支払済み期間末まで利用可能\n' +
+            '途中解約による返金：なし（法令上必要な場合を除く）\n\n' +
+            '上記を確認してStripeの決済画面へ進みますか？'
+          );
+          if (!ok) return;
           result.textContent = 'Stripe Checkoutを準備しています…';
           const data = await window.PlaceOracleAuth.createCheckout(el.dataset.poPlan);
           location.href = data.url;
