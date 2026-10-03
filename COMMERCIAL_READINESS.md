@@ -49,3 +49,11 @@ GitHub Pages の静的な HTML だけでは、秘密鍵を保護した Webhook �
 - Stripe Customer Portal: https://docs.stripe.com/customer-management
 - 消費者庁・通信販売の最終確認画面: https://www.caa.go.jp/notice/assets/consumer_transaction_cms203_240315_02.pdf
 - 個人情報保護委員会・個人情報保護法ガイドライン: https://www.ppc.go.jp/personalinfo/legal/guidelines_tsusoku/
+
+
+## CI再検証（2026-10-03）
+
+- PR #2 最新HEAD `b6ee0255471e1bfbe7e7f89de49bfd2a40e7dd88`
+- GitHub Actions `Story gallery QA` run #4（run id: 37119650746）: **success**
+- STORY / PHOTO_QA / fallback / Pexels画像到達性 / モバイルギャラリー確認を通過。
+- ただし、このCIはStripe本番設定、法的適合性、写真内の第三者権利、実公開サイトとの一致を証明しない。
