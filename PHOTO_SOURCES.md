@@ -31,7 +31,7 @@ STORY写真の出典と、採用理由を記録する。公開前に各写真ペ
 | 22 | 雨の日の読書 | https://www.pexels.com/photo/30629968/ | Pexels掲載ページを記録。ライセンス・作者は要確認 |
 | 23 | 夜の本屋 | https://www.pexels.com/photo/10595443/ | Pexels掲載ページを記録。ライセンス・作者は要確認 |
 | 24 | 雨の街を眺める席 | https://www.pexels.com/photo/34922463/ | Pexels掲載ページを記録。ライセンス・作者は要確認 |
-| 25 | 窓越しに待つ人 | https://www.pexels.com/photo/man-waiting-at-train-platform-through-window-37039663/ | Pexels掲載ページを確認（Free to use）。作者: Fatmanur K. |
+| 25 | 窓越しに待つ人 | https://www.pexels.com/photo/man-waiting-at-railway-station-12935373/ | Pexels掲載ページを記録。人物を含むため第三者権利リスクを継続監査 |
 | 26 | 夜のバス停 | https://www.pexels.com/photo/bus-stop-in-city-17792802/ | Pexels掲載ページを記録。ライセンス・作者は要確認 |
 | 27 | 開いたノートと灯り | https://www.pexels.com/photo/9871139/ | Pexels掲載ページを記録。ライセンス・作者は要確認 |
 | 28 | 夜の自販機 | https://www.pexels.com/photo/colorful-bookshelf-beside-a-bright-window-36500357/ | Pexels掲載ページを記録。ライセンス・作者は要確認 |
