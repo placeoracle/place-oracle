@@ -75,3 +75,29 @@ GitHub Pages の静的な HTML だけでは、秘密鍵を保護した Webhook �
 5. **実公開サイト** — 本番URLを一次情報として特定できていないため、デプロイ内容とmainの一致を未確認とする。
 
 上記5項目のうち1つでも未確認なら、商用「完成」「公開可」と判定しない。
+
+
+## 2026-10-03 本番環境実証監査
+
+### 実環境で確認・修正済み
+- Stripe本番アカウントを確認。月額Priceは500円（税込）で有効。
+- 年額5,000円（税込）の本番Priceを作成・有効化し、旧年額4,800円Priceは新規販売不可に変更。
+- Cloudflare本番Worker `place-oracle-billing` を確認。
+- Workerの `STRIPE_PRICE_MONTHLY` は本番500円Priceと一致。
+- Workerの `STRIPE_PRICE_YEARLY` を旧4,800円Priceから本番5,000円Priceへ修正し、100%デプロイを確認。
+- `STRIPE_SECRET_KEY` と `STRIPE_WEBHOOK_SECRET` はWorker secret bindingとして存在することを確認（秘密値そのものは取得・記録しない）。
+- D1 binding `DB` と、`po_users` / `po_sessions` / `subscriptions` テーブルの存在を確認。
+- WorkerはStripe-SignatureのHMAC-SHA256検証と5分のtimestamp許容を実装。
+- Stripe本番Webhook送信先が `/stripe/webhook` であることを確認。
+- Stripe本番Webhookの購読イベントを、Checkout完了に加えて subscription created / updated / deleted へ拡張し、Worker実装と一致させた。
+- `auth-test.html` に残っていた旧480円/月・4,800円/年表示を500円/月・5,000円/年へ修正。
+
+### まだ販売開始を止める項目
+1. **Webhook冪等性・順不同対策** — 設計書ではイベントIDによる重複防止を要求しているが、本番Workerには処理済みevent ID保存がなく、順不同イベントの保護も未実装。
+2. **Customer Portal / 解約導線** — 本番WorkerにPortal Session発行エンドポイントがなく、サイトからのセルフサービス解約・支払方法変更を未確認。
+3. **購入直前の最終確認表示** — 消費者庁が定期購入で求める価格、各回の請求、提供時期、解約条件・方法等を注文確定直前に確認できる実装の実画面確認が未完了。
+4. **販売者情報の運用事実** — 特商法11条ただし書による省略を使う場合、請求時に申込判断前の十分な時間をもって正式名称・活動住所・確実な電話番号を実際に開示できる運用の確認が必要。
+5. **写真の個別第三者権利** — Pexels共通ライセンスとは別に、写り込む人物・商標・ロゴ・著作物等の個別確認が未完了。
+6. **本番公開内容の反映** — PR #2は未マージのため、監査ブランチの修正が本番GitHub Pagesへ反映されたとは扱わない。
+
+上記が1件でも残る間は商用「完成」「公開可」と判定しない。
