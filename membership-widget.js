@@ -71,7 +71,7 @@
         <div id="poGoogleBtn"></div>
         <div id="poPurchase" class="po-actions" hidden>
           <button class="po-buy" data-po-plan="monthly">月額500円で利用する</button>
-          <button class="po-secondary" data-po-plan="yearly">年額4,800円で利用する</button>
+          <button class="po-secondary" data-po-plan="yearly">年額5,000円で利用する</button>
         </div>
         <div id="poPreparing" hidden>メンバーシップは現在準備中です。</div>
         <button id="poLogoutBtn" class="po-secondary" hidden>ログアウト</button>
