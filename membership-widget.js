@@ -38,6 +38,12 @@
       #poMemberPanel .po-close{border:0;background:transparent;font-size:28px;cursor:pointer;color:#15313d}
       #poMemberPanel .po-status{padding:14px 16px;background:#fff;border:1px solid #ded8c9;border-radius:12px;margin:16px 0}
       #poMemberPanel .po-actions{display:grid;gap:10px;margin-top:18px}
+      #poConfirm{margin-top:18px;padding:18px;background:#fff;border:1px solid #ded8c9;border-radius:14px}
+      #poConfirm h3{margin:0 0 12px;font-size:19px}
+      #poConfirm dl{display:grid;grid-template-columns:auto 1fr;gap:8px 14px;margin:0 0 14px;font-size:14px}
+      #poConfirm dt{font-weight:700}#poConfirm dd{margin:0}
+      #poConfirm .po-legal{font-size:13px;line-height:1.7;margin:12px 0}
+      #poConfirm .po-confirm-actions{display:grid;gap:10px}
       #poMemberPanel .po-buy,#poMemberPanel .po-secondary{border-radius:999px;padding:13px 18px;font-weight:700;cursor:pointer}
       #poMemberPanel .po-buy{border:0;background:#174e64;color:#fff}
       #poMemberPanel .po-secondary{border:1px solid #174e64;background:transparent;color:#174e64}
@@ -71,9 +77,27 @@
         <div id="poGoogleBtn"></div>
         <div id="poPurchase" class="po-actions" hidden>
           <button class="po-buy" data-po-plan="monthly">月額500円で利用する</button>
-          <button class="po-secondary" data-po-plan="yearly">年額4,800円で利用する</button>
+          <button class="po-secondary" data-po-plan="yearly">年額5,000円で利用する</button>
         </div>
         <div id="poPreparing" hidden>メンバーシップは現在準備中です。</div>
+        <div id="poConfirm" hidden aria-live="polite">
+          <h3>お申し込み内容の最終確認</h3>
+          <dl>
+            <dt>プラン</dt><dd id="poConfirmPlan"></dd>
+            <dt>料金</dt><dd id="poConfirmPrice"></dd>
+            <dt>自動更新</dt><dd id="poConfirmCycle"></dd>
+            <dt>提供開始</dt><dd>決済完了後</dd>
+            <dt>解約</dt><dd>次回更新日前までに契約管理画面から次回更新を停止</dd>
+            <dt>解約後</dt><dd>支払済み期間の末日まで利用可能</dd>
+            <dt>途中解約の返金</dt><dd>なし（法令上必要な場合を除く）</dd>
+          </dl>
+          <p class="po-legal"><a href="terms.html" target="_blank" rel="noopener">利用規約</a> ／ <a href="tokusho.html" target="_blank" rel="noopener">特定商取引法に基づく表示</a> ／ <a href="privacy.html" target="_blank" rel="noopener">プライバシーポリシー</a></p>
+          <div class="po-confirm-actions">
+            <button id="poConfirmCheckout" class="po-buy">Stripeで申し込む</button>
+            <button id="poConfirmBack" class="po-secondary">戻る</button>
+          </div>
+        </div>
+        <button id="poPortalBtn" class="po-secondary" hidden>契約・お支払い管理</button>
         <button id="poLogoutBtn" class="po-secondary" hidden>ログアウト</button>
         <div id="poMemberResult"></div>
       </section>
@@ -85,6 +109,13 @@
     const googleBtn = shade.querySelector('#poGoogleBtn');
     const purchase = shade.querySelector('#poPurchase');
     const preparing = shade.querySelector('#poPreparing');
+    const confirmBox = shade.querySelector('#poConfirm');
+    const confirmPlan = shade.querySelector('#poConfirmPlan');
+    const confirmPrice = shade.querySelector('#poConfirmPrice');
+    const confirmCycle = shade.querySelector('#poConfirmCycle');
+    const confirmCheckout = shade.querySelector('#poConfirmCheckout');
+    const confirmBack = shade.querySelector('#poConfirmBack');
+    const portalBtn = shade.querySelector('#poPortalBtn');
     const logoutBtn = shade.querySelector('#poLogoutBtn');
     const result = shade.querySelector('#poMemberResult');
 
@@ -97,6 +128,7 @@
       googleBtn.style.display = authed ? 'none' : 'block';
       purchase.hidden = !TEST_MODE || !authed || active;
       preparing.hidden = TEST_MODE || !authed || active;
+      portalBtn.hidden = !active;
       logoutBtn.hidden = !authed;
 
       if (!authed) statusEl.textContent = 'Googleでログインすると、メンバーシップを確認できます。';
@@ -137,6 +169,16 @@
     btn.onclick = () => { shade.classList.add('po-open'); refresh(); };
     shade.querySelector('#poMemberClose').onclick = () => shade.classList.remove('po-open');
     shade.addEventListener('click', e => { if (e.target === shade) shade.classList.remove('po-open'); });
+    portalBtn.onclick = async () => {
+      try {
+        result.textContent = 'Stripeの契約管理画面を準備しています…';
+        const data = await window.PlaceOracleAuth.createPortal();
+        location.href = data.url;
+      } catch (e) {
+        result.textContent = e?.message || String(e);
+      }
+    };
+
     logoutBtn.onclick = async () => {
       try {
         await window.PlaceOracleAuth.logout();
@@ -150,17 +192,38 @@
       }
     };
 
+    let pendingPlan = null;
     shade.querySelectorAll('[data-po-plan]').forEach(el => {
-      el.onclick = async () => {
-        try {
-          result.textContent = 'Stripe Checkoutを準備しています…';
-          const data = await window.PlaceOracleAuth.createCheckout(el.dataset.poPlan);
-          location.href = data.url;
-        } catch (e) {
-          result.textContent = e?.message || String(e);
-        }
+      el.onclick = () => {
+        const yearly = el.dataset.poPlan === 'yearly';
+        pendingPlan = el.dataset.poPlan;
+        confirmPlan.textContent = yearly ? '年額プラン' : '月額プラン';
+        confirmPrice.textContent = yearly ? '5,000円（税込）／年' : '500円（税込）／月';
+        confirmCycle.textContent = yearly ? '1年ごと' : '1か月ごと';
+        purchase.hidden = true;
+        confirmBox.hidden = false;
+        confirmCheckout.focus();
       };
     });
+
+    confirmBack.onclick = () => {
+      pendingPlan = null;
+      confirmBox.hidden = true;
+      purchase.hidden = !TEST_MODE;
+    };
+
+    confirmCheckout.onclick = async () => {
+      if (!pendingPlan) return;
+      try {
+        result.textContent = 'Stripe Checkoutを準備しています…';
+        confirmCheckout.disabled = true;
+        const data = await window.PlaceOracleAuth.createCheckout(pendingPlan);
+        location.href = data.url;
+      } catch (e) {
+        confirmCheckout.disabled = false;
+        result.textContent = e?.message || String(e);
+      }
+    };
 
     initGoogle();
     refresh();
