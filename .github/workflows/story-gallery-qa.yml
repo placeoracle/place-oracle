@@ -6,6 +6,7 @@ on:
     paths:
       - 'index.html'
       - 'PHOTO_QA.html'
+      - 'membership-widget.js'
       - 'story_*.jpg'
       - '.github/workflows/story-gallery-qa.yml'
       - '.github/scripts/**'
@@ -13,6 +14,7 @@ on:
     paths:
       - 'index.html'
       - 'PHOTO_QA.html'
+      - 'membership-widget.js'
       - 'story_*.jpg'
       - '.github/workflows/story-gallery-qa.yml'
       - '.github/scripts/**'
@@ -47,6 +49,10 @@ jobs:
           (async () => {
             const browser = await chromium.launch({ headless: true });
             const page = await browser.newPage({ viewport: { width: 1600, height: 1200 } });
+            const hero = await browser.newPage({ viewport: { width: 390, height: 844 } });
+            await hero.goto('http://127.0.0.1:4173/index.html', { waitUntil: 'networkidle', timeout: 120000 });
+            await hero.screenshot({ path: 'qa-artifacts/hero-mobile.png', fullPage: false });
+            await hero.close();
             await page.goto('http://127.0.0.1:4173/PHOTO_QA.html', { waitUntil: 'networkidle', timeout: 120000 });
             await page.screenshot({ path: 'qa-artifacts/photo-qa-full.png', fullPage: true });
             for (const id of [1,6,11,16,21,26,31]) {
@@ -73,6 +79,7 @@ jobs:
           name: story-gallery-mobile-check
           path: |
             qa-artifacts/story-gallery-mobile.png
+            qa-artifacts/hero-mobile.png
             qa-artifacts/photo-qa-full.png
             qa-artifacts/audit-*.png
             qa-artifacts/photo-qa-36-batch.png
