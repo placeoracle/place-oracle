@@ -163,3 +163,30 @@ GitHub Pages の静的な HTML だけでは、秘密鍵を保護した Webhook �
 3. **販売有効化** — membership-widget.js の TEST_MODE=false を維持しており、購入ボタンは一般利用者に出ない。監査完了前に販売ONにしない。
 
 この3項目が残る間は商用「完成」「公開可」と判定しない。
+
+
+## 2026-10-04 Sandbox実動E2E・写真権利リスク処理
+
+### Sandbox実動E2E
+- Google OAuthのSandbox Worker originを既存の PLACE ORACLE Login プロジェクトへ追加し、Googleログイン実動を確認。
+- 認証済みSandboxセッションから test Worker が月額500円のStripe Checkout Sessionを生成できることを実画面で確認。
+- Sandbox決済後、`checkout.session.completed` / `invoice.paid` / `customer.subscription.created` がtest Workerへ届き、test D1に現行Sandbox Price・`active` 状態・期間終了日時が保存されることを確認。
+- 認証済みSandboxセッションから Customer Portal Sessionを生成できることを実画面で確認。
+- Portalから解約を実行し、契約期間末まで利用継続・次回更新停止の表示を確認。
+- Stripe API上は今回のPortal解約を具体的な `cancel_at` 日時で表現しており、購読は `active` のまま。test Workerは `customer.subscription.updated` を受信し、D1の会員状態を `active` のまま更新した。
+- 以上により、Sandboxでは「Googleログイン → Worker → Checkout → 決済 → Webhook → D1 → Portal → 期間末解約」の一連の経路を実動確認済み。
+
+### 写真権利リスク処理
+- Pexels公式ライセンス/ヘルプを2026-10-04に再確認し、Pexels素材の商用Web利用自体は許可されることを確認。
+- 一方、人物・商標・ロゴ・ブランド・建築等には別の第三者権利が成立し得るため、Pexelsライセンス確認と第三者権利保証は区別する。
+- STORY 25は人物を明示的に含む旧駅素材を公開候補から除外し、Pexels上で empty platform / no people と説明される無人ホーム素材へ変更。
+- STORY 41は人物・店舗表示が入りやすい市場素材を、Pexels上で empty outdoor street market と説明される無人市場素材へ変更。
+- 世界観を壊す一括自然景観置換は行わず、駅・市場というテーマを維持したままリスクを下げた。
+- Heroはユーザー申告に基づくChatGPT生成画像として扱い、第三者写真ライセンス未確認扱いからは除外する。ただし生成履歴を独立検証済みとは表現しない。
+
+### 現在の残存ゲート
+1. **写真の残余第三者権利** — Pexelsの商用利用許諾は確認済みだが、残る店舗・駅・空港・本屋・ホテル・建築等の各素材について、第三者権利の不存在をPexelsは保証していない。これらを「完全に権利クリア」と断定しない。
+2. **本番GitHub Pages一致確認** — PR #2は未マージ。現時点の本番Pagesはmain相当であり、監査ブランチとの差分が残る。マージ前に「公開後一致」とは判定しない。
+3. **販売有効化** — 本番の販売UIはOFFを維持。公開後一致確認前にONにしない。
+
+上記が残る間は商用「完成」「公開可」と判定しない。
