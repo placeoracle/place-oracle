@@ -24,6 +24,10 @@
   }
 
   function addStyles() {
+    const heroMobileStyle = document.createElement('style');
+    heroMobileStyle.textContent = '@media(max-width:720px){.hero-photo{background-position:72% center!important}}';
+    document.head.appendChild(heroMobileStyle);
+
     const style = document.createElement('style');
     style.textContent = `
       #poMemberBtn{position:absolute;z-index:2147483000;top:18px;right:220px;border:1px solid rgba(255,255,255,.55);border-radius:999px;padding:10px 17px;background:rgba(17,44,59,.72);color:#fff;font:600 14px/1 system-ui,-apple-system,"Segoe UI",sans-serif;backdrop-filter:blur(8px);cursor:pointer;box-shadow:0 4px 18px rgba(0,0,0,.16)}
