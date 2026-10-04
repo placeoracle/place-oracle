@@ -31,7 +31,7 @@ STORY写真の出典と、採用理由を記録する。公開前に各写真ペ
 | 22 | 雨の日の読書 | https://www.pexels.com/photo/30629968/ | Pexels掲載ページを記録。ライセンス・作者は要確認 |
 | 23 | 夜の本屋 | https://www.pexels.com/photo/10595443/ | Pexels掲載ページを記録。ライセンス・作者は要確認 |
 | 24 | 雨の街を眺める席 | https://www.pexels.com/photo/34922463/ | Pexels掲載ページを記録。ライセンス・作者は要確認 |
-| 25 | 窓越しに待つ人 | https://www.pexels.com/photo/man-waiting-at-railway-station-12935373/ | Pexels掲載ページを記録。人物を含むため第三者権利リスクを継続監査 |
+| 25 | 静かなホーム | https://www.pexels.com/photo/empty-platform-in-train-station-9360429/ | Pexels掲載ページで Free to use。説明上 No People / empty platform を確認し、人物を含む旧素材を公開候補から除外 |
 | 26 | 夜のバス停 | https://www.pexels.com/photo/bus-stop-in-city-17792802/ | Pexels掲載ページを記録。ライセンス・作者は要確認 |
 | 27 | 開いたノートと灯り | https://www.pexels.com/photo/9871139/ | Pexels掲載ページを記録。ライセンス・作者は要確認 |
 | 28 | 夜の自販機 | https://www.pexels.com/photo/colorful-bookshelf-beside-a-bright-window-36500357/ | Pexels掲載ページを記録。ライセンス・作者は要確認 |
@@ -72,7 +72,7 @@ Pexels公式ライセンスおよび公式ヘルプでは、Pexels上の写真�
 | 38 | Pexels — https://www.pexels.com/photo/38714353/ |
 | 39 | Pexels — https://www.pexels.com/photo/34613805/ |
 | 40 | Pexels — https://www.pexels.com/photo/36803978/ |
-| 41 | Pexels — https://www.pexels.com/photo/30893335/ |
+| 41 | Pexels — https://www.pexels.com/photo/empty-market-stalls-with-cover-16350503/ |
 | 42 | Pexels — https://www.pexels.com/photo/29078068/ |
 | 43 | Pexels — https://www.pexels.com/photo/4552138/ |
 | 44 | Pexels — https://www.pexels.com/photo/16499543/ |
@@ -82,3 +82,10 @@ Pexels公式ライセンスおよび公式ヘルプでは、Pexels上の写真�
 | 48 | Pexels — https://www.pexels.com/photo/28728339/ |
 | 49 | Pexels — https://www.pexels.com/photo/10059003/ |
 | 50 | Pexels — https://www.pexels.com/photo/23964494/ |
+
+
+## 2026-10-04 第三者権利リスク低減
+
+- STORY 25: 人物を明示的に含む駅素材を、Pexels上で「empty platform」「No People」と説明される無人ホーム素材へ変更。駅・待つ・余白というテーマは維持する。
+- STORY 41: 人物・店舗表示が入りやすい屋外市場素材を、Pexels上で「empty outdoor street market with closed stalls and tents」と説明される無人市場素材へ変更。市場というテーマは維持する。
+- Pexels公式は商用Web利用を認める一方、人物・商標・ロゴ・ブランド・建築等の第三者権利について利用者側で追加確認が必要な場合があるとしている。このため、明示的な人物を含む素材は公開候補から外し、残る写真は「Pexelsライセンス確認済み」と「第三者権利を個別保証済み」を区別して記録する。
