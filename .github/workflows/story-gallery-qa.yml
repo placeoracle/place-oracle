@@ -39,10 +39,25 @@ jobs:
         run: |
           python3 -m http.server 4173 --directory . > /tmp/place-oracle-http.log 2>&1 &
           node .github/scripts/check-mobile-story-gallery.mjs
-      - name: Upload mobile check screenshot
+      - name: Capture full PHOTO_QA contact sheet
+        if: always()
+        run: |
+          node - <<'NODE'
+          const { chromium } = require('playwright');
+          (async () => {
+            const browser = await chromium.launch({ headless: true });
+            const page = await browser.newPage({ viewport: { width: 1600, height: 1200 } });
+            await page.goto('http://127.0.0.1:4173/PHOTO_QA.html', { waitUntil: 'networkidle', timeout: 120000 });
+            await page.screenshot({ path: 'qa-artifacts/photo-qa-full.png', fullPage: true });
+            await browser.close();
+          })();
+          NODE
+      - name: Upload QA screenshots
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: story-gallery-mobile-check
-          path: qa-artifacts/story-gallery-mobile.png
+          path: |
+            qa-artifacts/story-gallery-mobile.png
+            qa-artifacts/photo-qa-full.png
           if-no-files-found: warn
