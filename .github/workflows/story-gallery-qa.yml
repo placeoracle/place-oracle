@@ -49,6 +49,12 @@ jobs:
             const page = await browser.newPage({ viewport: { width: 1600, height: 1200 } });
             await page.goto('http://127.0.0.1:4173/PHOTO_QA.html', { waitUntil: 'networkidle', timeout: 120000 });
             await page.screenshot({ path: 'qa-artifacts/photo-qa-full.png', fullPage: true });
+            for (const id of [1,6,11,16,21,26,31]) {
+              const card = page.locator('.card[data-id="' + id + '"]');
+              await card.scrollIntoViewIfNeeded();
+              const box = await card.boundingBox();
+              await page.screenshot({ path: 'qa-artifacts/audit-' + id + '.png', clip: { x: 0, y: Math.max(0, box.y), width: 1600, height: 3600 } });
+            }
             await page.locator('.card[data-id="36"]').scrollIntoViewIfNeeded();
             await page.waitForFunction(() => [36,37,38,39,40].every(id => { const img=document.querySelector('.card[data-id="'+id+'"] img'); return img && img.complete && img.naturalWidth > 0; }), null, { timeout: 120000 });
             for (const id of [36,41,46]) {
@@ -68,6 +74,7 @@ jobs:
           path: |
             qa-artifacts/story-gallery-mobile.png
             qa-artifacts/photo-qa-full.png
+            qa-artifacts/audit-*.png
             qa-artifacts/photo-qa-36-batch.png
             qa-artifacts/photo-qa-41-batch.png
             qa-artifacts/photo-qa-46-batch.png
