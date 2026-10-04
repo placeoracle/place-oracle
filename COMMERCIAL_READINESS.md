@@ -190,3 +190,24 @@ GitHub Pages の静的な HTML だけでは、秘密鍵を保護した Webhook �
 3. **販売有効化** — 本番の販売UIはOFFを維持。公開後一致確認前にONにしない。
 
 上記が残る間は商用「完成」「公開可」と判定しない。
+
+
+## 2026-10-04 Sandbox E2E 実動確認
+
+### 確認済み
+- Stripe Sandbox / Cloudflare test Worker / test D1 を本番と分離して構築。
+- Sandbox用の月額500円・年額5,000円の定期課金Priceを作成。
+- Sandbox用Customer Portalを構成し、期間末解約・日割りなし・支払方法変更・請求履歴を設定。
+- Google OAuthの承認済みJavaScript生成元へテストWorker originを追加し、Sandbox画面からGoogleログイン成功を確認。
+- 実際に Sandbox で「Googleログイン → test Worker → Stripe Checkout → テスト決済 → Webhook → test D1」まで完走。
+- checkout.session.completed / invoice.paid / customer.subscription.created を受信し、D1へ active の現行Sandbox Priceとして保存されることを確認。
+- Customer Portalをtest Worker経由で開き、支払済み期間末での解約を実施。
+- Stripeでは解約後も status=active のまま、契約終了日時が現在の支払済み期間末へ設定されることを確認。
+- customer.subscription.updated をWebhookで受信し、D1でも active / current_period_end 維持のまま最新イベントへ更新されることを確認。
+
+### 依然として残るリリースゲート
+1. **写真の個別第三者権利** — Pexels共通ライセンスの商用利用可は確認済みだが、人物・商標・ロゴ・ブランド・美術著作物・建築等が写る各写真について、Pexels掲載だけで第三者権利まで一律にクリア済みとは扱わない。PHOTO_QA / PHOTO_SOURCES で50件の出典対応は記録済みだが、個別権利の一次証跡は未完了。
+2. **本番GitHub Pages一致確認** — PR #2は未マージ。監査ブランチの修正は本番Pagesへ反映されていないため、マージ後の公開URLとmainの一致確認は未実施。
+3. **販売有効化** — 一般利用者向け販売導線は引き続きOFF。上記ゲート解消前に有効化しない。
+
+上記が残るため、現時点では商用「完成」「公開可」とは判定しない。
