@@ -8,35 +8,35 @@ STORY写真の出典と、採用理由を記録する。公開前に各写真ペ
 | STORY | 内容 | 出典 | 作者・ライセンス確認 |
 |---|---|---|---|
 | 06 | 窓辺の本とコーヒー | https://www.pexels.com/photo/open-book-and-iced-coffee-by-a-window-32026700/ | 2026-10-04 表紙の大写しを避け、開いた本と飲み物の構図へ変更 |
-| 07 | 出発を待つ窓（空港） | https://www.pexels.com/photo/empty-airport-terminal-with-escalator-36303749/ | Pexels掲載ページでFree。個別条件は公開前に再確認 |
-| 08 | 誰もいない教室 | https://www.pexels.com/photo/sunlit-empty-classroom-with-modern-design-30105085/ | Pexels掲載ページでFree to use。個別条件は公開前に再確認 |
-| 09 | 窓越しのホーム | https://www.pexels.com/photo/view-of-the-train-station-platform-through-the-window-23964499/ | Pexels掲載ページでFree to use。個別条件は公開前に再確認 |
+| 07 | 出発を待つ窓（空港） | https://www.pexels.com/photo/empty-airport-terminal-with-escalator-36303749/ | Pexels共通ライセンスは2026-10-05再確認済み。第三者権利要素は実画像確認待ち |
+| 08 | 誰もいない教室 | https://www.pexels.com/photo/sunlit-empty-classroom-with-modern-design-30105085/ | Pexels共通ライセンスは2026-10-05再確認済み。第三者権利要素は実画像確認待ち |
+| 09 | 窓越しのホーム | https://www.pexels.com/photo/view-of-the-train-station-platform-through-the-window-23964499/ | Pexels共通ライセンスは2026-10-05再確認済み。第三者権利要素は実画像確認待ち |
 | 10 | 本屋の窓 | https://www.pexels.com/photo/interior-of-a-bookstore-17332570/ | 2026-10-04 人物のいない書店内観へ変更 |
-| 11 | 雨の日の窓辺 | https://www.pexels.com/photo/a-coffee-cup-and-candles-by-a-window-9622380/ | Pexels掲載ページでFree。個別条件は公開前に再確認 |
-| 12 | 旅先の窓（ホテル） | https://www.pexels.com/photo/modern-hotel-room-with-scenic-view-30722813/ | Pexels掲載ページでFree。個別条件は公開前に再確認 |
+| 11 | 雨の日の窓辺 | https://www.pexels.com/photo/a-coffee-cup-and-candles-by-a-window-9622380/ | Pexels共通ライセンスは2026-10-05再確認済み。第三者権利要素は実画像確認待ち |
+| 12 | 旅先の窓（ホテル） | https://www.pexels.com/photo/modern-hotel-room-with-scenic-view-30722813/ | Pexels共通ライセンスは2026-10-05再確認済み。第三者権利要素は実画像確認待ち |
 | 13 | 光の本屋 | https://www.pexels.com/photo/cozy-bookstore-interior-with-shelves-and-books-38926004/ | 2026-10-04 人物のいない書店内観へ変更 |
-| 14 | 誰もいないブランコ | https://www.pexels.com/photo/sunny-playground-with-slide-and-swings-32941676/ | Pexels掲載ページでFree to use。個別条件は公開前に再確認 |
-| 15 | 滑走路を眺める席 | https://www.pexels.com/photo/empty-airport-seating-in-modern-terminal-at-dusk-29464875/ | Pexels掲載ページでFree to use。個別条件は公開前に再確認 |
+| 14 | 誰もいないブランコ | https://www.pexels.com/photo/sunny-playground-with-slide-and-swings-32941676/ | Pexels共通ライセンスは2026-10-05再確認済み。第三者権利要素は実画像確認待ち |
+| 15 | 滑走路を眺める席 | https://www.pexels.com/photo/empty-airport-seating-in-modern-terminal-at-dusk-29464875/ | Pexels共通ライセンスは2026-10-05再確認済み。第三者権利要素は実画像確認待ち |
 
 ## STORY 16–30
 
 | STORY | 内容 | 出典 | 作者・ライセンス確認 |
 |---|---|---|---|
 | 16 | ランドリーの灯り | https://www.pexels.com/photo/laundry-machines-and-chairs-at-laundromat-11077633/ | 2026-10-04 人物のいないランドリー内観へ変更 |
-| 17 | 空いた車内からホーム | https://www.pexels.com/photo/4377112/ | Pexels掲載ページを記録。ライセンス・作者は要確認 |
+| 17 | 空いた車内からホーム | https://www.pexels.com/photo/4377112/ | Pexels共通ライセンスは2026-10-05再確認済み。第三者権利要素は実画像確認待ち |
 | 18 | 古い本屋の窓 | https://www.pexels.com/photo/cozy-bookstore-interior-with-wooden-tables-38681940/ | 2026-10-04 人物のいない書店内観へ変更 |
-| 19 | 雨音とコーヒー | https://www.pexels.com/photo/30719253/ | Pexels掲載ページを記録。ライセンス・作者は要確認 |
+| 19 | 雨音とコーヒー | https://www.pexels.com/photo/30719253/ | Pexels共通ライセンスは2026-10-05再確認済み。第三者権利要素は実画像確認待ち |
 | 20 | 静かな待合席 | https://www.pexels.com/photo/quiet-airport-terminal-waiting-area-with-sunlit-seats-35070553/ | 2026-10-04 無人の空港待合席へ変更 |
-| 21 | 朝のブランコ | https://www.pexels.com/photo/34164757/ | Pexels掲載ページを記録。ライセンス・作者は要確認 |
-| 22 | 雨の日の読書 | https://www.pexels.com/photo/30629968/ | Pexels掲載ページを記録。ライセンス・作者は要確認 |
+| 21 | 朝のブランコ | https://www.pexels.com/photo/34164757/ | Pexels共通ライセンスは2026-10-05再確認済み。第三者権利要素は実画像確認待ち |
+| 22 | 雨の日の読書 | https://www.pexels.com/photo/30629968/ | Pexels共通ライセンスは2026-10-05再確認済み。第三者権利要素は実画像確認待ち |
 | 23 | 灯りの本屋 | https://www.pexels.com/photo/interior-of-a-bookstore-13754032/ | 2026-10-04 人物のいない書店内観へ変更 |
 | 24 | 雨の街を眺める席 | https://www.pexels.com/photo/raindrops-on-glass-panel-8419085/ | 2026-10-04 人物のいない雨の窓辺・空席へ変更 |
 | 25 | 静かなホーム | https://www.pexels.com/photo/empty-platform-in-train-station-9360429/ | 2026-10-04 無人ホーム。旧人物入り画像は公開対象から除外 |
 | 26 | 昼のバス停 | https://www.pexels.com/photo/empty-bus-stop-with-metal-seating-33470081/ | 2026-10-04 人物入り画像を避け、無人バス停へ変更 |
-| 27 | 開いたノートと灯り | https://www.pexels.com/photo/9871139/ | Pexels掲載ページを記録。ライセンス・作者は要確認 |
+| 27 | 開いたノートと灯り | https://www.pexels.com/photo/9871139/ | Pexels共通ライセンスは2026-10-05再確認済み。第三者権利要素は実画像確認待ち |
 | 28 | 窓辺の本棚 | https://www.pexels.com/photo/shelves-with-books-a-bookstore-interior-17910625/ | 2026-10-04 人物のいない書店内観へ変更 |
-| 29 | 海を眺める空席 | https://www.pexels.com/photo/17881625/ | Pexels掲載ページを記録。ライセンス・作者は要確認 |
-| 30 | 朝の住宅街 | https://www.pexels.com/photo/31369860/ | Pexels掲載ページを記録。ライセンス・作者は要確認 |
+| 29 | 海を眺める空席 | https://www.pexels.com/photo/17881625/ | Pexels共通ライセンスは2026-10-05再確認済み。第三者権利要素は実画像確認待ち |
+| 30 | 朝の住宅街 | https://www.pexels.com/photo/31369860/ | Pexels共通ライセンスは2026-10-05再確認済み。第三者権利要素は実画像確認待ち |
 
 ## Pexels共通ライセンスの再確認（2026-10-03）
 
@@ -115,6 +115,10 @@ Pexels公式ライセンスおよび公式ヘルプでは、Pexels上の写真�
 - https://www.pexels.com/terms-of-service/
 - https://help.pexels.com/hc/en-us/articles/360042295214-Can-I-use-the-photos-and-videos-for-a-commercial-project
 
+
+## 2026-10-05 Pexels規約再確認（最新）
+
+Pexels公式License / Terms / Helpを再確認。Pexels License対象コンテンツは商用Web利用可能。ただし、識別可能な人物、ロゴ、ブランド、建築、著作物等の第三者権利について、Pexelsは必要な同意・ライセンス取得を保証せず、利用者側で追加許諾要否を判断する必要がある。したがって、従来の「ライセンス・作者は要確認」という記録は「Pexels共通ライセンス確認済み／第三者権利要素は実画像確認待ち」に統一する。これは個別画像の本番PASSを意味しない。
 
 ## 2026-10-05 商用写真ゲート方針（確定）
 
