@@ -53,8 +53,8 @@ for (const story of stories) {
   }
 }
 if (external.length + firstParty.length !== 50) fail('Expected 50 adopted images total');
-if (firstParty.length !== 19) fail('Expected 19 first-party replacements, found ' + firstParty.length);
-if (new Set(external.map(story => photoId(story.img))).size !== external.length) fail('Duplicate Pexels image IDs found');
+if (firstParty.length !== 50) fail('Expected 50 first-party images, found ' + firstParty.length);
+if (external.length !== 0) fail('Expected 0 external Pexels images, found ' + external.length);
 
 const fallbackIds = new Map();
 for (const story of stories) {
