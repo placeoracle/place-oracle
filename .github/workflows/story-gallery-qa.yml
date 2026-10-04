@@ -49,6 +49,8 @@ jobs:
             const page = await browser.newPage({ viewport: { width: 1600, height: 1200 } });
             await page.goto('http://127.0.0.1:4173/PHOTO_QA.html', { waitUntil: 'networkidle', timeout: 120000 });
             await page.screenshot({ path: 'qa-artifacts/photo-qa-full.png', fullPage: true });
+            await page.locator('.card[data-id="36"]').scrollIntoViewIfNeeded();
+            await page.waitForFunction(() => [36,37,38,39,40].every(id => { const img=document.querySelector('.card[data-id="'+id+'"] img'); return img && img.complete && img.naturalWidth > 0; }), null, { timeout: 120000 });
             for (const id of [36,41,46]) {
               const card = page.locator('.card[data-id="' + id + '"]');
               await card.scrollIntoViewIfNeeded();
