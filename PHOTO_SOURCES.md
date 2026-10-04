@@ -8,7 +8,7 @@ STORY写真の出典と、採用理由を記録する。公開前に各写真ペ
 | STORY | 内容 | 出典 | 作者・ライセンス確認 |
 |---|---|---|---|
 | 06 | 窓辺の本とコーヒー | https://www.pexels.com/photo/open-book-and-iced-coffee-by-a-window-32026700/ | 2026-10-04 表紙の大写しを避け、開いた本と飲み物の構図へ変更 |
-| 07 | 出発を待つ窓（空港） | https://www.pexels.com/photo/empty-waiting-room-of-modern-airport-with-large-windows-8704693/ | Pexels掲載ページでFree。個別条件は公開前に再確認 |
+| 07 | 出発を待つ窓（空港） | https://www.pexels.com/photo/empty-airport-terminal-with-escalator-36303749/ | Pexels掲載ページでFree。個別条件は公開前に再確認 |
 | 08 | 誰もいない教室 | https://www.pexels.com/photo/sunlit-empty-classroom-with-modern-design-30105085/ | Pexels掲載ページでFree to use。個別条件は公開前に再確認 |
 | 09 | 窓越しのホーム | https://www.pexels.com/photo/view-of-the-train-station-platform-through-the-window-23964499/ | Pexels掲載ページでFree to use。個別条件は公開前に再確認 |
 | 10 | 本屋の窓 | https://www.pexels.com/photo/interior-of-a-bookstore-17332570/ | 2026-10-04 人物のいない書店内観へ変更 |
@@ -16,7 +16,7 @@ STORY写真の出典と、採用理由を記録する。公開前に各写真ペ
 | 12 | 旅先の窓（ホテル） | https://www.pexels.com/photo/modern-hotel-room-with-scenic-view-30722813/ | Pexels掲載ページでFree。個別条件は公開前に再確認 |
 | 13 | 光の本屋 | https://www.pexels.com/photo/cozy-bookstore-interior-with-shelves-and-books-38926004/ | 2026-10-04 人物のいない書店内観へ変更 |
 | 14 | 誰もいないブランコ | https://www.pexels.com/photo/sunny-playground-with-slide-and-swings-32941676/ | Pexels掲載ページでFree to use。個別条件は公開前に再確認 |
-| 15 | 滑走路を眺める席 | https://www.pexels.com/photo/airport-tarmac-behind-window-20584545/ | Pexels掲載ページでFree to use。個別条件は公開前に再確認 |
+| 15 | 滑走路を眺める席 | https://www.pexels.com/photo/empty-airport-seating-in-modern-terminal-at-dusk-29464875/ | Pexels掲載ページでFree to use。個別条件は公開前に再確認 |
 
 ## STORY 16–30
 
@@ -120,7 +120,7 @@ Pexels公式ライセンスおよび公式ヘルプでは、Pexels上の写真�
 
 Pexels規約上、写真自体の商用Web利用は許諾されるが、写り込む人物・商標・ブランド・建築等の第三者権利についてPexelsは許諾取得を保証せず、商用利用者側で追加許諾要否を判断する必要がある。このため、Pexels掲載・無人という理由だけで「第三者権利リスク排除済み」とは判定しない。
 
-- STORY 07 / 15 の2026-10-05差し替え候補は、Pexelsライセンス確認済みだが、本番採用確定にはしない。
+- STORY 07 / 15 は現行Pexels画像IDと出典URLの対応を修正し、旧JPGへ戻らないPLACE ORACLE作成SVGフォールバックへ変更。第三者権利の完全保証とは分離して扱う。
 - 本番写真ゲートは、各採用画像について人物、ロゴ・商標、判読可能な固有名詞、著作物、特徴的な第三者施設・建築、その他追加許諾が必要となり得る要素を実画像で確認したものだけPASSとする。
 - 確認不能または判断が残る画像はPASSにせず、より低リスクな画像へ差し替える。
 - 写真ゲートは全採用画像の個別確認完了までCLOSEDを維持する。
