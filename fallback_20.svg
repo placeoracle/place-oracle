@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="静かな待合席">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#17363c"/><stop offset="1" stop-color="#8aa9a2"/></linearGradient></defs>
+<rect width="1200" height="800" fill="url(#g)"/>
+<circle cx="930" cy="160" r="160" fill="#f4f0e7" opacity=".18"/>
+<path d="M0 620 C260 520 420 700 700 590 C900 510 1040 560 1200 500 L1200 800 L0 800 Z" fill="#f4f0e7" opacity=".14"/>
+<text x="72" y="650" fill="#fbf8f1" font-family="serif" font-size="42" letter-spacing="4">PLACE ORACLE</text>
+<text x="72" y="710" fill="#fbf8f1" font-family="sans-serif" font-size="28" opacity=".9">静かな待合席</text>
+</svg>
