@@ -3,7 +3,7 @@
 
   const GOOGLE_CLIENT_ID = '559524100347-3hiiar1bmlcqbtb4q0adlahgojjfslj5.apps.googleusercontent.com';
   const AUTH_SRC = './google-auth-client.js';
-  const TEST_MODE = false;
+  const TEST_MODE = true;
 
   function loadScript(src) {
     return new Promise((resolve, reject) => {
