@@ -19,7 +19,7 @@ PR #2のマージ前に実施できる実装・画像・決済・表示・QAは�
 - Sandbox E2E: Googleログイン → Checkout → テスト決済 → Webhook → D1 → Portal → 期間末解約まで実動確認済み。
 - 購入直前表示: プラン、税込価格、更新周期、提供開始、解約・返金条件、利用規約・特商法表示・プライバシーへの導線を確認。
 - 販売者情報: 特商法上の請求時開示方式を採用。正式情報は公開リポジトリへ保存しない。
-- STORY画像: 01〜50の主画像をすべてPLACE ORACLE first-party SVGへ移行。外部Pexels主画像は0件。
+- STORY画像: 01〜50の主画像をすべてPLACE ORACLE first-party SVGへ移行。プレースホルダー文字を廃止し、旅行エディトリアル調のオリジナルビジュアルへ更新。外部Pexels主画像は0件。
 - Hero: PLACE ORACLE用生成ビジュアルとして記録。第三者写真を画像入力に使用していない。小さな人物は非特定の合成人物として扱う。
 - HTML: 混入していた `Warning: truncated output` 断片を除去済み。
 - モバイルHero: 390×844で、人物を右側に保持し、説明文との重なり・背景継ぎ目がないことを目視確認。
@@ -34,8 +34,8 @@ PR #2のマージ前に実施できる実装・画像・決済・表示・QAは�
 
 ## 現在の安全設定
 
-- `membership-widget.js`: `TEST_MODE=false`
-- 本番販売UI: OFF
+- `membership-widget.js`: `SALES_ENABLED=false`
+- 本番販売UI: OFF（最終QA完了後に `SALES_ENABLED=true` へ切替）
 - PR #2: マージ前
 - 秘密鍵・Webhook secret・販売者の非公開個人情報は公開リポジトリへ保存しない。
 
