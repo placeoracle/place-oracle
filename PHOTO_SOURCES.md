@@ -181,3 +181,17 @@ GitHubに保存されている story_01.jpg〜story_50.jpg を画像本体とし
 - これにより、Pexels写真内の人物・商標・店舗表示・第三者著作物・特徴的施設等をSTORY主画像へ持ち込む経路を閉じる
 
 なお、これはサービス全体の法的リスクがゼロであることを保証するものではない。今回の写真ゲートについては、第三者写真を主画像から除外することで、写真由来の追加権利リスクを保守的に低減した。
+
+
+## Hero image provenance — 2026-10-05
+- File: `hero_clean_photo.jpg`
+- Source classification: PLACE ORACLE original generated visual.
+- No third-party photograph was supplied as an image input for this hero.
+- The small traveler is synthetic/non-identifiable; no real-person likeness is intended.
+- No third-party photo source or Pexels attribution applies to this hero.
+- This provenance record reduces source/licensing uncertainty but is not a guarantee of zero legal risk.
+
+## Final visual QA — 2026-10-05
+- STORY primary visuals: 50/50 PLACE ORACLE first-party SVG assets; external Pexels primary images: 0.
+- Mobile hero crop verified at 390×844 with the traveler retained on the right and explanatory copy constrained away from the figure.
+- Injected `Warning: truncated output` prefix was removed from `index.html`; subsequent Story gallery QA #120 completed successfully.
