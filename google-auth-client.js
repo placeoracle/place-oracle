@@ -56,6 +56,12 @@
     return data;
   }
 
+  async function createPortal() {
+    const data = await api('/portal/create', { method: 'POST' });
+    if (!data || !data.url) throw new Error('No Portal URL returned');
+    return data;
+  }
+
   async function logout() {
     try {
       await api('/auth/logout', { method: 'POST' });
@@ -75,6 +81,7 @@
     exchangeGoogleCredential,
     currentUser,
     createCheckout,
+    createPortal,
     logout,
     clearLocalSession,
     get token() { return localStorage.getItem(TOKEN_KEY); },

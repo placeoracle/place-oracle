@@ -31,6 +31,7 @@ if (cards.length !== 50) fail('Expected 50 PHOTO_QA cards, found ' + cards.lengt
 const cardById = new Map(cards.map(card => [card.id, card]));
 const photoId = value => value?.match(/(?:photos\/|pexels\.com\/photo\/)(\d+)/)?.[1] || value?.match(/-(\d+)\/?$/)?.[1];
 const external = [];
+const firstParty = [];
 for (const story of stories) {
   const card = cardById.get(story.id);
   if (!card) fail('PHOTO_QA card missing for STORY ' + story.id);
@@ -45,10 +46,15 @@ for (const story of stories) {
       fail('Pexels source mismatch for STORY ' + story.id);
     }
     external.push(story);
+  } else {
+    if (story.img !== story.fallback) fail('First-party primary image must equal fallback for STORY ' + story.id);
+    if (story.source !== 'PLACE ORACLE' || story.sourceUrl !== '') fail('First-party source metadata invalid for STORY ' + story.id);
+    firstParty.push(story);
   }
 }
-if (external.length !== 50) fail('Expected 50 external Pexels images, found ' + external.length);
-if (new Set(external.map(story => photoId(story.img))).size !== external.length) fail('Duplicate Pexels image IDs found');
+if (external.length + firstParty.length !== 50) fail('Expected 50 adopted images total');
+if (firstParty.length !== 50) fail('Expected 50 first-party images, found ' + firstParty.length);
+if (external.length !== 0) fail('Expected 0 external Pexels images, found ' + external.length);
 
 const fallbackIds = new Map();
 for (const story of stories) {
@@ -70,4 +76,4 @@ const results = await Promise.all(external.map(async story => {
   await response.body?.cancel();
   return story.id;
 }));
-console.log(JSON.stringify({ stories: stories.length, qaCards: cards.length, externalImages: results.length, result: 'pass' }));
+console.log(JSON.stringify({ stories: stories.length, qaCards: cards.length, externalImages: results.length, firstPartyImages: firstParty.length, result: 'pass' }));

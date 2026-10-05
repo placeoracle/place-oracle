@@ -6,6 +6,7 @@ on:
     paths:
       - 'index.html'
       - 'PHOTO_QA.html'
+      - 'membership-widget.js'
       - 'story_*.jpg'
       - '.github/workflows/story-gallery-qa.yml'
       - '.github/scripts/**'
@@ -13,6 +14,7 @@ on:
     paths:
       - 'index.html'
       - 'PHOTO_QA.html'
+      - 'membership-widget.js'
       - 'story_*.jpg'
       - '.github/workflows/story-gallery-qa.yml'
       - '.github/scripts/**'
@@ -29,7 +31,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Check STORY, PHOTO_QA, fallback files, and Pexels image availability
+      - name: Check STORY, PHOTO_QA, and first-party fallback files
         run: node .github/scripts/verify-story-gallery.mjs
       - name: Install browser test dependency
         run: |
@@ -39,10 +41,48 @@ jobs:
         run: |
           python3 -m http.server 4173 --directory . > /tmp/place-oracle-http.log 2>&1 &
           node .github/scripts/check-mobile-story-gallery.mjs
-      - name: Upload mobile check screenshot
+      - name: Capture full PHOTO_QA contact sheet
+        if: always()
+        run: |
+          node - <<'NODE'
+          const { chromium } = require('playwright');
+          (async () => {
+            const browser = await chromium.launch({ headless: true });
+            const page = await browser.newPage({ viewport: { width: 1600, height: 1200 } });
+            const hero = await browser.newPage({ viewport: { width: 390, height: 844 } });
+            await hero.goto('http://127.0.0.1:4173/index.html', { waitUntil: 'networkidle', timeout: 120000 });
+            await hero.screenshot({ path: 'qa-artifacts/hero-mobile.png', fullPage: false });
+            await hero.close();
+            await page.goto('http://127.0.0.1:4173/PHOTO_QA.html', { waitUntil: 'networkidle', timeout: 120000 });
+            await page.screenshot({ path: 'qa-artifacts/photo-qa-full.png', fullPage: true });
+            for (const id of [1,6,11,16,21,26,31]) {
+              const card = page.locator('.card[data-id="' + id + '"]');
+              await card.scrollIntoViewIfNeeded();
+              const box = await card.boundingBox();
+              await page.screenshot({ path: 'qa-artifacts/audit-' + id + '.png', clip: { x: 0, y: Math.max(0, box.y), width: 1600, height: 3600 } });
+            }
+            await page.locator('.card[data-id="36"]').scrollIntoViewIfNeeded();
+            await page.waitForFunction(() => [36,37,38,39,40].every(id => { const img=document.querySelector('.card[data-id="'+id+'"] img'); return img && img.complete && img.naturalWidth > 0; }), null, { timeout: 120000 });
+            for (const id of [36,41,46]) {
+              const card = page.locator('.card[data-id="' + id + '"]');
+              await card.scrollIntoViewIfNeeded();
+              const box = await card.boundingBox();
+              await page.screenshot({ path: 'qa-artifacts/photo-qa-' + id + '-batch.png', clip: { x: 0, y: Math.max(0, box.y), width: 1600, height: 3600 } });
+            }
+            await browser.close();
+          })();
+          NODE
+      - name: Upload QA screenshots
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: story-gallery-mobile-check
-          path: qa-artifacts/story-gallery-mobile.png
+          path: |
+            qa-artifacts/story-gallery-mobile.png
+            qa-artifacts/hero-mobile.png
+            qa-artifacts/photo-qa-full.png
+            qa-artifacts/audit-*.png
+            qa-artifacts/photo-qa-36-batch.png
+            qa-artifacts/photo-qa-41-batch.png
+            qa-artifacts/photo-qa-46-batch.png
           if-no-files-found: warn
