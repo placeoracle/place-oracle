@@ -3,7 +3,7 @@
 
   const GOOGLE_CLIENT_ID = '559524100347-3hiiar1bmlcqbtb4q0adlahgojjfslj5.apps.googleusercontent.com';
   const AUTH_SRC = './google-auth-client.js';
-  const TEST_MODE = true;
+  const SALES_ENABLED = false;
 
   function loadScript(src) {
     return new Promise((resolve, reject) => {
@@ -130,8 +130,8 @@
       btn.textContent = active ? '会員' : 'ログイン';
       btn.classList.toggle('po-active', active);
       googleBtn.style.display = authed ? 'none' : 'block';
-      purchase.hidden = !TEST_MODE || !authed || active;
-      preparing.hidden = TEST_MODE || !authed || active;
+      purchase.hidden = !SALES_ENABLED || !authed || active;
+      preparing.hidden = SALES_ENABLED || !authed || active;
       portalBtn.hidden = !active;
       logoutBtn.hidden = !authed;
 
@@ -213,7 +213,7 @@
     confirmBack.onclick = () => {
       pendingPlan = null;
       confirmBox.hidden = true;
-      purchase.hidden = !TEST_MODE;
+      purchase.hidden = !SALES_ENABLED;
     };
 
     confirmCheckout.onclick = async () => {

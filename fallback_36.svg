@@ -1,8 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="午後の坂道">
-<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#17363c"/><stop offset="1" stop-color="#8aa9a2"/></linearGradient></defs>
-<rect width="1200" height="800" fill="url(#g)"/>
-<circle cx="930" cy="160" r="160" fill="#f4f0e7" opacity=".18"/>
-<path d="M0 620 C260 520 420 700 700 590 C900 510 1040 560 1200 500 L1200 800 L0 800 Z" fill="#f4f0e7" opacity=".14"/>
-<text x="72" y="650" fill="#fbf8f1" font-family="serif" font-size="42" letter-spacing="4">PLACE ORACLE</text>
-<text x="72" y="710" fill="#fbf8f1" font-family="sans-serif" font-size="28" opacity=".9">午後の坂道</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="日中のカフェが並ぶ路地"><defs><linearGradient id="s" x2="0" y2="1"><stop stop-color="#24394c"/><stop offset=".56" stop-color="#8eaaa1"/><stop offset="1" stop-color="#f4eee4"/></linearGradient><linearGradient id="w" x2="0" y2="1"><stop stop-color="#8eaaa1"/><stop offset="1" stop-color="#24394c"/></linearGradient><filter id="g"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" seed="36"/><feComponentTransfer><feFuncA type="table" tableValues="0 .035"/></feComponentTransfer></filter></defs><rect width="1200" height="800" fill="url(#s)"/><circle cx="925" cy="145" r="88" fill="#d8b27a" opacity=".74"/><path d="M0 510C170 400 320 470 450 365C590 255 740 475 870 390C1010 300 1130 355 1200 320V800H0Z" fill="#24394c" opacity=".62"/><path d="M0 620C220 520 400 610 580 520C780 420 980 590 1200 475V800H0Z" fill="#8eaaa1" opacity=".76"/><path d="M535 800C560 665 620 565 720 500C805 445 865 420 930 390" fill="none" stroke="#f4eee4" stroke-opacity=".62" stroke-width="42" stroke-linecap="round"/><rect width="1200" height="800" filter="url(#g)" opacity=".4"/><rect x="18" y="18" width="1164" height="764" rx="22" fill="none" stroke="#f4eee4" stroke-opacity=".12"/></svg>

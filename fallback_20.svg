@@ -1,8 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="静かな待合席">
-<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#17363c"/><stop offset="1" stop-color="#8aa9a2"/></linearGradient></defs>
-<rect width="1200" height="800" fill="url(#g)"/>
-<circle cx="930" cy="160" r="160" fill="#f4f0e7" opacity=".18"/>
-<path d="M0 620 C260 520 420 700 700 590 C900 510 1040 560 1200 500 L1200 800 L0 800 Z" fill="#f4f0e7" opacity=".14"/>
-<text x="72" y="650" fill="#fbf8f1" font-family="serif" font-size="42" letter-spacing="4">PLACE ORACLE</text>
-<text x="72" y="710" fill="#fbf8f1" font-family="sans-serif" font-size="28" opacity=".9">静かな待合席</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="大きな窓のある空港の待合席"><defs><linearGradient id="s" x2="0" y2="1"><stop stop-color="#18384a"/><stop offset=".56" stop-color="#6f9fa4"/><stop offset="1" stop-color="#f3ead9"/></linearGradient><linearGradient id="w" x2="0" y2="1"><stop stop-color="#6f9fa4"/><stop offset="1" stop-color="#18384a"/></linearGradient><filter id="g"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" seed="20"/><feComponentTransfer><feFuncA type="table" tableValues="0 .035"/></feComponentTransfer></filter></defs><rect width="1200" height="800" fill="url(#s)"/><rect y="470" width="1200" height="330" fill="#18384a"/><path d="M110 720L560 495M1090 720L720 495" stroke="#e9c28f" stroke-width="11" opacity=".58"/><rect x="120" y="125" width="590" height="340" rx="18" fill="#f3ead9" opacity=".14"/><rect x="175" y="175" width="210" height="220" fill="#6f9fa4" opacity=".62"/><rect x="420" y="175" width="235" height="220" fill="#6f9fa4" opacity=".45"/><circle cx="965" cy="155" r="82" fill="#e9c28f" opacity=".72"/><rect width="1200" height="800" filter="url(#g)" opacity=".4"/><rect x="18" y="18" width="1164" height="764" rx="22" fill="none" stroke="#f3ead9" stroke-opacity=".12"/></svg>

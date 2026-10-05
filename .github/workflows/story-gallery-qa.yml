@@ -1,3 +1,4 @@
+# Final product QA
 name: Story gallery QA
 
 on:
@@ -8,6 +9,7 @@ on:
       - 'PHOTO_QA.html'
       - 'membership-widget.js'
       - 'story_*.jpg'
+      - 'fallback_*.svg'
       - '.github/workflows/story-gallery-qa.yml'
       - '.github/scripts/**'
   pull_request:
@@ -16,6 +18,7 @@ on:
       - 'PHOTO_QA.html'
       - 'membership-widget.js'
       - 'story_*.jpg'
+      - 'fallback_*.svg'
       - '.github/workflows/story-gallery-qa.yml'
       - '.github/scripts/**'
 
