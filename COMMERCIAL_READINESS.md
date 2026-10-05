@@ -5,7 +5,7 @@
 ## 現在の判定
 
 PR #3のマージ前に実施できる実装・画像・決済・表示・QAは完了しています。
-本番販売UIは意図的にOFFのままです。PRをmainへマージした後、GitHub Pagesの実公開内容が監査済みコミットと一致することを確認してから販売有効化を判断します。
+PR #3のマージ後、GitHub Pages本番デプロイとStory gallery QAの成功を確認し、本番販売UIを有効化しました。
 
 ## 確認済み
 
@@ -34,9 +34,9 @@ PR #3のマージ前に実施できる実装・画像・決済・表示・QAは�
 
 ## 現在の安全設定
 
-- `membership-widget.js`: `SALES_ENABLED=false`
-- 本番販売UI: OFF（最終QA完了後に `SALES_ENABLED=true` へ切替）
-- PR #3: 最終商品仕上げ・QA中
+- `membership-widget.js`: `SALES_ENABLED=true`
+- 本番販売UI: ON（`SALES_ENABLED=true`）
+- PR #3: マージ・本番QA完了
 - 秘密鍵・Webhook secret・販売者の非公開個人情報は公開リポジトリへ保存しない。
 
 ## 注意
