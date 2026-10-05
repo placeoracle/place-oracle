@@ -264,3 +264,24 @@ GitHub Pages の静的な HTML だけでは、秘密鍵を保護した Webhook �
 - 自然景観中心10 STORYは低リスク候補。
 - 残る22 STORYは追加目視確認対象。これらの確認が終わるまで写真ゲートは閉じる。
 - PR #2は未マージ、本番販売はOFFを維持する。
+
+
+## 2026-10-05 最終仕上げ監査
+
+### 完了
+- STORY 01〜50はすべてPLACE ORACLE first-party SVGへ移行。公開STORYの外部Pexels主画像は0件。
+- `hero_clean_photo.jpg` はPLACE ORACLE用生成ビジュアルとして出所記録を追加。第三者写真入力なし、人物は非特定の合成人物として扱う。
+- `index.html` に混入していた `Warning: truncated output` 先頭断片を除去。DOCTYPEからHTML終端までの構造を復旧。
+- モバイル390×844でHeroを再撮影し、人物を右側に保持、説明文との重なりを解消、背景継ぎ目なしを確認。
+- GitHub Actions Story gallery QA #120: SUCCESS。
+- 修復専用の一時workflow/jobは撤去し、通常QA構成へ復帰。
+- PR #2は最新確認時点でmergeable=true。
+- SandboxではGoogleログイン → Checkout → test決済 → Webhook → D1 → Customer Portal → 期間末解約まで実動E2E済み。
+
+### リリース操作として意図的に残しているもの
+1. **PR #2のmainへのマージ** — 本番公開を変更するため、明示承認なしには実行しない。
+2. **本番販売UIの有効化** — `membership-widget.js` は `TEST_MODE=false` を維持。公開後一致確認前にはONにしない。
+3. **マージ後のGitHub Pages一致確認** — mainへ反映した実デプロイを確認して初めて完了できる後続ゲート。
+
+### 判定
+実装・画像・監査記録・Sandbox E2Eについて、マージ前に実施できる修正は完了。残る項目は本番を変更するリリース操作と、その後でしか実施できない公開一致確認である。法的な無リスク保証は行わない。
