@@ -31,28 +31,19 @@ jobs:
           fetch-depth: 0
       - name: Repair full index
         run: |
-          git fetch origin main
-          git show origin/main:index.html > index.html
-          if grep -q 'Warning: truncated output' index.html; then echo "main index also contains truncation warning"; exit 1; fi
-          if ! head -c 100 index.html | grep -qi '<!doctype html>'; then echo "main index missing doctype"; exit 1; fi
           node <<'NODE'
           const fs=require('fs');
           let s=fs.readFileSync('index.html','utf8');
-          let count=0;
-          s=s.split('\n').map(line=>{
-            const m=line.match(/^\s*\{id:(\d+),/);
-            if(!m) return line;
-            const id=Number(m[1]);
-            if(id<1||id>50) return line;
-            count++;
-            const nn=String(id).padStart(2,'0');
-            return line.replace(/img:"[^"]*"/,'img:"fallback_'+nn+'.svg"').replace(/source:"[^"]*"/,'source:"PLACE ORACLE"').replace(/sourceUrl:"[^"]*"/,'sourceUrl:""');
-          }).join('\n');
-          if(count!==50) throw new Error('Expected 50 STORY rows, got '+count);
-          if(s.includes('Warning: truncated output')) throw new Error('truncation warning remains');
-          if(!s.trimStart().toLowerCase().startsWith('<!doctype html>')) throw new Error('doctype missing');
+          const pos=s.toLowerCase().indexOf('<!doctype html>');
+          if(pos<0) throw new Error('doctype not found');
+          if(pos>0) s=s.slice(pos);
+          if(s.includes('Warning: truncated output')) throw new Error('truncation warning remains after cleanup');
+          if(!s.trimStart().toLowerCase().startsWith('<!doctype html>')) throw new Error('doctype invalid');
           if(!s.trimEnd().toLowerCase().endsWith('</html>')) throw new Error('html end missing');
+          const stories=(s.match(/source:"PLACE ORACLE"/g)||[]).length;
+          if(stories<50) throw new Error('first-party STORY count below 50: '+stories);
           fs.writeFileSync('index.html',s);
+          console.log('cleaned prefix bytes',pos,'PLACE ORACLE stories',stories);
           NODE
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
