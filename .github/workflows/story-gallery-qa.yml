@@ -31,17 +31,10 @@ jobs:
           fetch-depth: 0
       - name: Repair full index
         run: |
-          GOOD=""
-          for SHA in $(git log --format=%H -- index.html); do
-            git show "$SHA:index.html" > /tmp/candidate.html
-            if ! grep -q 'Warning: truncated output' /tmp/candidate.html && head -c 100 /tmp/candidate.html | grep -qi '<!doctype html>'; then
-              GOOD="$SHA"
-              break
-            fi
-          done
-          if [ -z "$GOOD" ]; then echo "No intact index found"; exit 1; fi
-          echo "Restoring intact index from $GOOD"
-          git show "$GOOD:index.html" > index.html
+          git fetch origin main
+          git show origin/main:index.html > index.html
+          if grep -q 'Warning: truncated output' index.html; then echo "main index also contains truncation warning"; exit 1; fi
+          if ! head -c 100 index.html | grep -qi '<!doctype html>'; then echo "main index missing doctype"; exit 1; fi
           node <<'NODE'
           const fs=require('fs');
           let s=fs.readFileSync('index.html','utf8');
