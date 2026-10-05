@@ -24,7 +24,6 @@ permissions:
 
 jobs:
   repair-index:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/audit/commercial-readiness-20261003'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
