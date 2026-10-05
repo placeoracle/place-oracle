@@ -28,6 +28,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: audit/commercial-readiness-20261003
           fetch-depth: 0
       - name: Repair full index
         run: |
