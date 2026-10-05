@@ -4,7 +4,7 @@
 
 ## 現行STORY画像
 
-STORY 01〜50の主画像はすべてPLACE ORACLE first-party SVGです。
+STORY 01〜50の主画像はすべてPLACE ORACLE first-party SVGです。2026-10-06に、プレースホルダー表示を廃止し、文字を載せない旅行エディトリアル調のオリジナルビジュアルへ全面更新しました。
 
 - ファイル: `fallback_01.svg`〜`fallback_50.svg`
 - 現行主画像: 50 / 50件 first-party
