@@ -2,7 +2,7 @@ name: Story gallery QA
 
 on:
   push:
-    branches: [main]
+    branches: [main, audit/commercial-readiness-20261003]
     paths:
       - 'index.html'
       - 'PHOTO_QA.html'
@@ -20,9 +20,109 @@ on:
       - '.github/scripts/**'
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
+  repair-index:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/audit/commercial-readiness-20261003' && github.event.head_commit.message != 'fix: restore complete index and preserve first-party stories'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Restore complete index and preserve first-party STORY policy
+        run: |
+          git show 27dc929dca64f714b02559a97dc97a30cae22238:index.html > index.html
+          node <<'NODE'
+          const fs=require('fs');
+          let s=fs.readFileSync('index.html','utf8');
+          const start=s.indexOf('const storyPool=['), end=s.indexOf('  ];',start);
+          if(start<0||end<0) throw new Error('storyPool not found');
+          let before=s.slice(0,start), pool=s.slice(start,end), after=s.slice(end);
+          for(let i=1;i<=50;i++){
+            const nn=String(i).padStart(2,'0');
+            const next=i<50?'(?=\\n\\s*\\{id:'+(i+1)+')':'  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check STORY, PHOTO_QA, fallback files, and Pexels image availability
+        run: node .github/scripts/verify-story-gallery.mjs
+      - name: Install browser test dependency
+        run: |
+          npm install --no-save playwright@1.52.0
+          npx playwright install --with-deps chromium
+      - name: Check mobile gallery and selected frame
+        run: |
+          python3 -m http.server 4173 --directory . > /tmp/place-oracle-http.log 2>&1 &
+          node .github/scripts/check-mobile-story-gallery.mjs
+      - name: Capture full PHOTO_QA contact sheet
+        if: always()
+        run: |
+          node - <<'NODE'
+          const { chromium } = require('playwright');
+          (async () => {
+            const browser = await chromium.launch({ headless: true });
+            const page = await browser.newPage({ viewport: { width: 1600, height: 1200 } });
+            const hero = await browser.newPage({ viewport: { width: 390, height: 844 } });
+            await hero.goto('http://127.0.0.1:4173/index.html', { waitUntil: 'networkidle', timeout: 120000 });
+            await hero.screenshot({ path: 'qa-artifacts/hero-mobile.png', fullPage: false });
+            await hero.close();
+            await page.goto('http://127.0.0.1:4173/PHOTO_QA.html', { waitUntil: 'networkidle', timeout: 120000 });
+            await page.screenshot({ path: 'qa-artifacts/photo-qa-full.png', fullPage: true });
+            for (const id of [1,6,11,16,21,26,31]) {
+              const card = page.locator('.card[data-id="' + id + '"]');
+              await card.scrollIntoViewIfNeeded();
+              const box = await card.boundingBox();
+              await page.screenshot({ path: 'qa-artifacts/audit-' + id + '.png', clip: { x: 0, y: Math.max(0, box.y), width: 1600, height: 3600 } });
+            }
+            await page.locator('.card[data-id="36"]').scrollIntoViewIfNeeded();
+            await page.waitForFunction(() => [36,37,38,39,40].every(id => { const img=document.querySelector('.card[data-id="'+id+'"] img'); return img && img.complete && img.naturalWidth > 0; }), null, { timeout: 120000 });
+            for (const id of [36,41,46]) {
+              const card = page.locator('.card[data-id="' + id + '"]');
+              await card.scrollIntoViewIfNeeded();
+              const box = await card.boundingBox();
+              await page.screenshot({ path: 'qa-artifacts/photo-qa-' + id + '-batch.png', clip: { x: 0, y: Math.max(0, box.y), width: 1600, height: 3600 } });
+            }
+            await browser.close();
+          })();
+          NODE
+      - name: Upload QA screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: story-gallery-mobile-check
+          path: |
+            qa-artifacts/story-gallery-mobile.png
+            qa-artifacts/hero-mobile.png
+            qa-artifacts/photo-qa-full.png
+            qa-artifacts/audit-*.png
+            qa-artifacts/photo-qa-36-batch.png
+            qa-artifacts/photo-qa-41-batch.png
+            qa-artifacts/photo-qa-46-batch.png
+          if-no-files-found: warn
+;
+            const re=new RegExp('\\{id:'+i+',[\\s\\S]*?'+next);
+            const m=pool.match(re);
+            if(!m) throw new Error('story '+i+' not found');
+            const row=m[0].replace(/img:"[^"]*"/,'img:"fallback_'+nn+'.svg"').replace(/source:"[^"]*"/,'source:"PLACE ORACLE"').replace(/sourceUrl:"[^"]*"/,'sourceUrl:""');
+            pool=pool.replace(m[0],row);
+          }
+          s=before+pool+after;
+          if(s.includes('Warning: truncated output')) throw new Error('truncation warning remains');
+          if(!/^\\s*<!doctype html>/i.test(s)||!/<\\/html>\\s*$/i.test(s)) throw new Error('HTML boundary invalid');
+          if((pool.match(/source:"PLACE ORACLE"/g)||[]).length!==50||(pool.match(/source:"Pexels"/g)||[]).length!==0) throw new Error('STORY policy mismatch');
+          fs.writeFileSync('index.html',s);
+          NODE
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "fix: restore complete index and preserve first-party stories"
+          git push origin HEAD:audit/commercial-readiness-20261003
+
   verify:
     runs-on: ubuntu-latest
     timeout-minutes: 15
