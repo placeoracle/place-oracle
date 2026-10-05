@@ -25,7 +25,7 @@
 
   function addStyles() {
     const heroMobileStyle = document.createElement('style');
-    heroMobileStyle.textContent = '@media(max-width:720px){.hero-photo{background-position:115% center!important}}';
+    heroMobileStyle.textContent = '@media(max-width:720px){.hero-photo{background-position:100% center!important;background-repeat:no-repeat!important}.hero-content>p{max-width:230px!important}}';
     document.head.appendChild(heroMobileStyle);
 
     const style = document.createElement('style');
