@@ -50,7 +50,7 @@ jobs:
           const { chromium } = require('playwright');
           (async () => {
             const browser = await chromium.launch({ headless: true });
-            const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+            const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
             const errors = [];
             page.on('pageerror', err => errors.push(err.message));
             await page.goto('http://127.0.0.1:4173/index.html', { waitUntil: 'networkidle', timeout: 120000 });
@@ -60,6 +60,7 @@ jobs:
             if (errors.length) throw new Error('Page errors before form open: ' + errors.join(' | '));
             await page.click('#heroStart');
             await page.locator('#formSection').waitFor({ state: 'visible', timeout: 10000 });
+            await page.locator('#formSection').screenshot({ path: 'qa-artifacts/form-mobile.png' });
             const prefCount = await page.locator('#birthPrefecture option').count();
             if (prefCount !== 48) throw new Error('Expected 47 prefectures plus placeholder, got ' + prefCount);
             await page.selectOption('#birthYear','1980');
@@ -81,8 +82,67 @@ jobs:
             const skyTitle = (await page.locator('#skyTitleText').textContent() || '').trim();
             const skyStory = (await page.locator('#skyStoryText').textContent() || '').trim();
             if (!skyTitle || !skyStory) throw new Error('Visible-sky content was empty');
+            const bodyText = await page.locator('body').innerText();
+            if (/\bundefined\b/i.test(bodyText)) throw new Error('Visible undefined text found in completed reading flow');
+            if (bodyText.trimEnd().endsWith('\\n')) throw new Error('Literal \\n is visible at the end of the page');
+            await page.locator('#visibleSkySection').screenshot({ path: 'qa-artifacts/visible-sky-mobile.png' });
             if (errors.length) throw new Error('Page errors in full reading flow: ' + errors.join(' | '));
             await browser.close();
+          })();
+          NODE
+      - name: Verify deployed production flow
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          PRODUCTION_URL: https://placeoracle.github.io/place-oracle/
+        run: |
+          node - <<'NODE'
+          const { chromium } = require('playwright');
+          const sleep = ms => new Promise(r => setTimeout(r, ms));
+          (async () => {
+            const browser = await chromium.launch({ headless: true });
+            let lastError = '';
+            for (let attempt = 1; attempt <= 24; attempt++) {
+              const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+              const errors = [];
+              page.on('pageerror', err => errors.push(err.message));
+              try {
+                await page.goto(process.env.PRODUCTION_URL + '?release=2026-10-06-final', { waitUntil: 'networkidle', timeout: 60000 });
+                const release = await page.locator('meta[name="place-oracle-release"]').getAttribute('content');
+                if (release !== '2026-10-06-final') throw new Error('Production release marker not updated yet: ' + release);
+                await page.evaluate(() => localStorage.clear());
+                await page.reload({ waitUntil: 'networkidle', timeout: 60000 });
+                await page.click('#heroStart');
+                await page.locator('#formSection').waitFor({ state: 'visible', timeout: 10000 });
+                if (await page.locator('#birthPrefecture option').count() !== 48) throw new Error('Production prefecture selector incomplete');
+                await page.selectOption('#birthYear','1980');
+                await page.selectOption('#birthMonth','1');
+                await page.selectOption('#birthDay','10');
+                await page.selectOption('#birthPrefecture',{label:'静岡県'});
+                await page.selectOption('#birthMunicipality',{label:'掛川市'});
+                await page.check('input[name="scene"][value="sea"]');
+                await page.click('#read');
+                await page.locator('#themeBlock').waitFor({ state: 'visible', timeout: 10000 });
+                await page.click('#read');
+                await page.locator('#reading').waitFor({ state: 'visible', timeout: 10000 });
+                const skyTitle = (await page.locator('#skyTitleText').textContent() || '').trim();
+                const skyStory = (await page.locator('#skyStoryText').textContent() || '').trim();
+                const bodyText = await page.locator('body').innerText();
+                if (!skyTitle || !skyStory) throw new Error('Production visible-sky content empty');
+                if (/\bundefined\b/i.test(bodyText)) throw new Error('Production contains visible undefined text');
+                if (bodyText.trimEnd().endsWith('\\n')) throw new Error('Production contains literal \\n');
+                if (errors.length) throw new Error('Production page errors: ' + errors.join(' | '));
+                console.log(JSON.stringify({ attempt, release, skyTitle, result: 'production-pass' }));
+                await page.close();
+                await browser.close();
+                process.exit(0);
+              } catch (err) {
+                lastError = err.message;
+                await page.close();
+                if (attempt < 24) await sleep(10000);
+              }
+            }
+            await browser.close();
+            throw new Error('Production did not pass after retries: ' + lastError);
           })();
           NODE
       - name: Capture full PHOTO_QA contact sheet
@@ -124,6 +184,8 @@ jobs:
           path: |
             qa-artifacts/story-gallery-mobile.png
             qa-artifacts/hero-mobile.png
+            qa-artifacts/form-mobile.png
+            qa-artifacts/visible-sky-mobile.png
             qa-artifacts/photo-qa-full.png
             qa-artifacts/audit-*.png
             qa-artifacts/photo-qa-36-batch.png
