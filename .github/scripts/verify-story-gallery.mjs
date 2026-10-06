@@ -30,6 +30,8 @@ if (index.includes('<script src="./membership-widget.js"></script>\\n</body></ht
 if (!index.includes('id="visibleSkyHeading">この場所から見える空</h3>')) fail('Visible-sky concept heading is missing');
 if (!index.includes('<span class="sky-signs-label">この空のしるし</span>')) fail('Sky-sign concept label is missing');
 if (!index.includes('<h4>空から生まれた物語</h4>')) fail('Story-from-sky concept heading is missing');
+if (!index.includes('<h1>行ったことのないのに、<br>なぜか懐かしい。</h1>')) fail('Original PLACE ORACLE title was changed');
+if (!index.includes('<title>PLACE ORACLE｜行ったことのないのに、なぜか懐かしい場所へ</title>')) fail('Document title was changed');
 
 
 const cards = [...qa.matchAll(/<article class="card" data-id="(\d+)"([\s\S]*?)<\/article>/g)].map(match => {
