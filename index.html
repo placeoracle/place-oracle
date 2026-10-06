@@ -1913,6 +1913,34 @@ function choosePlace(p,cycle,map){
   return chooseBalancedPlace(candidates,seed,{recentCount:12,countryRecentCount:2});
 }
 function chooseDailyPlace(p,cycle,map){return choosePlace(p,cycle,map)}
+
+if(new URLSearchParams(location.search).get('qa')==='1'){
+  window.__PLACE_ORACLE_QA__={
+    freshBalance(total=10700){
+      const sceneKeys=['alley','sea','light','green','distance'],counts={},spread={},unique={};
+      const saved=localStorage.getItem(exposureKey);
+      localStorage.removeItem(exposureKey);
+      try{
+        for(const scene of sceneKeys){
+          const candidates=catalogCandidatesForScene(scene);
+          counts[scene]=candidates.length;
+          const picked=new Map();
+          for(let seed=0;seed<total;seed++){
+            const place=chooseBalancedPlace(candidates,seed,{recentCount:12,countryRecentCount:2});
+            picked.set(String(place.id),(picked.get(String(place.id))||0)+1);
+          }
+          const vals=[...picked.values()];
+          spread[scene]={min:Math.min(...vals),max:Math.max(...vals)};
+          unique[scene]=picked.size;
+        }
+        const thing=PO_PLACE_CATALOG.find(p=>p.id==='thingvellir');
+        return {catalog:PO_PLACE_CATALOG.length,counts,spread,unique,thingScenes:thing?.sceneCodes||''};
+      }finally{
+        if(saved===null)localStorage.removeItem(exposureKey);else localStorage.setItem(exposureKey,saved);
+      }
+    }
+  };
+}
 const placeEcho={
   geiranger:'水路は岩壁の間を通って海へ続く。今伝えることと、まだ保留することを一つずつ分けてみて。',
   laurisilva:'森は雨を受け取りながら育つ。結論を急ぐ前に、昨日と今日で変わった気持ちを一つ書き留めて。',
