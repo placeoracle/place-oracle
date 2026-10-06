@@ -33,6 +33,26 @@ if (!index.includes('<h4>空から生まれた物語</h4>')) fail('Story-from-sk
 if (!index.includes('<h1>行ったことのないのに、<br>なぜか懐かしい。</h1>')) fail('Original PLACE ORACLE title was changed');
 if (!index.includes('<title>PLACE ORACLE｜行ったことのないのに、なぜか懐かしい場所へ</title>')) fail('Document title was changed');
 
+const catalogMatch = index.match(/const PO_PLACE_CATALOG=(\[[\s\S]*?\]);/);
+if (!catalogMatch) fail('PO_PLACE_CATALOG was not found');
+const placeCatalog = JSON.parse(catalogMatch[1]);
+if (placeCatalog.length < 100) fail('Expected at least 100 selectable PLACE records, found ' + placeCatalog.length);
+const placeIds = new Set(), placeNames = new Set();
+const sceneCounts = { a:0, s:0, l:0, g:0, d:0 };
+for (const place of placeCatalog) {
+  if (placeIds.has(String(place.id))) fail('Duplicate PLACE id: ' + place.id);
+  if (placeNames.has(place.name)) fail('Duplicate PLACE name: ' + place.name);
+  placeIds.add(String(place.id)); placeNames.add(place.name);
+  if (!place.name || !place.sceneCodes || !/^[aslgd]+$/.test(place.sceneCodes)) fail('Invalid PLACE catalog record: ' + JSON.stringify(place));
+  for (const code of new Set(place.sceneCodes.split(''))) sceneCounts[code]++;
+}
+for (const [code,count] of Object.entries(sceneCounts)) if (count < 30) fail('PLACE scene pool is too small for ' + code + ': ' + count);
+if (index.includes('const active=ORACLE_DATA.places.filter(x=>x.active);')) fail('Legacy nine-place selector is still active');
+if (!index.includes('function catalogCandidatesForScene')) fail('Full-catalog scene selector is missing');
+if (!index.includes('function placeCountryKey')) fail('Country repeat guard is missing');
+if (!index.includes("function chooseDailyPlace(p,cycle,map){return choosePlace(p,cycle,map)}")) fail('Returning users are not using the same balanced catalog');
+
+
 
 const cards = [...qa.matchAll(/<article class="card" data-id="(\d+)"([\s\S]*?)<\/article>/g)].map(match => {
   const [, id, body] = match;
