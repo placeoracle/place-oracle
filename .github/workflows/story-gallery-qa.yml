@@ -124,6 +124,45 @@ jobs:
             await browser.close();
           })();
           NODE
+      - name: Check returning-user result flow
+        run: |
+          node - <<'NODE'
+          const { chromium } = require('playwright');
+          (async () => {
+            const browser = await chromium.launch({ headless: true });
+            const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+            const errors = [];
+            page.on('pageerror', err => errors.push(err.message));
+            await page.goto('http://127.0.0.1:4173/index.html', { waitUntil: 'networkidle', timeout: 120000 });
+            await page.evaluate(() => {
+              localStorage.setItem('place_oracle_v5_profile', JSON.stringify({
+                birth:'1969-02-19',
+                birthPlace:{prefecture:'静岡県', municipality:'掛川市', code:'222135'},
+                currentPlace:{prefecture:'静岡県', municipality:'掛川市', code:'222135'},
+                stars:{h:4,g:3,day:{index:44,label:'戊申'}},
+                scene:'distance',
+                theme:'',
+                firstSeen:'2026-10-05',
+                lastChoiceDate:'2026-10-05'
+              }));
+              localStorage.setItem('place_oracle_v5_map', JSON.stringify([]));
+            });
+            await page.reload({ waitUntil: 'networkidle', timeout: 120000 });
+            await page.click('#heroStart');
+            await page.locator('#formSection').waitFor({ state: 'visible', timeout: 10000 });
+            await page.check('input[name="scene"][value="distance"]');
+            await page.click('#read');
+            await page.locator('#themeBlock').waitFor({ state: 'visible', timeout: 10000 });
+            const firstError = (await page.locator('#formError').textContent() || '').trim();
+            if (firstError) throw new Error('Returning user failed before reading: ' + firstError);
+            await page.click('#read');
+            await page.locator('#reading').waitFor({ state: 'visible', timeout: 10000 });
+            const finalError = (await page.locator('#formError').textContent() || '').trim();
+            if (finalError) throw new Error('Returning user failed to render reading: ' + finalError);
+            if (errors.length) throw new Error('Returning-user page errors: ' + errors.join(' | '));
+            await browser.close();
+          })();
+          NODE
       - name: Verify deployed production flow
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         env:
@@ -140,9 +179,9 @@ jobs:
               const errors = [];
               page.on('pageerror', err => errors.push(err.message));
               try {
-                await page.goto(process.env.PRODUCTION_URL + '?release=2026-10-06-result-fix', { waitUntil: 'networkidle', timeout: 60000 });
+                await page.goto(process.env.PRODUCTION_URL + '?release=2026-10-06-returning-fix', { waitUntil: 'networkidle', timeout: 60000 });
                 const release = await page.locator('meta[name="place-oracle-release"]').getAttribute('content');
-                if (release !== '2026-10-06-result-fix') throw new Error('Production release marker not updated yet: ' + release);
+                if (release !== '2026-10-06-returning-fix') throw new Error('Production release marker not updated yet: ' + release);
                 await page.evaluate(() => localStorage.clear());
                 await page.reload({ waitUntil: 'networkidle', timeout: 60000 });
                 await page.click('#heroStart');
@@ -195,9 +234,9 @@ jobs:
               const errors = [];
               page.on('pageerror', err => errors.push(err.message));
               try {
-                await page.goto(process.env.PRODUCTION_URL + '?stale=2026-10-06-result-fix', { waitUntil: 'networkidle', timeout: 60000 });
+                await page.goto(process.env.PRODUCTION_URL + '?stale=2026-10-06-returning-fix', { waitUntil: 'networkidle', timeout: 60000 });
                 const release = await page.locator('meta[name="place-oracle-release"]').getAttribute('content');
-                if (release !== '2026-10-06-result-fix') throw new Error('Production release marker not updated yet: ' + release);
+                if (release !== '2026-10-06-returning-fix') throw new Error('Production release marker not updated yet: ' + release);
                 await page.evaluate(() => {
                   localStorage.setItem('place_oracle_v5_map', JSON.stringify([null,'broken',{bad:true},{date:'2025-01-01',placeId:null}]));
                   localStorage.setItem('place_oracle_v5_profile', JSON.stringify({
@@ -229,6 +268,63 @@ jobs:
             }
             await browser.close();
             throw new Error('Production stale-data recovery did not pass after retries: ' + lastError);
+          })();
+          NODE
+      - name: Verify deployed returning-user flow
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          PRODUCTION_URL: https://placeoracle.github.io/place-oracle/
+        run: |
+          node - <<'NODE'
+          const { chromium } = require('playwright');
+          const sleep = ms => new Promise(r => setTimeout(r, ms));
+          (async () => {
+            const browser = await chromium.launch({ headless: true });
+            let lastError = '';
+            for (let attempt = 1; attempt <= 24; attempt++) {
+              const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+              const errors = [];
+              page.on('pageerror', err => errors.push(err.message));
+              try {
+                await page.goto(process.env.PRODUCTION_URL + '?returning=2026-10-06-returning-fix', { waitUntil: 'networkidle', timeout: 60000 });
+                const release = await page.locator('meta[name="place-oracle-release"]').getAttribute('content');
+                if (release !== '2026-10-06-returning-fix') throw new Error('Production release marker not updated yet: ' + release);
+                await page.evaluate(() => {
+                  localStorage.setItem('place_oracle_v5_profile', JSON.stringify({
+                    birth:'1969-02-19',
+                    birthPlace:{prefecture:'静岡県', municipality:'掛川市', code:'222135'},
+                    currentPlace:{prefecture:'静岡県', municipality:'掛川市', code:'222135'},
+                    stars:{h:4,g:3,day:{index:44,label:'戊申'}},
+                    scene:'distance',
+                    theme:'',
+                    firstSeen:'2026-10-05',
+                    lastChoiceDate:'2026-10-05'
+                  }));
+                  localStorage.setItem('place_oracle_v5_map', JSON.stringify([]));
+                });
+                await page.reload({ waitUntil: 'networkidle', timeout: 60000 });
+                await page.click('#heroStart');
+                await page.locator('#formSection').waitFor({ state: 'visible', timeout: 10000 });
+                await page.check('input[name="scene"][value="distance"]');
+                await page.click('#read');
+                await page.locator('#themeBlock').waitFor({ state: 'visible', timeout: 10000 });
+                await page.click('#read');
+                await page.locator('#reading').waitFor({ state: 'visible', timeout: 10000 });
+                const formError = (await page.locator('#formError').textContent() || '').trim();
+                if (formError) throw new Error('Production returning-user error: ' + formError);
+                if (errors.length) throw new Error('Production returning-user page errors: ' + errors.join(' | '));
+                console.log(JSON.stringify({ attempt, release, result: 'production-returning-user-pass' }));
+                await page.close();
+                await browser.close();
+                process.exit(0);
+              } catch (err) {
+                lastError = err.message;
+                await page.close();
+                if (attempt < 24) await sleep(10000);
+              }
+            }
+            await browser.close();
+            throw new Error('Production returning-user flow did not pass after retries: ' + lastError);
           })();
           NODE
       - name: Capture full PHOTO_QA contact sheet
