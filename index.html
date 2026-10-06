@@ -1643,7 +1643,7 @@ const presentedPlaces=new Map();
 function localGet(key,fallback){try{return JSON.parse(localStorage.getItem(key))??fallback}catch{return fallback}}
 function localSet(key,value){try{localStorage.setItem(key,JSON.stringify(value));return true}catch{return false}}
 function safeMapRows(){
-  const rows=safeMapRows();
+  const rows=localGet(mapKey,[]);
   if(!Array.isArray(rows))return [];
   return rows.filter(row=>row&&typeof row==='object').map(row=>({...row,
     date:typeof row.date==='string'?row.date:'',
