@@ -1835,6 +1835,7 @@ const themeReadings={
     '考えを深める力は、まだ選ばない道を一つ残すためにも使えます。','周りの期待を先にかなえる前に、自分が続けたいことを一つ書いてみて。','始めたい気持ちがあるなら、結果を決めずに小さな一回を試して。','人の意見を聞いたあと、自分だけが気になった選択肢を残して。','先のことを決める役を担っても、判断の材料を集める時間を取っていい。','完成した計画より、今週試せる途中案を一つ持ってみてください。','楽しそうに話した未来の中に、自分が本当に行きたい道はありますか。','納得に時間がかかるなら、何を確かめれば動けるか一つ書き出して。','人には明確に語れる未来も、自分の中では揺れていてかまいません。'],
     moon:'これからを考えるときにも{need}を置き去りにしないで。次の一歩の条件に加えてください。'}
 };
+// Returning users can fall back to the base PLACE set when today's curated cards are unavailable.
 function makeReading(p){
   if(!p||!validStars(p.stars))throw new Error('Invalid diagnosis profile stars');
   const scene=scenes[p.scene];if(!scene)throw new Error('Invalid scene selection');
