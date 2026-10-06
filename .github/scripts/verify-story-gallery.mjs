@@ -29,6 +29,13 @@ for (const story of stories) {
 if (index.includes('<script src="./membership-widget.js"></script>\\n</body></html>')) fail('Literal \\n is rendered after membership widget');
 if (!index.includes('id="visibleSkyHeading">この場所から見える空</h3>')) fail('Visible-sky concept heading is missing');
 if (!index.includes('<span class="sky-signs-label">この空のしるし</span>')) fail('Sky-sign concept label is missing');
+if (!index.includes('id="skyChartCanvas"')) fail('Calculated visible-sky chart canvas is missing');
+if (!index.includes('id="skyTimeRange"')) fail('Visible-sky local-time control is missing');
+if (!index.includes('id="skyZoomDialog"')) fail('Visible-sky zoom dialog is missing');
+if (!index.includes('<script src="./sky-chart-data.js"></script>')) fail('Sky chart data is not loaded');
+if (!index.includes('<script src="./sky-chart.js"></script>')) fail('Sky chart renderer is not loaded');
+if (!index.includes('function renderResultSkyChart')) fail('Result sky-chart renderer is missing');
+if (!index.includes('雲、光害、山や建物による遮蔽は反映していません')) fail('Sky-chart observational limitation note is missing');
 if (!index.includes('<h4>空から生まれた物語</h4>')) fail('Story-from-sky concept heading is missing');
 if (!index.includes('<h1>行ったことのないのに、<br>なぜか懐かしい。</h1>')) fail('Original PLACE ORACLE title was changed');
 if (!index.includes('<title>PLACE ORACLE｜行ったことのないのに、なぜか懐かしい場所へ</title>')) fail('Document title was changed');
