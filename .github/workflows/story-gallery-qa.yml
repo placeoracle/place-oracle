@@ -8,6 +8,8 @@ on:
       - 'index.html'
       - 'PHOTO_QA.html'
       - 'membership-widget.js'
+      - 'sky-chart.js'
+      - 'sky-chart-data.js'
       - 'SKY_POINTS_SOURCES.csv'
       - 'story_*.jpg'
       - 'fallback_*.svg'
@@ -18,6 +20,8 @@ on:
       - 'index.html'
       - 'PHOTO_QA.html'
       - 'membership-widget.js'
+      - 'sky-chart.js'
+      - 'sky-chart-data.js'
       - 'SKY_POINTS_SOURCES.csv'
       - 'story_*.jpg'
       - 'fallback_*.svg'
@@ -257,6 +261,86 @@ jobs:
             console.log(JSON.stringify(report));
           })();
           NODE
+      - name: Check calculated visible-sky chart
+        run: |
+          node - <<'NODE'
+          const { chromium } = require('playwright');
+          (async () => {
+            const browser = await chromium.launch({ headless: true });
+            const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+            const errors = [];
+            page.on('pageerror', err => errors.push(err.message));
+            await page.goto('http://127.0.0.1:4173/index.html', { waitUntil: 'networkidle', timeout: 120000 });
+
+            const coverage = await page.evaluate(() => {
+              if (!window.PO_SKY_CHART || !window.PO_SKY_DATA) throw new Error('Sky chart runtime is unavailable');
+              const date='2026-10-06';
+              const missing=PO_PLACE_CATALOG.filter(place => !PO_SKY_CHART.chartSpec(String(place.id),date,21)).map(place=>String(place.id));
+              const y=PO_SKY_CHART.chartSpec('yakushima',date,21);
+              const polaris=PO_SKY_CHART.position(37.9529,89.2642,y);
+              const t=PO_SKY_CHART.chartSpec('tasmania',date,21);
+              const southPolaris=PO_SKY_CHART.position(37.9529,89.2642,t);
+              return {
+                catalog:PO_PLACE_CATALOG.length,
+                coords:Object.keys(PO_SKY_DATA.coords||{}).length,
+                stars:(PO_SKY_DATA.stars||[]).length,
+                lines:(PO_SKY_DATA.lines||[]).length,
+                missing,
+                yakushimaPolaris:polaris.alt,
+                tasmaniaPolaris:southPolaris.alt
+              };
+            });
+            if (coverage.catalog < 100 || coverage.missing.length) throw new Error('Some PLACE results do not have a calculable sky chart: '+JSON.stringify(coverage));
+            if (coverage.coords < coverage.catalog || coverage.stars < 100 || coverage.lines < 20) throw new Error('Astronomy dataset is incomplete: '+JSON.stringify(coverage));
+            if (coverage.yakushimaPolaris < 27 || coverage.yakushimaPolaris > 34) throw new Error('Altitude calculation failed for Polaris at Yakushima: '+coverage.yakushimaPolaris);
+            if (coverage.tasmaniaPolaris > 0) throw new Error('Polaris should be below the horizon from Tasmania: '+coverage.tasmaniaPolaris);
+
+            await page.evaluate(() => localStorage.clear());
+            await page.reload({ waitUntil: 'networkidle', timeout: 120000 });
+            await page.click('#heroStart');
+            await page.selectOption('#birthYear','1969');
+            await page.selectOption('#birthMonth','2');
+            await page.selectOption('#birthDay','19');
+            await page.selectOption('#birthPrefecture',{label:'静岡県'});
+            await page.selectOption('#birthMunicipality',{label:'掛川市'});
+            await page.check('input[name="scene"][value="sea"]');
+            await page.click('#read');
+            await page.locator('#themeBlock').waitFor({ state:'visible', timeout:10000 });
+            await page.click('#read');
+            await page.locator('#reading').waitFor({ state:'visible', timeout:10000 });
+            await page.locator('#observedSky').waitFor({ state:'visible', timeout:10000 });
+            const placeName=(await page.locator('#placeName').textContent()||'').trim();
+            const meta=(await page.locator('#skyChartMeta').innerText()||'').trim();
+            if (!placeName || !/緯度/.test(meta) || !/経度/.test(meta)) throw new Error('Calculated chart metadata is incomplete: '+meta);
+
+            const checksum = async () => page.locator('#skyChartCanvas').evaluate(canvas => {
+              const ctx=canvas.getContext('2d');
+              const data=ctx.getImageData(0,0,canvas.width,canvas.height).data;
+              let sum=0; for(let i=0;i<data.length;i+=101) sum=(sum+data[i]+data[i+1]+data[i+2]+data[i+3])>>>0;
+              return sum;
+            });
+            const at21=await checksum();
+            if (!at21) throw new Error('Sky chart canvas is blank');
+            await page.locator('#skyTimeRange').evaluate(el => {el.value='18';el.dispatchEvent(new Event('input',{bubbles:true}))});
+            await page.waitForTimeout(120);
+            const at18=await checksum();
+            if (at18===at21) throw new Error('Changing local time did not change the calculated sky chart');
+
+            await page.click('#skyChartEnlarge');
+            await page.locator('#skyZoomDialog').waitFor({ state:'visible', timeout:5000 });
+            const zoomChecksum=await page.locator('#skyZoomCanvas').evaluate(canvas => {
+              const ctx=canvas.getContext('2d');
+              const data=ctx.getImageData(0,0,canvas.width,canvas.height).data;
+              let sum=0; for(let i=0;i<data.length;i+=137) sum=(sum+data[i]+data[i+1]+data[i+2]+data[i+3])>>>0;
+              return sum;
+            });
+            if (!zoomChecksum) throw new Error('Enlarged sky chart canvas is blank');
+            await page.click('#skyZoomClose');
+            if (errors.length) throw new Error('Sky chart page errors: '+errors.join(' | '));
+            console.log(JSON.stringify({placeName,coverage,at21,at18,zoomChecksum,result:'observed-sky-pass'}));
+            await browser.close();
+          })();
+          NODE
       - name: Verify deployed production flow
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         env:
@@ -273,9 +357,9 @@ jobs:
               const errors = [];
               page.on('pageerror', err => errors.push(err.message));
               try {
-                await page.goto(process.env.PRODUCTION_URL + '?release=2026-10-06-fair-catalog&qa=1', { waitUntil: 'networkidle', timeout: 60000 });
+                await page.goto(process.env.PRODUCTION_URL + '?release=2026-10-06-observed-sky&qa=1', { waitUntil: 'networkidle', timeout: 60000 });
                 const release = await page.locator('meta[name="place-oracle-release"]').getAttribute('content');
-                if (release !== '2026-10-06-fair-catalog') throw new Error('Production release marker not updated yet: ' + release);
+                if (release !== '2026-10-06-observed-sky') throw new Error('Production release marker not updated yet: ' + release);
                 await page.evaluate(() => localStorage.clear());
                 await page.reload({ waitUntil: 'networkidle', timeout: 60000 });
                 await page.click('#heroStart');
@@ -292,6 +376,16 @@ jobs:
                 await page.click('#read');
                 await page.locator('#reading').waitFor({ state: 'visible', timeout: 10000 });
                 const skyTitle = (await page.locator('#skyTitleText').textContent() || '').trim();
+                const observedSkyVisible = await page.locator('#observedSky').isVisible();
+                if (!observedSkyVisible) throw new Error('Production observed-sky chart is not visible');
+                const chartMeta = (await page.locator('#skyChartMeta').innerText() || '').trim();
+                if (!/緯度/.test(chartMeta) || !/経度/.test(chartMeta)) throw new Error('Production sky-chart metadata is missing coordinates: ' + chartMeta);
+                const chartPixels = await page.locator('#skyChartCanvas').evaluate(canvas => {
+                  const data=canvas.getContext('2d').getImageData(0,0,canvas.width,canvas.height).data;
+                  let sum=0; for(let i=0;i<data.length;i+=127) sum=(sum+data[i]+data[i+1]+data[i+2]+data[i+3])>>>0;
+                  return sum;
+                });
+                if (!chartPixels) throw new Error('Production observed-sky chart canvas is blank');
                 const skyStory = (await page.locator('#skyStoryText').textContent() || '').trim();
                 const fairness = await page.evaluate(() => window.__PLACE_ORACLE_QA__?.freshBalance(1070));
                 if (!fairness) throw new Error('Production PLACE selection QA hook unavailable');
@@ -332,9 +426,9 @@ jobs:
               const errors = [];
               page.on('pageerror', err => errors.push(err.message));
               try {
-                await page.goto(process.env.PRODUCTION_URL + '?stale=2026-10-06-fair-catalog', { waitUntil: 'networkidle', timeout: 60000 });
+                await page.goto(process.env.PRODUCTION_URL + '?stale=2026-10-06-observed-sky', { waitUntil: 'networkidle', timeout: 60000 });
                 const release = await page.locator('meta[name="place-oracle-release"]').getAttribute('content');
-                if (release !== '2026-10-06-fair-catalog') throw new Error('Production release marker not updated yet: ' + release);
+                if (release !== '2026-10-06-observed-sky') throw new Error('Production release marker not updated yet: ' + release);
                 await page.evaluate(() => {
                   localStorage.setItem('place_oracle_v5_map', JSON.stringify([null,'broken',{bad:true},{date:'2025-01-01',placeId:null}]));
                   localStorage.setItem('place_oracle_v5_profile', JSON.stringify({
@@ -384,9 +478,9 @@ jobs:
               const errors = [];
               page.on('pageerror', err => errors.push(err.message));
               try {
-                await page.goto(process.env.PRODUCTION_URL + '?returning=2026-10-06-fair-catalog', { waitUntil: 'networkidle', timeout: 60000 });
+                await page.goto(process.env.PRODUCTION_URL + '?returning=2026-10-06-observed-sky', { waitUntil: 'networkidle', timeout: 60000 });
                 const release = await page.locator('meta[name="place-oracle-release"]').getAttribute('content');
-                if (release !== '2026-10-06-fair-catalog') throw new Error('Production release marker not updated yet: ' + release);
+                if (release !== '2026-10-06-observed-sky') throw new Error('Production release marker not updated yet: ' + release);
                 await page.evaluate(() => {
                   localStorage.setItem('place_oracle_v5_profile', JSON.stringify({
                     birth:'1969-02-19',
