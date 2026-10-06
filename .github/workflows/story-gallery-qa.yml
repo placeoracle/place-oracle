@@ -44,6 +44,27 @@ jobs:
         run: |
           python3 -m http.server 4173 --directory . > /tmp/place-oracle-http.log 2>&1 &
           node .github/scripts/check-mobile-story-gallery.mjs
+      - name: Check prefecture and municipality selectors
+        run: |
+          node - <<'NODE'
+          const { chromium } = require('playwright');
+          (async () => {
+            const browser = await chromium.launch({ headless: true });
+            const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+            const errors = [];
+            page.on('pageerror', err => errors.push(err.message));
+            await page.goto('http://127.0.0.1:4173/index.html', { waitUntil: 'networkidle', timeout: 120000 });
+            const prefCount = await page.locator('#birthPrefecture option').count();
+            if (prefCount !== 48) throw new Error('Expected 47 prefectures plus placeholder, got ' + prefCount);
+            await page.selectOption('#birthPrefecture', { label: '静岡県' });
+            const cityCount = await page.locator('#birthMunicipality option').count();
+            if (cityCount < 2) throw new Error('Municipality options did not populate for 静岡県');
+            const disabled = await page.locator('#birthMunicipality').isDisabled();
+            if (disabled) throw new Error('Municipality selector remained disabled after prefecture selection');
+            if (errors.length) throw new Error('Page errors: ' + errors.join(' | '));
+            await browser.close();
+          })();
+          NODE
       - name: Capture full PHOTO_QA contact sheet
         if: always()
         run: |
