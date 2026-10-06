@@ -163,6 +163,44 @@ jobs:
             await browser.close();
           })();
           NODE
+      - name: Check desktop journey composition
+        run: |
+          node - <<'NODE'
+          const { chromium } = require('playwright');
+          (async () => {
+            const browser = await chromium.launch({ headless: true });
+            const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+            await page.goto('http://127.0.0.1:4173/index.html', { waitUntil: 'networkidle', timeout: 120000 });
+            await page.evaluate(() => localStorage.clear());
+            await page.reload({ waitUntil: 'networkidle', timeout: 120000 });
+            await page.click('#heroStart');
+            await page.locator('#formSection').waitFor({ state: 'visible', timeout: 10000 });
+            const journeyVisible = await page.locator('.form-journey').isVisible();
+            if (!journeyVisible) throw new Error('Desktop journey panel is not visible');
+            const columns = await page.locator('.form-inner').evaluate(el => getComputedStyle(el).gridTemplateColumns);
+            if (!columns || columns.split(' ').length < 2) throw new Error('Desktop form is not using the two-column editorial layout');
+            const optionalOpen = await page.locator('#currentLocationDetails').getAttribute('open');
+            if (optionalOpen !== null) throw new Error('Optional current-location task should start collapsed for a fresh user');
+            await page.selectOption('#birthYear','1969');
+            await page.selectOption('#birthMonth','2');
+            await page.selectOption('#birthDay','19');
+            await page.selectOption('#birthPrefecture',{label:'静岡県'});
+            await page.selectOption('#birthMunicipality',{label:'掛川市'});
+            await page.check('input[name="scene"][value="distance"]');
+            await page.waitForTimeout(180);
+            const journeyTitle = (await page.locator('#formJourneyTitle').textContent() || '').trim();
+            if (journeyTitle !== '夕暮れの遠景') throw new Error('Scene choice did not update the journey panel: ' + journeyTitle);
+            await page.click('#read');
+            await page.locator('#themeBlock').waitFor({ state: 'visible', timeout: 10000 });
+            const placeTitle = (await page.locator('#formJourneyTitle').textContent() || '').trim();
+            if (!placeTitle || placeTitle === '夕暮れの遠景') throw new Error('Discovered PLACE did not replace the scene in the journey panel');
+            await page.click('#read');
+            await page.locator('#reading').waitFor({ state: 'visible', timeout: 10000 });
+            const readingColumns = await page.locator('#reading').evaluate(el => getComputedStyle(el).gridTemplateColumns);
+            if (!readingColumns || readingColumns.split(' ').length < 2) throw new Error('Desktop reading is not using the editorial two-column opening');
+            await browser.close();
+          })();
+          NODE
       - name: Verify deployed production flow
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         env:
