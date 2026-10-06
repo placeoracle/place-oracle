@@ -201,6 +201,39 @@ jobs:
             await browser.close();
           })();
           NODE
+      - name: Check desktop title balance
+        run: |
+          node - <<'NODE'
+          const { chromium } = require('playwright');
+          (async () => {
+            const browser = await chromium.launch({ headless: true });
+            const page = await browser.newPage({ viewport: { width: 1142, height: 900 } });
+            await page.goto('http://127.0.0.1:4173/index.html', { waitUntil: 'networkidle', timeout: 120000 });
+            await page.evaluate(() => localStorage.clear());
+            await page.reload({ waitUntil: 'networkidle', timeout: 120000 });
+            await page.click('#heroStart');
+            await page.selectOption('#birthYear','1969');
+            await page.selectOption('#birthMonth','2');
+            await page.selectOption('#birthDay','19');
+            await page.selectOption('#birthPrefecture',{label:'静岡県'});
+            await page.selectOption('#birthMunicipality',{label:'掛川市'});
+            await page.check('input[name="scene"][value="distance"]');
+            await page.click('#read');
+            await page.locator('#themeBlock').waitFor({ state: 'visible', timeout: 10000 });
+            const title = page.locator('#formTitle');
+            const html = await title.innerHTML();
+            if (!html.includes('今日、<br>') || !html.includes('あなたに重なる場所')) throw new Error('Desktop title composition is not the intended two-line copy: ' + html);
+            const nowrap = page.locator('#formTitle .form-title-nowrap');
+            const box = await nowrap.boundingBox();
+            const parent = await title.boundingBox();
+            if (!box || !parent) throw new Error('Title layout boxes unavailable');
+            if (box.width > parent.width + 1) throw new Error('Second title line overflows the available column');
+            const lineHeight = parseFloat(await title.evaluate(el => getComputedStyle(el).lineHeight));
+            const fontSize = parseFloat(await title.evaluate(el => getComputedStyle(el).fontSize));
+            if (fontSize > 45 || lineHeight/fontSize > 1.4) throw new Error('Desktop title typography is too large or too loose');
+            await browser.close();
+          })();
+          NODE
       - name: Verify deployed production flow
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         env:
@@ -217,9 +250,9 @@ jobs:
               const errors = [];
               page.on('pageerror', err => errors.push(err.message));
               try {
-                await page.goto(process.env.PRODUCTION_URL + '?release=2026-10-06-desktop-journey', { waitUntil: 'networkidle', timeout: 60000 });
+                await page.goto(process.env.PRODUCTION_URL + '?release=2026-10-06-type-balance', { waitUntil: 'networkidle', timeout: 60000 });
                 const release = await page.locator('meta[name="place-oracle-release"]').getAttribute('content');
-                if (release !== '2026-10-06-desktop-journey') throw new Error('Production release marker not updated yet: ' + release);
+                if (release !== '2026-10-06-type-balance') throw new Error('Production release marker not updated yet: ' + release);
                 await page.evaluate(() => localStorage.clear());
                 await page.reload({ waitUntil: 'networkidle', timeout: 60000 });
                 await page.click('#heroStart');
@@ -272,9 +305,9 @@ jobs:
               const errors = [];
               page.on('pageerror', err => errors.push(err.message));
               try {
-                await page.goto(process.env.PRODUCTION_URL + '?stale=2026-10-06-desktop-journey', { waitUntil: 'networkidle', timeout: 60000 });
+                await page.goto(process.env.PRODUCTION_URL + '?stale=2026-10-06-type-balance', { waitUntil: 'networkidle', timeout: 60000 });
                 const release = await page.locator('meta[name="place-oracle-release"]').getAttribute('content');
-                if (release !== '2026-10-06-desktop-journey') throw new Error('Production release marker not updated yet: ' + release);
+                if (release !== '2026-10-06-type-balance') throw new Error('Production release marker not updated yet: ' + release);
                 await page.evaluate(() => {
                   localStorage.setItem('place_oracle_v5_map', JSON.stringify([null,'broken',{bad:true},{date:'2025-01-01',placeId:null}]));
                   localStorage.setItem('place_oracle_v5_profile', JSON.stringify({
@@ -324,9 +357,9 @@ jobs:
               const errors = [];
               page.on('pageerror', err => errors.push(err.message));
               try {
-                await page.goto(process.env.PRODUCTION_URL + '?returning=2026-10-06-desktop-journey', { waitUntil: 'networkidle', timeout: 60000 });
+                await page.goto(process.env.PRODUCTION_URL + '?returning=2026-10-06-type-balance', { waitUntil: 'networkidle', timeout: 60000 });
                 const release = await page.locator('meta[name="place-oracle-release"]').getAttribute('content');
-                if (release !== '2026-10-06-desktop-journey') throw new Error('Production release marker not updated yet: ' + release);
+                if (release !== '2026-10-06-type-balance') throw new Error('Production release marker not updated yet: ' + release);
                 await page.evaluate(() => {
                   localStorage.setItem('place_oracle_v5_profile', JSON.stringify({
                     birth:'1969-02-19',
