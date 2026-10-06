@@ -185,8 +185,7 @@ jobs:
             if (!journeyVisible) throw new Error('Desktop journey panel is not visible');
             const columns = await page.locator('.form-inner').evaluate(el => getComputedStyle(el).gridTemplateColumns);
             if (!columns || columns.split(' ').length < 2) throw new Error('Desktop form is not using the two-column editorial layout');
-            const optionalOpen = await page.locator('#currentLocationDetails').getAttribute('open');
-            if (optionalOpen !== null) throw new Error('Optional current-location task should start collapsed for a fresh user');
+            if (await page.locator('#currentLocationDetails').count()) throw new Error('Removed current-location task is still present');
             await page.selectOption('#birthYear','1969');
             await page.selectOption('#birthMonth','2');
             await page.selectOption('#birthDay','19');
