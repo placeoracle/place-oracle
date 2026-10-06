@@ -1,0 +1,34 @@
+name: Build promo media
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'promo/source/**.svg'
+      - '.github/workflows/promo-media.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  render:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install renderer
+        run: sudo apt-get update && sudo apt-get install -y librsvg2-bin
+      - name: Render Instagram PNGs
+        run: |
+          mkdir -p promo/rendered
+          for f in promo/source/*.svg; do
+            [ -e "$f" ] || continue
+            name=$(basename "$f" .svg)
+            rsvg-convert -w 1080 -h 1350 "$f" -o "promo/rendered/$name.png"
+          done
+      - name: Commit rendered media
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add promo/rendered
+          git diff --cached --quiet && exit 0
+          git commit -m "Render promotional media"
+          git push
