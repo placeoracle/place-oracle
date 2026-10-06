@@ -13,6 +13,25 @@ if (stories.length !== 50) fail('Expected 50 STORY records, found ' + stories.le
 const expectedIds = Array.from({ length: 50 }, (_, i) => i + 1);
 if (stories.map(x => x.id).join(',') !== expectedIds.join(',')) fail('STORY IDs must be 1–50 in order');
 
+const requiredStoryFields = ['tone','scene','title','img','fallback','alt','focus','zoom','teaser','text','end','source','sourceUrl'];
+for (const story of stories) {
+  for (const key of requiredStoryFields) {
+    const value = story[key];
+    if (value === undefined || value === null || (typeof value === 'string' && value.trim() === '')) {
+      fail('Missing STORY ' + story.id + ' field: ' + key);
+    }
+  }
+  if (!['bright','quiet','wistful'].includes(story.tone)) fail('Invalid STORY tone for ' + story.id + ': ' + story.tone);
+  if (!/^\d+% \d+%$/.test(story.focus)) fail('Invalid STORY focus for ' + story.id + ': ' + story.focus);
+  if (!/^\d+(?:\.\d+)?$/.test(String(story.zoom))) fail('Invalid STORY zoom for ' + story.id + ': ' + story.zoom);
+  if (/\bundefined\b/i.test([story.teaser,story.text,story.end].join(' '))) fail('Undefined copy leaked into STORY ' + story.id);
+}
+if (index.includes('<script src="./membership-widget.js"></script>\\n</body></html>')) fail('Literal \\n is rendered after membership widget');
+if (!index.includes('id="visibleSkyHeading">この場所から見える空</h3>')) fail('Visible-sky concept heading is missing');
+if (!index.includes('<span class="sky-signs-label">この空のしるし</span>')) fail('Sky-sign concept label is missing');
+if (!index.includes('<h4>空から生まれた物語</h4>')) fail('Story-from-sky concept heading is missing');
+
+
 const cards = [...qa.matchAll(/<article class="card" data-id="(\d+)"([\s\S]*?)<\/article>/g)].map(match => {
   const [, id, body] = match;
   const image = body.match(/<img src="([^"]+)" alt="([^"]*)" loading="lazy" onerror="this\.onerror=null;this\.src='([^']+)'"/);
