@@ -5,7 +5,7 @@ const fail = message => { throw new Error(message); };
 const index = await readFile('index.html', 'utf8');
 const qa = await readFile('PHOTO_QA.html', 'utf8');
 
-const poolMatch = index.match(/const storyPool=\[([\s\S]*?)\n  \];\n  const activeStories=/);
+const poolMatch = index.match(/const storyPool=\[([\s\S]*?)\n  \];\n  const (?:activeStories|featuredStoryIds)=/);
 if (!poolMatch) fail('storyPool was not found');
 const stories = Function('"use strict"; return [' + poolMatch[1] + '];')();
 if (stories.length !== 50) fail('Expected 50 STORY records, found ' + stories.length);
