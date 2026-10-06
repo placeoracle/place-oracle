@@ -63,9 +63,9 @@ jobs:
             await page.locator('#formSection').screenshot({ path: 'qa-artifacts/form-mobile.png' });
             const prefCount = await page.locator('#birthPrefecture option').count();
             if (prefCount !== 48) throw new Error('Expected 47 prefectures plus placeholder, got ' + prefCount);
-            await page.selectOption('#birthYear','1980');
-            await page.selectOption('#birthMonth','1');
-            await page.selectOption('#birthDay','10');
+            await page.selectOption('#birthYear','1969');
+            await page.selectOption('#birthMonth','2');
+            await page.selectOption('#birthDay','19');
             await page.selectOption('#birthPrefecture',{label:'静岡県'});
             const cityCount = await page.locator('#birthMunicipality option').count();
             if (cityCount < 2) throw new Error('Municipality options did not populate for 静岡県');
@@ -90,6 +90,40 @@ jobs:
             await browser.close();
           })();
           NODE
+      - name: Check recovery from stale browser data
+        run: |
+          node - <<'NODE'
+          const { chromium } = require('playwright');
+          (async () => {
+            const browser = await chromium.launch({ headless: true });
+            const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+            const errors = [];
+            page.on('pageerror', err => errors.push(err.message));
+            await page.goto('http://127.0.0.1:4173/index.html', { waitUntil: 'networkidle', timeout: 120000 });
+            await page.evaluate(() => {
+              localStorage.setItem('place_oracle_v5_map', JSON.stringify([null, 'broken', {bad:true}, {date:'2025-01-01', placeId:null}]));
+              localStorage.setItem('place_oracle_v5_profile', JSON.stringify({
+                birth:'1969-02-19',
+                birthPlace:{prefecture:'静岡県', municipality:'掛川市', code:'222135'},
+                stars:{},
+                scene:'sea',
+                theme:''
+              }));
+            });
+            await page.reload({ waitUntil: 'networkidle', timeout: 120000 });
+            await page.click('#heroStart');
+            await page.locator('#formSection').waitFor({ state: 'visible', timeout: 10000 });
+            await page.check('input[name="scene"][value="sea"]');
+            await page.click('#read');
+            await page.locator('#themeBlock').waitFor({ state: 'visible', timeout: 10000 });
+            const errorText = (await page.locator('#formError').textContent() || '').trim();
+            if (errorText) throw new Error('Stale browser data still causes form error: ' + errorText);
+            await page.click('#read');
+            await page.locator('#reading').waitFor({ state: 'visible', timeout: 10000 });
+            if (errors.length) throw new Error('Page errors after stale-data recovery: ' + errors.join(' | '));
+            await browser.close();
+          })();
+          NODE
       - name: Verify deployed production flow
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         env:
@@ -106,17 +140,17 @@ jobs:
               const errors = [];
               page.on('pageerror', err => errors.push(err.message));
               try {
-                await page.goto(process.env.PRODUCTION_URL + '?release=2026-10-06-final', { waitUntil: 'networkidle', timeout: 60000 });
+                await page.goto(process.env.PRODUCTION_URL + '?release=2026-10-06-result-fix', { waitUntil: 'networkidle', timeout: 60000 });
                 const release = await page.locator('meta[name="place-oracle-release"]').getAttribute('content');
-                if (release !== '2026-10-06-final') throw new Error('Production release marker not updated yet: ' + release);
+                if (release !== '2026-10-06-result-fix') throw new Error('Production release marker not updated yet: ' + release);
                 await page.evaluate(() => localStorage.clear());
                 await page.reload({ waitUntil: 'networkidle', timeout: 60000 });
                 await page.click('#heroStart');
                 await page.locator('#formSection').waitFor({ state: 'visible', timeout: 10000 });
                 if (await page.locator('#birthPrefecture option').count() !== 48) throw new Error('Production prefecture selector incomplete');
-                await page.selectOption('#birthYear','1980');
-                await page.selectOption('#birthMonth','1');
-                await page.selectOption('#birthDay','10');
+                await page.selectOption('#birthYear','1969');
+                await page.selectOption('#birthMonth','2');
+                await page.selectOption('#birthDay','19');
                 await page.selectOption('#birthPrefecture',{label:'静岡県'});
                 await page.selectOption('#birthMunicipality',{label:'掛川市'});
                 await page.check('input[name="scene"][value="sea"]');
