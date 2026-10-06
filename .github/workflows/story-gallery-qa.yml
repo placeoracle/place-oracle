@@ -63,9 +63,9 @@ jobs:
             await page.locator('#formSection').screenshot({ path: 'qa-artifacts/form-mobile.png' });
             const prefCount = await page.locator('#birthPrefecture option').count();
             if (prefCount !== 48) throw new Error('Expected 47 prefectures plus placeholder, got ' + prefCount);
-            await page.selectOption('#birthYear','1980');
-            await page.selectOption('#birthMonth','1');
-            await page.selectOption('#birthDay','10');
+            await page.selectOption('#birthYear','1969');
+            await page.selectOption('#birthMonth','2');
+            await page.selectOption('#birthDay','19');
             await page.selectOption('#birthPrefecture',{label:'静岡県'});
             const cityCount = await page.locator('#birthMunicipality option').count();
             if (cityCount < 2) throw new Error('Municipality options did not populate for 静岡県');
