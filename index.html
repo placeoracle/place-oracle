@@ -1907,7 +1907,7 @@ function updateFormReadiness(){
     $('progressProfile').classList.add('done');$('progressScene').classList.add('done');$('progressTheme').classList.add('current');
   }
 }
-function showForm(mode='first',fromStory=false){trackPO?.('po_start',{mode});$('membership').hidden=true;const returning=mode==='daily'&&Boolean(profile);formStage='input';pendingProfile=null;$('formSection').hidden=false;$('formEyebrow').textContent='ONE MOMENT';$('reading').hidden=true;$('formTitle').innerHTML=returning?'今日の景色から、<br>あなたに重なる場所へ。':(memberAuthenticated?'診断プロフィールを登録して、<br>今日の場所を探す':'生年月日と、<br>いまの景色から。');$('formLead').innerHTML=returning?'生まれた日はそのままに。今日惹かれる景色から、あなたに重なる場所を見つけます。':(memberAuthenticated?'会員ログインとは別に、診断プロフィールの登録が必要です。生年月日と生まれた市町村を初回だけ登録してください。':'生まれた日と、今この瞬間に惹かれる景色から、あなたに重なる場所を見つけます。');$('birthBlock').hidden=returning;$('birthLocationBlock').hidden=returning&&Boolean(profile?.birthPlace);$('currentLocationBlock').hidden=false;document.querySelector('.location-help').hidden=false;$('sceneBlock').hidden=false;$('themeBlock').hidden=true;$('placePreview').hidden=true;$('quietNote').hidden=false;$('changeBirth').hidden=!returning;$('desktopReadLabel').textContent='景色から場所を探す';$('mobileReadLabel').textContent='場所を探す';$('formError').textContent='';document.querySelectorAll('[name="scene"],[name="theme"]').forEach(x=>x.checked=false);$('formSection').scrollIntoView({behavior:'smooth'});if(profile){const [y,m,d]=profile.birth.split('-');$('birthYear').value=y;$('birthMonth').value=Number(m);buildDays();$('birthDay').value=Number(d)}restoreLocationSelectors();updateFormReadiness()}
+function showForm(mode='first',fromStory=false){initLocationSelectors();trackPO?.('po_start',{mode});$('membership').hidden=true;const returning=mode==='daily'&&Boolean(profile);formStage='input';pendingProfile=null;$('formSection').hidden=false;$('formEyebrow').textContent='ONE MOMENT';$('reading').hidden=true;$('formTitle').innerHTML=returning?'今日の景色から、<br>あなたに重なる場所へ。':(memberAuthenticated?'診断プロフィールを登録して、<br>今日の場所を探す':'生年月日と、<br>いまの景色から。');$('formLead').innerHTML=returning?'生まれた日はそのままに。今日惹かれる景色から、あなたに重なる場所を見つけます。':(memberAuthenticated?'会員ログインとは別に、診断プロフィールの登録が必要です。生年月日と生まれた市町村を初回だけ登録してください。':'生まれた日と、今この瞬間に惹かれる景色から、あなたに重なる場所を見つけます。');$('birthBlock').hidden=returning;$('birthLocationBlock').hidden=returning&&Boolean(profile?.birthPlace);$('currentLocationBlock').hidden=false;document.querySelector('.location-help').hidden=false;$('sceneBlock').hidden=false;$('themeBlock').hidden=true;$('placePreview').hidden=true;$('quietNote').hidden=false;$('changeBirth').hidden=!returning;$('desktopReadLabel').textContent='景色から場所を探す';$('mobileReadLabel').textContent='場所を探す';$('formError').textContent='';document.querySelectorAll('[name="scene"],[name="theme"]').forEach(x=>x.checked=false);$('formSection').scrollIntoView({behavior:'smooth'});if(profile){const [y,m,d]=profile.birth.split('-');$('birthYear').value=y;$('birthMonth').value=Number(m);buildDays();$('birthDay').value=Number(d)}restoreLocationSelectors();updateFormReadiness()}
 function openForToday(fromStory=false){
   // 「はじまりの景色」は診断の条件として持ち込まない。
   if(!fromStory)entryStory=null;
@@ -1918,6 +1918,19 @@ function findNewPlace(){
   $('mapDialog').close();
   if(membershipGateEnabled()&&profile?.firstSeen&&!isMember()){openMembership();return}
   showForm(hasCompleteDiagnosisProfile()?'daily':'first');
+}
+function initLocationSelectors(){
+  const prefs=Object.keys(JP_MUNICIPALITIES);
+  for(const [prefId,cityId] of [['birthPrefecture','birthMunicipality'],['currentPrefecture','currentMunicipality']]){
+    const prefSelect=$(prefId),citySelect=$(cityId);
+    if(!prefSelect||!citySelect) continue;
+    const currentPref=prefSelect.value;
+    if(prefSelect.options.length<=1){
+      for(const pref of prefs) prefSelect.add(new Option(pref,pref));
+    }
+    if(currentPref) prefSelect.value=currentPref;
+    prefSelect.onchange=()=>populateMunicipalities(prefId,cityId);
+  }
 }
 function populateMunicipalities(prefId,cityId,selectedCode=''){const pref=$(prefId).value,select=$(cityId);select.replaceChildren(new Option(pref?'市町村を選択':'先に都道府県を選択',''));select.disabled=!pref;if(pref){for(const [code,name] of (JP_MUNICIPALITIES[pref]||[]))select.add(new Option(name,code));if(selectedCode)select.value=selectedCode}}
 function readLocation(prefId,cityId){const pref=$(prefId).value,code=$(cityId).value;if(!pref||!code)return null;const row=(JP_MUNICIPALITIES[pref]||[]).find(x=>x[0]===code);return row?{prefecture:pref,municipality:row[1],code}:null}
@@ -2130,7 +2143,7 @@ function init(){
   storyButtons.forEach((button,i)=>{button.onclick=()=>renderStory(i)});
   const openSceneForm=()=>{return hasCompleteDiagnosisProfile()?openForToday(true):showForm('first',true)};
   $('storyNextCta').onclick=openSceneForm;
-  const year=new Date().getFullYear();for(let y=year;y>=1900;y--)$('birthYear').add(new Option(y+'年',y));for(let m=1;m<=12;m++)$('birthMonth').add(new Option(m+'月',m));$('birthYear').addEventListener('change',buildDays);$('birthMonth').addEventListener('change',buildDays);for(const [prefId,cityId] of [['birthPrefecture','birthMunicipality'],['currentPrefecture','currentMunicipality']]){const prefSelect=$(prefId);for(const pref of Object.keys(JP_MUNICIPALITIES))prefSelect.add(new Option(pref,pref));prefSelect.addEventListener('change',()=>populateMunicipalities(prefId,cityId))}migratePreviousMap();profile=localGet(storeKey,null);
+  initLocationSelectors();const year=new Date().getFullYear();for(let y=year;y>=1900;y--)$('birthYear').add(new Option(y+'年',y));for(let m=1;m<=12;m++)$('birthMonth').add(new Option(m+'月',m));$('birthYear').addEventListener('change',buildDays);$('birthMonth').addEventListener('change',buildDays);migratePreviousMap();profile=localGet(storeKey,null);
   window.addEventListener('placeoracle:auth',e=>updateMemberState(e.detail||{}));$('storyNextCta').textContent=hasCompleteDiagnosisProfile()?'今日の景色を選ぶ →':'生年月日を入力して、自分の景色を選ぶ →';restoreLocationSelectors();if(profile?.entryStory)entryStory=profile.entryStory;const openFromHero=()=>hasCompleteDiagnosisProfile()?openForToday():showForm('first');
   $('heroStart').onclick=openFromHero;
   if(hasCompleteDiagnosisProfile()&&profile?.scene){$('begin').textContent='今の自分に重なる場所を見る →';$('begin').onclick=()=>openForToday()}else $('begin').onclick=()=>showForm();$('changeBirth').onclick=()=>{$('birthBlock').hidden=false;$('changeBirth').hidden=true};$('back').onclick=()=>{ $('formSection').hidden=true;$('someone').scrollIntoView({behavior:'smooth'})};$('readBack').onclick=()=>{$('reading').hidden=true;$('membership').hidden=true;$('someone').scrollIntoView({behavior:'smooth'})};$('save').onclick=save;$('mapOpen').onclick=$('openMapFromReading').onclick=()=>{$('mapDialog').showModal();updateMap();setMyMapView('map')};$('mapViewMap').onclick=()=>setMyMapView('map');$('mapViewCards').onclick=()=>setMyMapView('cards');$('mapClose').onclick=()=>$('mapDialog').close();$('mapFindToday').onclick=()=>{$('mapDialog').close();openForToday()};$('mapFindNew').onclick=findNewPlace;$('mapClear').onclick=()=>{if(confirm('生年月日・選択した内容・地図・利用記録をこの端末からすべて消します。元に戻せません。よろしいですか？')){try{[storeKey,mapKey,'place_oracle_my_map','po_map','po_funnel_events_v1','place_oracle_membership_v1'].forEach(key=>localStorage.removeItem(key));location.reload()}catch{alert('この端末の記録を削除できませんでした。ブラウザのサイトデータ設定をご確認ください。')}}};
