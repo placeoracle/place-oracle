@@ -1753,6 +1753,7 @@ function choosePlace(p,cycle,map){
   return scored[seed%Math.min(3,scored.length)].place;
 }
 function chooseDailyPlace(p,cycle,map){
+  if(!Array.isArray(ORACLE_DATA.today?.cards)||ORACLE_DATA.today.cards.length===0)return choosePlace(p,cycle,map);
   const sceneCode={alley:'a',sea:'s',light:'l',green:'g',distance:'d'}[p.scene];
   const words={alley:['道','路地','歩','変','曲が'],sea:['海','水','空','遠','水平'],light:['灯','街','人','窓','話'],green:['森','緑','木','育','庭'],distance:['夕','遠','山','地平','先']}[p.scene];
   const seen=new Set(map.filter(x=>x.date!==dateKey()).slice(-12).map(x=>x.placeId));
