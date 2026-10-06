@@ -250,9 +250,9 @@ jobs:
               const errors = [];
               page.on('pageerror', err => errors.push(err.message));
               try {
-                await page.goto(process.env.PRODUCTION_URL + '?release=2026-10-06-type-balance', { waitUntil: 'networkidle', timeout: 60000 });
+                await page.goto(process.env.PRODUCTION_URL + '?release=2026-10-06-story-copy', { waitUntil: 'networkidle', timeout: 60000 });
                 const release = await page.locator('meta[name="place-oracle-release"]').getAttribute('content');
-                if (release !== '2026-10-06-type-balance') throw new Error('Production release marker not updated yet: ' + release);
+                if (release !== '2026-10-06-story-copy') throw new Error('Production release marker not updated yet: ' + release);
                 await page.evaluate(() => localStorage.clear());
                 await page.reload({ waitUntil: 'networkidle', timeout: 60000 });
                 await page.click('#heroStart');
@@ -305,9 +305,9 @@ jobs:
               const errors = [];
               page.on('pageerror', err => errors.push(err.message));
               try {
-                await page.goto(process.env.PRODUCTION_URL + '?stale=2026-10-06-type-balance', { waitUntil: 'networkidle', timeout: 60000 });
+                await page.goto(process.env.PRODUCTION_URL + '?stale=2026-10-06-story-copy', { waitUntil: 'networkidle', timeout: 60000 });
                 const release = await page.locator('meta[name="place-oracle-release"]').getAttribute('content');
-                if (release !== '2026-10-06-type-balance') throw new Error('Production release marker not updated yet: ' + release);
+                if (release !== '2026-10-06-story-copy') throw new Error('Production release marker not updated yet: ' + release);
                 await page.evaluate(() => {
                   localStorage.setItem('place_oracle_v5_map', JSON.stringify([null,'broken',{bad:true},{date:'2025-01-01',placeId:null}]));
                   localStorage.setItem('place_oracle_v5_profile', JSON.stringify({
@@ -357,9 +357,9 @@ jobs:
               const errors = [];
               page.on('pageerror', err => errors.push(err.message));
               try {
-                await page.goto(process.env.PRODUCTION_URL + '?returning=2026-10-06-type-balance', { waitUntil: 'networkidle', timeout: 60000 });
+                await page.goto(process.env.PRODUCTION_URL + '?returning=2026-10-06-story-copy', { waitUntil: 'networkidle', timeout: 60000 });
                 const release = await page.locator('meta[name="place-oracle-release"]').getAttribute('content');
-                if (release !== '2026-10-06-type-balance') throw new Error('Production release marker not updated yet: ' + release);
+                if (release !== '2026-10-06-story-copy') throw new Error('Production release marker not updated yet: ' + release);
                 await page.evaluate(() => {
                   localStorage.setItem('place_oracle_v5_profile', JSON.stringify({
                     birth:'1969-02-19',
