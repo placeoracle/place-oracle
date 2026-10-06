@@ -54,6 +54,8 @@ jobs:
             const errors = [];
             page.on('pageerror', err => errors.push(err.message));
             await page.goto('http://127.0.0.1:4173/index.html', { waitUntil: 'networkidle', timeout: 120000 });
+            await page.waitForTimeout(300);
+            if (errors.length) throw new Error('Page errors before selector check: ' + errors.join(' | '));
             const prefCount = await page.locator('#birthPrefecture option').count();
             if (prefCount !== 48) throw new Error('Expected 47 prefectures plus placeholder, got ' + prefCount);
             await page.selectOption('#birthPrefecture', { label: '静岡県' });
