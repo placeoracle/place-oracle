@@ -53,8 +53,8 @@ for (const story of stories) {
   }
 }
 if (external.length + firstParty.length !== 50) fail('Expected 50 adopted images total');
-if (firstParty.length !== 50) fail('Expected 50 first-party images, found ' + firstParty.length);
-if (external.length !== 0) fail('Expected 0 external Pexels images, found ' + external.length);
+if (external.length !== 50) fail('Expected 50 external Pexels images, found ' + external.length);
+if (firstParty.length !== 0) fail('Expected 0 first-party primary images, found ' + firstParty.length);
 
 const fallbackIds = new Map();
 for (const story of stories) {

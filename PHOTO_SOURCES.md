@@ -1,19 +1,20 @@
 # PLACE ORACLE 画像ソース記録
 
-更新日: 2026-10-05
+更新日: 2026-10-06
 
 ## 現行STORY画像
 
-STORY 01〜50の主画像はすべてPLACE ORACLE first-party SVGです。2026-10-06に、プレースホルダー表示を廃止し、文字を載せない旅行エディトリアル調のオリジナルビジュアルへ全面更新しました。
+STORY 01〜50の主画像はすべてPexels Licenseの写真です。
 
-- ファイル: `fallback_01.svg`〜`fallback_50.svg`
-- 現行主画像: 50 / 50件 first-party
-- 外部Pexels主画像: 0件
-- 第三者写真: 現行STORY主画像では不使用
-- 各STORYは固有のSVGファイルを使用
-- 旧 `story_XX.jpg` は公開リポジトリから削除済み。旧Pexels URLも現行STORY表示・フォールバックには使用しない
+- 現行主画像: 50 / 50件 Pexels
+- 各画像のPexels個別ページURL: `PHOTO_QA.html` と `index.html` の各STORYレコードに記録
+- 読み込み失敗時: `fallback_01.svg`〜`fallback_50.svg` のPLACE ORACLE first-party SVGを使用
+- 旧ローカル `story_XX.jpg`: 公開リポジトリから削除済み
+- 写真をPLACE ORACLE所有作品として扱わず、Pexels提供素材として区別する
 
-この構成は、人物・商標・店舗表示・書籍表紙・交通施設表示などを含む第三者写真が、通常表示や画像読込失敗時に再導入される経路を避けるためのものです。
+Pexels公式ライセンスでは、写真はWebサイト・アプリ等で商用利用できます。出典表示は必須ではありませんが、PLACE ORACLEでは内部QA上の追跡のため個別出典を保持します。
+
+第三者の商標・ロゴ・特定可能な人物・著作物・建築物等が写り込む場合は別の権利が関係し得るため、PLACE ORACLEの商品や運営者による推奨・提携を示す使い方はしません。
 
 ## Hero
 
@@ -21,19 +22,18 @@ STORY 01〜50の主画像はすべてPLACE ORACLE first-party SVGです。2026-1
 - 分類: PLACE ORACLE用生成ビジュアル
 - 第三者写真の画像入力: なし
 - 人物: 非特定の合成人物。実在人物の肖像を意図しない
-- 第三者写真ソース/Pexels attribution: なし
 
-生成画像であることは、サービス全体の法的リスクがゼロであることを意味しません。
+## QA
 
-## 最終表示QA
+公開前に以下を自動確認します。
 
-- モバイル表示: 390×844で確認
-- Hero人物: 右側に表示
-- Hero説明文: 人物と重ならない幅へ調整
-- 背景: 継ぎ目なし
-- `index.html`: `Warning: truncated output` 混入断片を除去済み
-- Story gallery QA #120: SUCCESS
+- STORY 01〜50がすべて存在
+- Pexels画像URLとPexels個別出典URLの写真IDが一致
+- 50件すべての主画像が画像レスポンスを返す
+- 各STORYのfallbackが重複せず存在
+- モバイル表示のStory galleryをPlaywrightで確認
+- Hero・PHOTO_QAのスクリーンショットをartifactへ保存
 
 ## 運用ルール
 
-今後STORYまたはHeroを差し替える場合は、公開前にこの記録を更新し、画像の由来と第三者要素を確認します。外部素材を再導入する場合は、その素材の利用条件と必要な第三者権利確認を別途実施します。
+画像差し替え時は `PHOTO_QA.html` と本記録を更新し、主画像URL・出典URL・fallbackの整合をQAで確認してから公開します。
