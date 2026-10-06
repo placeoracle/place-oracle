@@ -351,6 +351,16 @@ footer small{color:#b9cfcc}
   .story-bridge{margin-top:15px!important}
 }
 
+/* Mobile location controls: keep optional-current-location row and help copy in normal flow. */
+@media(max-width:650px){
+  #birthLocationBlock{margin-bottom:26px}
+  .optional-location{display:block;position:static;clear:both;margin:0 0 14px;padding:0;border-top:1px solid #dedbd0;border-bottom:1px solid #dedbd0}
+  .optional-location summary{display:block;position:relative;min-height:48px;box-sizing:border-box;padding:14px 34px 14px 2px;line-height:1.55;white-space:normal}
+  .optional-location summary:after{position:absolute;right:2px;top:50%;float:none;transform:translateY(-50%)}
+  .optional-location summary small{display:inline;margin-left:6px}
+  .location-help{display:block;position:static;clear:both;margin:0 0 34px;line-height:1.8}
+}
+
 /* Mobile result: use full-width colour sections instead of inset cards */
 @media(max-width:650px){
   .reading{max-width:none;padding:28px 0 72px}
