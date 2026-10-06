@@ -2053,7 +2053,18 @@ function makeReading(p){
   const reading=themeReadings[p.theme]||themeReadings.open;
   const title=reading.title;
   const [dy,dm,dd]=date.split('-').map(Number),day=jdn(dy,dm,dd);
-  const intro=first?`${outer[p.stars.h].quiet}\nもしかすると、ほしいのは${inner[p.stars.g]}。`:dayMoments[p.theme||'open'][day%4];
+  const firstIntroClosers=[
+    need=>`そのあとに残るのは、${need}への気持ちかもしれない。`,
+    need=>`今は、${need}を少し大切にしてもよさそうだ。`,
+    need=>`${need}があるだけで、呼吸の仕方は少し変わる。`,
+    need=>`次に選ぶなら、${need}を基準にしてもいい。`,
+    need=>`言葉にするなら、${need}という余白に近い。`,
+    need=>`急いで答えを出すより、${need}を残しておきたい。`,
+    need=>`今日の自分には、${need}くらいの距離がちょうどいい。`,
+    need=>`${need}を選ぶことも、ひとつの進み方になる。`,
+    need=>`しばらくは、${need}のある方へ目を向けてみる。`
+  ];
+  const intro=first?`${outer[p.stars.h].quiet}\n${firstIntroClosers[(p.stars.h+p.stars.g+variant)%firstIntroClosers.length](inner[p.stars.g])}`:dayMoments[p.theme||'open'][day%4];
   const axes=place.axes||[];
   const sceneLine=place.sceneLine||(dailyCard?PO_PLACE_COPY[place.id].line:(placeLines[place.id]||`${place.name}には、${axes.slice(0,2).join('と')}がある。`));
   const combined=combinedSceneMessage(p); const heart=[reading.lines[p.stars.h-1],reading.moon.replace('{need}',inner[p.stars.g]),combined,placeEcho[place.id]||place.afterglow||place.oracle||scene.need].filter(Boolean).join('\n');
