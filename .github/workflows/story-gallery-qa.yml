@@ -8,6 +8,7 @@ on:
       - 'index.html'
       - 'PHOTO_QA.html'
       - 'membership-widget.js'
+      - 'SKY_POINTS_SOURCES.csv'
       - 'story_*.jpg'
       - 'fallback_*.svg'
       - '.github/workflows/story-gallery-qa.yml'
@@ -17,6 +18,7 @@ on:
       - 'index.html'
       - 'PHOTO_QA.html'
       - 'membership-widget.js'
+      - 'SKY_POINTS_SOURCES.csv'
       - 'story_*.jpg'
       - 'fallback_*.svg'
       - '.github/workflows/story-gallery-qa.yml'
@@ -234,6 +236,44 @@ jobs:
             await browser.close();
           })();
           NODE
+      - name: Check full PLACE catalog balance
+        run: |
+          node - <<'NODE'
+          const { chromium } = require('playwright');
+          (async () => {
+            const browser = await chromium.launch({ headless: true });
+            const page = await browser.newPage({ viewport: { width: 1200, height: 900 } });
+            await page.goto('http://127.0.0.1:4173/index.html', { waitUntil: 'networkidle', timeout: 120000 });
+            const report = await page.evaluate(() => {
+              localStorage.clear();
+              const sceneKeys=['alley','sea','light','green','distance'];
+              const counts={},spread={},unique={};
+              for(const scene of sceneKeys){
+                const candidates=catalogCandidatesForScene(scene);
+                counts[scene]=candidates.length;
+                const picked=new Map();
+                for(let seed=0;seed<10700;seed++){
+                  const place=chooseBalancedPlace(candidates,seed,{recentCount:12,countryRecentCount:2});
+                  picked.set(String(place.id),(picked.get(String(place.id))||0)+1);
+                }
+                const vals=[...picked.values()];
+                spread[scene]={min:Math.min(...vals),max:Math.max(...vals)};
+                unique[scene]=picked.size;
+              }
+              const thing=PO_PLACE_CATALOG.find(p=>p.id==='thingvellir');
+              return {catalog:PO_PLACE_CATALOG.length,counts,spread,unique,thingScenes:thing?.sceneCodes||''};
+            });
+            if (report.catalog < 100) throw new Error('Full PLACE catalog is not active: ' + report.catalog);
+            for (const [scene,count] of Object.entries(report.counts)) {
+              if (count < 30) throw new Error('Scene pool too small for '+scene+': '+count);
+              if (report.unique[scene] !== count) throw new Error('Some eligible PLACE records are unreachable for '+scene+': '+JSON.stringify(report));
+              if (report.spread[scene].max - report.spread[scene].min > 1) throw new Error('Fresh selection is biased for '+scene+': '+JSON.stringify(report.spread[scene]));
+            }
+            if (report.thingScenes.length > 2) throw new Error('Thingvellir is over-classified: '+report.thingScenes);
+            await browser.close();
+            console.log(JSON.stringify(report));
+          })();
+          NODE
       - name: Verify deployed production flow
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         env:
@@ -250,9 +290,9 @@ jobs:
               const errors = [];
               page.on('pageerror', err => errors.push(err.message));
               try {
-                await page.goto(process.env.PRODUCTION_URL + '?release=2026-10-06-place-balance', { waitUntil: 'networkidle', timeout: 60000 });
+                await page.goto(process.env.PRODUCTION_URL + '?release=2026-10-06-fair-catalog', { waitUntil: 'networkidle', timeout: 60000 });
                 const release = await page.locator('meta[name="place-oracle-release"]').getAttribute('content');
-                if (release !== '2026-10-06-place-balance') throw new Error('Production release marker not updated yet: ' + release);
+                if (release !== '2026-10-06-fair-catalog') throw new Error('Production release marker not updated yet: ' + release);
                 await page.evaluate(() => localStorage.clear());
                 await page.reload({ waitUntil: 'networkidle', timeout: 60000 });
                 await page.click('#heroStart');
@@ -270,6 +310,11 @@ jobs:
                 await page.locator('#reading').waitFor({ state: 'visible', timeout: 10000 });
                 const skyTitle = (await page.locator('#skyTitleText').textContent() || '').trim();
                 const skyStory = (await page.locator('#skyStoryText').textContent() || '').trim();
+                const fairness = await page.evaluate(() => ({
+                  catalog: PO_PLACE_CATALOG.length,
+                  pools: Object.fromEntries(['alley','sea','light','green','distance'].map(scene=>[scene,catalogCandidatesForScene(scene).length]))
+                }));
+                if (fairness.catalog < 100 || Object.values(fairness.pools).some(n=>n<30)) throw new Error('Production full catalog inactive: ' + JSON.stringify(fairness));
                 const bodyText = await page.locator('body').innerText();
                 if (!skyTitle || !skyStory) throw new Error('Production visible-sky content empty');
                 if (/\bundefined\b/i.test(bodyText)) throw new Error('Production contains visible undefined text');
@@ -305,9 +350,9 @@ jobs:
               const errors = [];
               page.on('pageerror', err => errors.push(err.message));
               try {
-                await page.goto(process.env.PRODUCTION_URL + '?stale=2026-10-06-place-balance', { waitUntil: 'networkidle', timeout: 60000 });
+                await page.goto(process.env.PRODUCTION_URL + '?stale=2026-10-06-fair-catalog', { waitUntil: 'networkidle', timeout: 60000 });
                 const release = await page.locator('meta[name="place-oracle-release"]').getAttribute('content');
-                if (release !== '2026-10-06-place-balance') throw new Error('Production release marker not updated yet: ' + release);
+                if (release !== '2026-10-06-fair-catalog') throw new Error('Production release marker not updated yet: ' + release);
                 await page.evaluate(() => {
                   localStorage.setItem('place_oracle_v5_map', JSON.stringify([null,'broken',{bad:true},{date:'2025-01-01',placeId:null}]));
                   localStorage.setItem('place_oracle_v5_profile', JSON.stringify({
@@ -357,9 +402,9 @@ jobs:
               const errors = [];
               page.on('pageerror', err => errors.push(err.message));
               try {
-                await page.goto(process.env.PRODUCTION_URL + '?returning=2026-10-06-place-balance', { waitUntil: 'networkidle', timeout: 60000 });
+                await page.goto(process.env.PRODUCTION_URL + '?returning=2026-10-06-fair-catalog', { waitUntil: 'networkidle', timeout: 60000 });
                 const release = await page.locator('meta[name="place-oracle-release"]').getAttribute('content');
-                if (release !== '2026-10-06-place-balance') throw new Error('Production release marker not updated yet: ' + release);
+                if (release !== '2026-10-06-fair-catalog') throw new Error('Production release marker not updated yet: ' + release);
                 await page.evaluate(() => {
                   localStorage.setItem('place_oracle_v5_profile', JSON.stringify({
                     birth:'1969-02-19',
