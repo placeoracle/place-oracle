@@ -565,3 +565,27 @@ jobs:
             qa-artifacts/photo-qa-41-batch.png
             qa-artifacts/photo-qa-46-batch.png
           if-no-files-found: warn
+
+      - name: Verify deployed GitHub Pages independently
+        run: |
+          node - <<'NODE'
+          const { chromium } = require('playwright');
+          (async () => {
+            const url = 'https://placeoracle.github.io/';
+            const browser = await chromium.launch({headless:true});
+            try {
+              const page = await browser.newPage({viewport:{width:390,height:844}});
+              const response = await page.goto(url,{waitUntil:'domcontentloaded',timeout:60000});
+              if (!response || response.status() >= 400) throw Error('Production page HTTP '+response?.status());
+              const title = await page.title();
+              if (!title.includes('PLACE ORACLE')) throw Error('Unexpected production title: '+title);
+              const scriptResponse = await page.request.get(new URL('membership-widget.js',url).href);
+              if (!scriptResponse.ok()) throw Error('Production membership script HTTP '+scriptResponse.status());
+              const script = await scriptResponse.text();
+              if (!/const SALES_ENABLED = false;/.test(script)) throw Error('Production sales UI flag is not OFF');
+              const horizontalOverflow = await page.evaluate(()=>document.documentElement.scrollWidth > innerWidth+2);
+              if (horizontalOverflow) throw Error('Mobile horizontal overflow');
+              console.log(JSON.stringify({url,title,httpStatus:response.status(),salesUi:'OFF',mobileOverflow:false}));
+            } finally { await browser.close(); }
+          })().catch(e=>{console.error(e);process.exitCode=1});
+          NODE
