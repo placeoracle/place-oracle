@@ -1,44 +1,33 @@
 # PLACE ORACLE 商用公開準備状況
 
-更新日: 2026-10-05
+更新日: 2026-10-10
 
-## 現在の判定
+## 判定: 本番販売は未承認・本番QA未確認
 
-PR #3のマージ前に実施できる実装・画像・決済・表示・QAは完了しています。
-PR #3のマージ後、GitHub Pages本番デプロイとStory gallery QAの成功を確認し、本番販売UIを有効化しました。
+この文書はコード・記録の整合性監査を示すものです。GitHub上の記録だけでは、GitHub Pagesへの反映、実公開ページの動作、実決済の正常性は証明できません。
 
-## 確認済み
+## 確認できた事実
 
-- 料金: 月額500円（税込）／年額5,000円（税込）、自動更新。
-- 解約: Customer Portalから次回更新を停止し、支払済み期間末まで利用可能。原則として途中返金なし（法令上必要な場合を除く）。
-- 認証: Googleログインを利用し、サーバー側セッションで会員を識別。
-- Checkout: 認証済み利用者からWorker経由でStripe Checkout Sessionを生成。
-- Webhook: Stripe署名検証、event ID重複防止、subscriptionイベント順不同対策を確認。
-- 会員状態: URLやlocalStorageだけでは付与せず、Worker/D1側の購読状態を使用。
-- Customer Portal: 認証必須のPortal Session生成を確認。
-- Sandbox E2E: Googleログイン → Checkout → テスト決済 → Webhook → D1 → Portal → 期間末解約まで実動確認済み。
-- 購入直前表示: プラン、税込価格、更新周期、提供開始、解約・返金条件、利用規約・特商法表示・プライバシーへの導線を確認。
-- 販売者情報: 特商法上の請求時開示方式を採用。正式情報は公開リポジトリへ保存しない。
-- STORY画像: 01〜50はPexels Licenseの実写写真を主画像として使用し、各個別出典URLを記録。読み込み失敗時のみPLACE ORACLE first-party SVGへフォールバック。旧ローカル story JPGは公開リポジトリから削除済み。
-- Hero: PLACE ORACLE用生成ビジュアルとして記録。第三者写真を画像入力に使用していない。小さな人物は非特定の合成人物として扱う。
-- HTML: 混入していた `Warning: truncated output` 断片を除去済み。
-- モバイルHero: 390×844で、人物を右側に保持し、説明文との重なり・背景継ぎ目がないことを目視確認。
-- Story gallery QA #120: SUCCESS。
-- 一時的な修復workflow/jobは撤去済み。
+- PR #2 は 2026-10-05 にマージ済み（merge commit: `afa50c9eebfe7387a10520450d7bdd633e2a875e`）。当該PRの最終記録では、STORY画像は first-party SVG 50件、販売UIはOFFで、公開後の照合を経て販売承認する方針でした。
+- その後の main の `PHOTO_QA.html`、`PHOTO_SOURCES.md`、`.github/scripts/verify-story-gallery.mjs` は、Pexelsを主画像とする50件の構成を記載・検証しています。これはPR #2時点の画像方針と異なります。現行実装の採用理由・権利・品質を再確認する必要があります。
+- 監査時点の main の `membership-widget.js` は `SALES_ENABLED=true` でした。一方、`BILLING_DESIGN.md` は公開後の最終確認まで販売UIをOFFにする仕様です。
+- 本修正ブランチでは `SALES_ENABLED=false` に変更しました。**mainおよび公開サイトへの反映はPRマージとデプロイ後に別途確認が必要です。**
+- `BILLING_DESIGN.md` にはSandbox E2E完走の記録がありますが、本監査では再実行していません。
 
-## 本番リリース手順
+## 未完了の本番リリースゲート
 
-1. PR #3をmainへマージする。
-2. GitHub Pagesのデプロイ完了後、実公開ページとmainの一致、Hero、STORY、規約ページ、ログイン導線を確認する。
-3. 公開一致確認が成功した後にのみ、本番販売UIの有効化を別途承認する。
+- [ ] G1: 修正PRをレビュー・マージし、mainの販売UI設定がOFFであることを確認
+- [ ] G2: GitHub Pagesデプロイ成功と、公開アセットが対象mainコミットに一致することを確認
+- [ ] G3: 公開ページのPC・スマートフォン表示、Hero、ナビゲーション、STORY 01〜50を実機またはブラウザで検証
+- [ ] G4: STORY画像の現行方針（Pexels／first-party SVG）を確定し、`index.html`、`PHOTO_QA.html`、`PHOTO_SOURCES.md`、検証スクリプトを一致させる
+- [ ] G5: 規約・特商法・プライバシー表示、Googleログイン、会員状態、ログアウトを公開環境で確認
+- [ ] G6: Stripe本番設定、Webhook、権限、価格、Checkout、Portal、キャンセルを安全な方法で検証。テスト決済と実決済を混同しない
+- [ ] G7: 販売開始の明示的承認（承認者、日時、対象コミット、検証証跡）を記録し、別PRで販売UIをONにする
 
-## 現在の安全設定
+## 販売制御と注意
 
-- `membership-widget.js`: `SALES_ENABLED=true`
-- 本番販売UI: ON（`SALES_ENABLED=true`）
-- PR #3: マージ・本番QA完了
-- 秘密鍵・Webhook secret・販売者の非公開個人情報は公開リポジトリへ保存しない。
+`SALES_ENABLED` はフロントエンドの購入導線を制御するものであり、Stripe/Worker側の課金機能停止を保証するものではありません。バックエンドの本番モード・Checkout権限・価格設定も別途検証が必要です。
 
-## 注意
+「PR #3マージ済み」「GitHub Pages本番QA成功」「本番販売開始済み」といった従来の完了宣言は、独立した証跡を照合するまで完了扱いにしません。
 
-この文書は技術・運用・画像出所について確認できた状態を記録するもので、法的リスクがゼロであることを保証するものではありません。
+本書は法的適合性やセキュリティの無欠陥を保証しません。
