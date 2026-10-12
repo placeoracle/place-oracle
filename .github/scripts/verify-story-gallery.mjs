@@ -2,8 +2,10 @@ import { access, readFile } from 'node:fs/promises';
 import { constants as fsConstants } from 'node:fs';
 
 const fail = message => { throw new Error(message); };
-const index = await readFile('index.html', 'utf8');
-const qa = await readFile('PHOTO_QA.html', 'utf8');
+const index = (await readFile('index.html', 'utf8')).replace(/\r\n/g, '\n');
+const qa = (await readFile('PHOTO_QA.html', 'utf8')).replace(/\r\n/g, '\n');
+
+if (/<\/script>\\n(?=\s*<)/.test(index)) fail('Literal \\n is rendered between script tags');
 
 const poolMatch = index.match(/const storyPool=\[([\s\S]*?)\n  \];\n  const (?:activeStories|featuredStoryIds)=/);
 if (!poolMatch) fail('storyPool was not found');
