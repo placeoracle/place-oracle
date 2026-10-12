@@ -58,11 +58,7 @@
       </div>
       <div id="status" class="status">状態を確認しています…</div>
       <div id="googleBtn"></div>
-      <div id="purchase" class="actions" hidden>
-        <button class="buy" data-plan="monthly">月額480円で利用する</button>
-        <button class="secondary" data-plan="yearly">年額4,800円で利用する</button>
-        <div class="small"></div>
-      </div>
+      <p>プレビュー画面からの購入は停止しています。</p>
       <div id="memberActive" hidden>
         <p>ご利用中のメンバーシップがあります。</p>
       </div>
@@ -77,7 +73,6 @@ const btn=document.getElementById('memberBtn');
 const shade=document.getElementById('shade');
 const statusEl=document.getElementById('status');
 const googleBtn=document.getElementById('googleBtn');
-const purchase=document.getElementById('purchase');
 const memberActive=document.getElementById('memberActive');
 const logoutBtn=document.getElementById('logoutBtn');
 const result=document.getElementById('result');
@@ -88,7 +83,6 @@ function renderState(me){
   btn.textContent=active?'会員':'ログイン';
   btn.classList.toggle('active',active);
   googleBtn.style.display=authed?'none':'block';
-  purchase.hidden=!authed || active;
   memberActive.hidden=!active;
   logoutBtn.hidden=!authed;
   if(!authed) statusEl.textContent='Googleでログインすると、メンバーシップを確認できます。';
@@ -120,15 +114,7 @@ btn.onclick=()=>{shade.classList.add('open');refresh();};
 document.getElementById('closeBtn').onclick=()=>shade.classList.remove('open');
 shade.addEventListener('click',e=>{if(e.target===shade)shade.classList.remove('open')});
 logoutBtn.onclick=async()=>{await PlaceOracleAuth.logout();await refresh();};
-document.querySelectorAll('[data-plan]').forEach(el=>{
-  el.onclick=async()=>{
-    try{
-      result.textContent='Stripe Checkoutを準備しています…';
-      const data=await PlaceOracleAuth.createCheckout(el.dataset.plan);
-      location.href=data.url;
-    }catch(e){result.textContent=e.message||String(e);}
-  };
-});
+
 initGoogle();
 refresh();
 </script>

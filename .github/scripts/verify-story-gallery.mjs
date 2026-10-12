@@ -127,3 +127,13 @@ const results = await Promise.all(external.map(async story => {
   return story.id;
 }));
 console.log(JSON.stringify({ stories: stories.length, qaCards: cards.length, externalImages: results.length, firstPartyImages: firstParty.length, result: 'pass' }));
+// Public diagnostics must not bypass the production sales UI or expose credentials.
+for (const path of ['auth-test.html', 'home-preview.html']) {
+  const html = await readFile(path, 'utf8');
+  if (/\.createCheckout\s*\(/.test(html) || /data-plan=|id="(?:monthlyBtn|yearlyBtn)"/.test(html)) fail(path + ' exposes a purchase bypass');
+  for (const [, script] of html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)) {
+    Function(script);
+  }
+}
+const authDiagnostic = await readFile('auth-test.html', 'utf8');
+if (/show\(result\)|show\(await PlaceOracleAuth\.exchangeGoogleCredential/.test(authDiagnostic)) fail('Authentication diagnostic exposes the credential exchange response');

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Place Oracle Google Login Test</title>
+  <title>PLACE ORACLE 本番ログイン確認</title>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script src="./google-auth-client.js"></script>
   <style>
@@ -15,18 +15,12 @@
   </style>
 </head>
 <body>
-  <h1>Google Login 接続テスト</h1>
+  <h1>本番ログイン確認</h1>
   <div class="card">
     <div id="googleBtn"></div>
     <p><button id="meBtn">/auth/me を確認</button> <button id="logoutBtn">ログアウト</button></p>
 
-    <div class="checkout">
-      <strong>Stripe Checkout テスト</strong>
-      <p>
-        <button id="monthlyBtn">月額500円で購入</button>
-        <button id="yearlyBtn">年額5,000円で購入</button>
-      </p>
-    </div>
+    <p>本番のログイン状態だけを確認します。ここから購入・課金はできません。</p>
 
     <pre id="out">Google Identity Services の読込待ちです…</pre>
   </div>
@@ -34,6 +28,7 @@
 const GOOGLE_CLIENT_ID = '559524100347-3hiiar1bmlcqbtb4q0adlahgojjfslj5.apps.googleusercontent.com';
 const out = document.getElementById('out');
 const show = (v) => out.textContent = typeof v === 'string' ? v : JSON.stringify(v, null, 2);
+const showUser = (me) => show({ authenticated: me?.authenticated === true, membership: me?.membership || 'none' });
 
 function initGoogle() {
   if (!window.google || !google.accounts || !google.accounts.id) {
@@ -44,10 +39,10 @@ function initGoogle() {
     client_id: GOOGLE_CLIENT_ID,
     callback: async (response) => {
       try {
-        const result = await PlaceOracleAuth.exchangeGoogleCredential(response.credential);
-        show(result);
+        await PlaceOracleAuth.exchangeGoogleCredential(response.credential);
+        showUser(await PlaceOracleAuth.currentUser());
       } catch (e) {
-        show({error:e.message,status:e.status,body:e.body || null});
+        show({error:e.message,status:e.status,});
       }
     }
   });
@@ -60,32 +55,14 @@ function initGoogle() {
 }
 
 document.getElementById('meBtn').onclick = async () => {
-  try { show(await PlaceOracleAuth.currentUser()); }
-  catch (e) { show({error:e.message,status:e.status,body:e.body || null}); }
+  try { showUser(await PlaceOracleAuth.currentUser()); }
+  catch (e) { show({error:e.message,status:e.status,}); }
 };
 
 document.getElementById('logoutBtn').onclick = async () => {
   try { await PlaceOracleAuth.logout(); show({ok:true,logged_out:true}); }
-  catch (e) { show({error:e.message,status:e.status,body:e.body || null}); }
+  catch (e) { show({error:e.message,status:e.status,}); }
 };
-
-async function startCheckout(plan) {
-  try {
-    show('Stripe Checkoutを作成しています…');
-    const data = await PlaceOracleAuth.createCheckout(plan);
-    window.location.href = data.url;
-  } catch (e) {
-    show({error:e.message,status:e.status,body:e.body || null});
-  }
-}
-
-document.getElementById('monthlyBtn').onclick = () => startCheckout('monthly');
-document.getElementById('yearlyBtn').onclick = () => startCheckout('yearly');
-
-const checkoutResult = new URLSearchParams(location.search).get('checkout');
-if (checkoutResult) {
-  show({checkout: checkoutResult});
-}
 
 initGoogle();
 </script>
