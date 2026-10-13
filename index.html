@@ -1652,7 +1652,7 @@ const PO_SKY_STORIES={"geiranger":{"skyTitle":"北の空に残る星","skyFact":
 
 </script><script>
 const PLACE_ORACLE_BILLING = {
-  billingEnabled: false, // 決済と会員確認が整うまで会員制限を停止
+  billingEnabled: true, // 2026-10-13 ユーザー承認による販売開始
   currency: "JPY",
   monthly: {
     price: 500,
@@ -1753,16 +1753,17 @@ const names=['','一白水星','二黒土星','三碧木星','四緑木星','五
 const stems=['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'], branches=['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
 const storeKey='place_oracle_v5_profile', mapKey='place_oracle_v5_map', exposureKey='place_oracle_v5_exposure';
 let memberAuthenticated=false, memberActive=false;
-function updateMemberState(me){memberAuthenticated=!!me?.authenticated;memberActive=memberAuthenticated&&me.membership==='active';}
-// 有料会員判定は決済Webhookとサーバー側の照合が整うまで無効。
-function isMember(){return false;}
-function membershipGateEnabled(){return false;}
+function updateMemberState(me){memberAuthenticated=!!me?.authenticated;memberActive=memberAuthenticated&&me.membership==='active'&&Number(me.current_period_end)*1000>Date.now();}
+// 会員権はWorkerが返した購読状態と支払済み期間を基準にする。
+function isMember(){return memberActive;}
+function membershipGateEnabled(){return PLACE_ORACLE_BILLING.billingEnabled;}
 function openMembership(){trackPO?.('po_paywall_view');
   const msg=$('billingMessage');if(msg)msg.textContent='';
   $('membershipDialog').showModal();
 }
-function goToCheckout(){
-  $('billingMessage').textContent='会員機能は準備中です。現在は無料でご利用いただけます。';
+function goToCheckout(plan){
+  $('membershipDialog').close();
+  window.dispatchEvent(new CustomEvent('placeoracle:purchase',{detail:{plan}}));
 }
 let profile=null, current=null, entryStory=null, formStage='input', pendingProfile=null, useStoredProfile=false;
 function validBirthPlace(value){
