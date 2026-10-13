@@ -10,6 +10,7 @@ on:
       - 'membership-widget.js'
       - 'auth-test.html'
       - 'home-preview.html'
+      - 'billing-worker/**'
       - 'sky-chart.js'
       - 'sky-chart-data.js'
       - 'SKY_POINTS_SOURCES.csv'
@@ -46,6 +47,8 @@ jobs:
           node-version: 22
       - name: Check STORY, PHOTO_QA, and first-party fallback files
         run: node .github/scripts/verify-story-gallery.mjs
+      - name: Check billing Worker request construction
+        run: node .github/scripts/check-billing-worker.mjs
       - name: Install browser test dependency
         run: |
           npm install --no-save playwright@1.52.0
@@ -142,6 +145,7 @@ jobs:
             const browser = await chromium.launch({ headless: true });
             const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
             const errors = [];
+            await page.route('https://place-oracle-billing.place-oracle-info.workers.dev/auth/me', route => route.fulfill({status:200,contentType:'application/json',headers:{'Access-Control-Allow-Origin':'*'},body:JSON.stringify({authenticated:true,membership:'active',current_period_end:Math.floor(Date.now()/1000)+86400})}));
             page.on('pageerror', err => errors.push(err.message));
             await page.goto('http://127.0.0.1:4173/index.html', { waitUntil: 'networkidle', timeout: 120000 });
             await page.evaluate(() => {
@@ -158,6 +162,7 @@ jobs:
               localStorage.setItem('place_oracle_v5_map', JSON.stringify([]));
             });
             await page.reload({ waitUntil: 'networkidle', timeout: 120000 });
+            await page.waitForFunction(() => document.querySelector('#poMemberBtn')?.textContent === '会員');
             await page.click('#heroStart');
             await page.locator('#formSection').waitFor({ state: 'visible', timeout: 10000 });
             await page.check('input[name="scene"][value="distance"]');
@@ -499,16 +504,10 @@ jobs:
                 });
                 await page.reload({ waitUntil: 'networkidle', timeout: 60000 });
                 await page.click('#heroStart');
-                await page.locator('#formSection').waitFor({ state: 'visible', timeout: 10000 });
-                await page.check('input[name="scene"][value="distance"]');
-                await page.click('#read');
-                await page.locator('#themeBlock').waitFor({ state: 'visible', timeout: 10000 });
-                await page.click('#read');
-                await page.locator('#reading').waitFor({ state: 'visible', timeout: 10000 });
-                const formError = (await page.locator('#formError').textContent() || '').trim();
-                if (formError) throw new Error('Production returning-user error: ' + formError);
+                await page.locator('#membershipDialog').waitFor({ state: 'visible', timeout: 10000 });
+                if (await page.locator('#formSection').isVisible()) throw new Error('Nonmember returning flow bypassed membership gate');
                 if (errors.length) throw new Error('Production returning-user page errors: ' + errors.join(' | '));
-                console.log(JSON.stringify({ attempt, release, result: 'production-returning-user-pass' }));
+                console.log(JSON.stringify({ attempt, release, result: 'production-nonmember-gate-pass' }));
                 await page.close();
                 await browser.close();
                 process.exit(0);
@@ -586,10 +585,13 @@ jobs:
               const scriptResponse = await page.request.get(new URL('membership-widget.js',url).href);
               if (!scriptResponse.ok()) throw Error('Production membership script HTTP '+scriptResponse.status());
               const script = await scriptResponse.text();
-              if (!/const SALES_ENABLED = false;/.test(script)) throw Error('Production sales UI flag is not OFF');
+              const mainResponse = await page.request.get('https://raw.githubusercontent.com/placeoracle/place-oracle/main/membership-widget.js');
+              if (!mainResponse.ok()) throw Error('Cannot read expected main sales setting');
+              const expected = (await mainResponse.text()).match(/const SALES_ENABLED = (true|false);/)?.[1];
+              if (!expected || !script.includes('const SALES_ENABLED = '+expected+';')) throw Error('Production sales flag does not match main');
               const horizontalOverflow = await page.evaluate(()=>document.documentElement.scrollWidth > innerWidth+2);
               if (horizontalOverflow) throw Error('Mobile horizontal overflow');
-              console.log(JSON.stringify({url,title,httpStatus:response.status(),salesUi:'OFF',mobileOverflow:false}));
+              console.log(JSON.stringify({url,title,httpStatus:response.status(),salesUi:expected==='true'?'ON':'OFF',mobileOverflow:false}));
             } finally { await browser.close(); }
           })().catch(e=>{console.error(e);process.exitCode=1});
           NODE

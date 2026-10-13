@@ -3,7 +3,7 @@
 
   const GOOGLE_CLIENT_ID = '559524100347-3hiiar1bmlcqbtb4q0adlahgojjfslj5.apps.googleusercontent.com';
   const AUTH_SRC = './google-auth-client.js';
-  const SALES_ENABLED = false;
+  const SALES_ENABLED = true;
 
   function loadScript(src) {
     return new Promise((resolve, reject) => {
@@ -126,7 +126,7 @@
     function render(me) {
       window.dispatchEvent(new CustomEvent('placeoracle:auth', { detail: me || { authenticated:false } }));
       const authed = !!me?.authenticated;
-      const active = authed && me.membership === 'active';
+      const active = authed && me.membership === 'active' && Number(me.current_period_end) * 1000 > Date.now();
       btn.textContent = active ? '会員' : 'ログイン';
       btn.classList.toggle('po-active', active);
       googleBtn.style.display = authed ? 'none' : 'block';
@@ -142,8 +142,10 @@
 
     async function refresh() {
       try {
-        render(await window.PlaceOracleAuth.currentUser());
+        const me = await window.PlaceOracleAuth.currentUser();
+        render(me);
         result.textContent = '';
+        return me;
       } catch (e) {
         render({ authenticated: false });
         result.textContent = e?.message || String(e);
@@ -195,6 +197,15 @@
         await refresh();
       }
     };
+
+    window.addEventListener('placeoracle:purchase', async event => {
+      shade.classList.add('po-open');
+      const me = await refresh();
+      if (!me?.authenticated) { result.textContent = '購入するにはGoogleでログインしてください。'; return; }
+      const plan = event.detail?.plan;
+      if (!['monthly', 'yearly'].includes(plan)) return;
+      shade.querySelector('[data-po-plan="' + plan + '"]').click();
+    });
 
     let pendingPlan = null;
     shade.querySelectorAll('[data-po-plan]').forEach(el => {
