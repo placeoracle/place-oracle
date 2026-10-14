@@ -355,8 +355,8 @@ if (path === '/portal/create' && request.method === 'POST') {
   const user = await sessionUser(request, env);
   if (!user) return json({ error: 'Authentication required' }, 401, origin);
   const subscription = await env.DB.prepare(
-    'SELECT stripe_customer_id FROM subscriptions WHERE LOWER(customer_email)=LOWER(?) ORDER BY updated_at DESC LIMIT 1'
-  ).bind(user.email).first();
+    'SELECT stripe_customer_id FROM subscriptions WHERE LOWER(customer_email)=LOWER(?) AND stripe_price_id IN (?, ?) ORDER BY updated_at DESC LIMIT 1'
+  ).bind(user.email, env.STRIPE_PRICE_MONTHLY, env.STRIPE_PRICE_YEARLY).first();
   if (!subscription?.stripe_customer_id) return json({ error: 'No billing account found' }, 404, origin);
   const portal = await createPortalSession(env, subscription.stripe_customer_id);
   return json({ url: portal.url }, 200, origin);
@@ -428,6 +428,7 @@ if (path === '/auth/me' && request.method === 'GET') {
   return json({
     authenticated: true,
     email: user.email,
+    has_billing_account: !!subscription,
     membership: subscription ? subscription.status : 'none',
     stripe_price_id: subscription?.stripe_price_id ?? null,
     current_period_end: subscription?.current_period_end ?? null
