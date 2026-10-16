@@ -3,7 +3,7 @@
 
   const GOOGLE_CLIENT_ID = '559524100347-3hiiar1bmlcqbtb4q0adlahgojjfslj5.apps.googleusercontent.com';
   const AUTH_SRC = './google-auth-client.js';
-  const SALES_ENABLED = true;
+  const SALES_ENABLED = false; // Temporary sales pause: retain login, existing membership and account management.
 
   function loadScript(src) {
     return new Promise((resolve, reject) => {
@@ -203,13 +203,14 @@
       const me = await refresh();
       if (!me?.authenticated) { result.textContent = '購入するにはGoogleでログインしてください。'; return; }
       const plan = event.detail?.plan;
-      if (!['monthly', 'yearly'].includes(plan)) return;
+      if (!SALES_ENABLED || !['monthly', 'yearly'].includes(plan)) return;
       shade.querySelector('[data-po-plan="' + plan + '"]').click();
     });
 
     let pendingPlan = null;
     shade.querySelectorAll('[data-po-plan]').forEach(el => {
       el.onclick = () => {
+        if (!SALES_ENABLED) return;
         const yearly = el.dataset.poPlan === 'yearly';
         pendingPlan = el.dataset.poPlan;
         confirmPlan.textContent = yearly ? '年額プラン' : '月額プラン';
@@ -228,7 +229,7 @@
     };
 
     confirmCheckout.onclick = async () => {
-      if (!pendingPlan) return;
+      if (!SALES_ENABLED || !pendingPlan) return;
       try {
         result.textContent = 'Stripe Checkoutを準備しています…';
         confirmCheckout.disabled = true;
