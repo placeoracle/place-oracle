@@ -20,6 +20,7 @@ on:
       - '.github/scripts/**'
   pull_request:
     paths:
+      - 'billing-worker/**'
       - 'index.html'
       - 'PHOTO_QA.html'
       - 'membership-widget.js'
@@ -49,6 +50,8 @@ jobs:
         run: node .github/scripts/verify-story-gallery.mjs
       - name: Check billing Worker request construction
         run: node .github/scripts/check-billing-worker.mjs
+      - name: Check signed webhook lifecycle with isolated SQLite
+        run: node .github/scripts/check-billing-lifecycle.mjs
       - name: Install browser test dependency
         run: |
           npm install --no-save playwright@1.52.0
@@ -57,6 +60,7 @@ jobs:
         run: |
           python3 -m http.server 4173 --directory . > /tmp/place-oracle-http.log 2>&1 &
           node .github/scripts/check-mobile-story-gallery.mjs
+          node .github/scripts/check-membership-management.mjs
       - name: Check prefecture and municipality selectors
         run: |
           node - <<'NODE'

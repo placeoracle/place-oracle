@@ -132,7 +132,7 @@
       googleBtn.style.display = authed ? 'none' : 'block';
       purchase.hidden = !SALES_ENABLED || !authed || active;
       preparing.hidden = SALES_ENABLED || !authed || active;
-      portalBtn.hidden = !active;
+      portalBtn.hidden = !authed || !(active || me.has_billing_account);
       logoutBtn.hidden = !authed;
 
       if (!authed) statusEl.textContent = 'Googleでログインすると、メンバーシップを確認できます。';
