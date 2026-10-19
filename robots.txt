@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://placeoracle.github.io/place-oracle/sitemap.xml
