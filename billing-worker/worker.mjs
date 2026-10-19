@@ -362,8 +362,6 @@ if (path === '/portal/create' && request.method === 'POST') {
   return json({ url: portal.url }, 200, origin);
 }
 if (path === '/checkout/create' && request.method === 'POST') {
-  // Sales temporarily paused. Existing membership, portal and webhook routes remain available.
-  return json({ error: 'New membership sales are temporarily paused' }, 503, origin);
   if (!allowed) {
     return json({ error: 'Origin required' }, 403, origin);
   }
@@ -373,6 +371,9 @@ if (path === '/checkout/create' && request.method === 'POST') {
   if (!user) {
     return json({ error: 'Authentication required' }, 401, origin);
   }
+
+  // Sales temporarily paused. Existing membership, portal and webhook routes remain available.
+  return json({ error: 'New membership sales are temporarily paused' }, 503, origin);
 
   if (!request.headers.get('Content-Type')?.startsWith('application/json')) {
     return json({ error: 'JSON required' }, 415, origin);
