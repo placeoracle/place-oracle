@@ -500,6 +500,29 @@ footer small{color:#cfb9c5}
 #poAnalyticsConsent button{background:#80536a;border-color:#80536a;color:#fff}
 #poAnalyticsConsent button.po-reject{background:transparent;color:#674156}
 footer{background:#54364f}
+
+/* Clear hierarchy: pale canvas, white reading surfaces, plum actions. */
+:root{--ink:#382634;--deep:#43263c;--sea:#713c59;--teal:#98536f;--line:#cbb2bf}
+body{background:#f7eeee;color:#382634}
+.someone{background:#f7eeee}
+.section-heading h2,.story-inline h3,.form-inner h2,.reading-head h2{color:#43263c}
+.story-inline{background:#fffdfc;border:1px solid #cbb2bf;border-left:5px solid #98536f;box-shadow:0 10px 26px rgba(67,38,60,.08)}
+.story-inline p,.section-heading p,.form-lead,.basis{color:#624754}
+.story-inline .eyebrow,.form-inner>.eyebrow{color:#804253}
+.story-inline-start,.primary,#read,#poMemberPanel .po-buy{background:#5c2d49;color:#fff;border-color:#5c2d49;box-shadow:0 7px 18px rgba(67,38,60,.18)}
+.story-inline-start:hover,.primary:hover,#read:hover{background:#43263c;border-color:#43263c;color:#fff}
+.form-section{background:linear-gradient(180deg,#653d55 0,#653d55 150px,#ead7df 150px,#f7eeee 100%)}
+.form-inner{background:#fffdfc;border-color:#cbb2bf;box-shadow:0 20px 48px rgba(67,38,60,.14)}
+.birth-row select,.location-block select{background:#fff;border-color:#ae899d;color:#382634}
+.scene-options input:checked+span,.theme-options input:checked+span{background:#5c2d49;border-color:#5c2d49;color:#fff}
+.letter-body{background:#fffdfc;border-top:4px solid #98536f}
+.resonance,.one-action,.discovery{background:#ead7df;color:#382634;border-color:#98536f}
+.sky-story,footer{background:#43263c;color:#fff9f7}
+footer small{color:#e8cfdb}
+#poAnalyticsConsent{background:#fffdfc;border-color:#ae899d}
+#poAnalyticsConsent button{background:#5c2d49;border-color:#5c2d49}
+#poAnalyticsConsent button.po-reject{background:#fffdfc;color:#5c2d49;border-color:#98536f}
+:where(button,a,select,input,textarea):focus-visible{outline-color:#713c59}
 </style></head>
 <body>
 <header class="topbar"><a href="#top" class="brand">PLACE <span>ORACLE</span></a><button class="map-link" id="mapOpen" type="button">私の地図 <span id="mapCount">0</span></button></header>
