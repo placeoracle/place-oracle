@@ -30,16 +30,16 @@
 
     const style = document.createElement('style');
     style.textContent = `
-      #poMemberBtn{position:absolute;z-index:2147483000;top:18px;right:220px;border:1px solid rgba(255,255,255,.55);border-radius:999px;padding:10px 17px;background:rgba(17,44,59,.72);color:#fff;font:600 14px/1 system-ui,-apple-system,"Segoe UI",sans-serif;backdrop-filter:blur(8px);cursor:pointer;box-shadow:0 4px 18px rgba(0,0,0,.16)}
+      #poMemberBtn{position:absolute;z-index:2147483000;top:18px;right:220px;border:1px solid rgba(255,255,255,.55);border-radius:999px;padding:10px 17px;background:rgba(49,27,40,.72);color:#fff;font:600 14px/1 system-ui,-apple-system,"Segoe UI",sans-serif;backdrop-filter:blur(8px);cursor:pointer;box-shadow:0 4px 18px rgba(0,0,0,.16)}
       #poMemberBtn.po-active{border-color:#d6b45d;color:#fff7dc}
-      #poMemberShade{display:none;position:fixed;z-index:2147483001;inset:0;background:rgba(7,25,35,.56);padding:24px;box-sizing:border-box}
+      #poMemberShade{display:none;position:fixed;z-index:2147483001;inset:0;background:rgba(27,15,22,.56);padding:24px;box-sizing:border-box}
       #poMemberShade.po-open{display:grid;place-items:center}
-      #poMemberPanel{width:min(520px,100%);max-height:min(720px,calc(100vh - 48px));overflow:auto;border-radius:18px;background:#f7f3e8;color:#15313d;padding:28px;box-sizing:border-box;box-shadow:0 24px 70px rgba(0,0,0,.35);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+      #poMemberPanel{width:min(520px,100%);max-height:min(720px,calc(100vh - 48px));overflow:auto;border-radius:18px;background:#f7f3e8;color:#351d2b;padding:28px;box-sizing:border-box;box-shadow:0 24px 70px rgba(0,0,0,.35);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
       #poMemberPanel [hidden]{display:none!important}
       #poMemberPanel .po-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-start}
       #poMemberPanel .po-eyebrow{font-size:12px;letter-spacing:.18em;color:#9a771c;font-weight:700}
       #poMemberPanel h2{font-family:serif;font-size:26px;line-height:1.3;margin:6px 0 10px}
-      #poMemberPanel .po-close{border:0;background:transparent;font-size:28px;cursor:pointer;color:#15313d}
+      #poMemberPanel .po-close{border:0;background:transparent;font-size:28px;cursor:pointer;color:#351d2b}
       #poMemberPanel .po-status{padding:14px 16px;background:#fff;border:1px solid #ded8c9;border-radius:12px;margin:16px 0}
       #poMemberPanel .po-actions{display:grid;gap:10px;margin-top:18px}
       #poConfirm{margin-top:18px;padding:18px;background:#fff;border:1px solid #ded8c9;border-radius:14px}
@@ -49,8 +49,8 @@
       #poConfirm .po-legal{font-size:13px;line-height:1.7;margin:12px 0}
       #poConfirm .po-confirm-actions{display:grid;gap:10px}
       #poMemberPanel .po-buy,#poMemberPanel .po-secondary{border-radius:999px;padding:13px 18px;font-weight:700;cursor:pointer}
-      #poMemberPanel .po-buy{border:0;background:#174e64;color:#fff}
-      #poMemberPanel .po-secondary{border:1px solid #174e64;background:transparent;color:#174e64}
+      #poMemberPanel .po-buy{border:0;background:#502b40;color:#fff}
+      #poMemberPanel .po-secondary{border:1px solid #502b40;background:transparent;color:#502b40}
       #poGoogleBtn{margin:18px 0}
       #poMemberResult{white-space:pre-wrap;word-break:break-word;font-size:12px;margin-top:12px;color:#7a2f22}
       @media(max-width:700px){#poMemberBtn{top:62px;right:14px;padding:9px 13px;font-size:13px}#poMemberShade{padding:12px}#poMemberPanel{padding:22px}}
