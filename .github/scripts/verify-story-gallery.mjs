@@ -40,7 +40,7 @@ if (!index.includes('function renderResultSkyChart')) fail('Result sky-chart ren
 if (!index.includes('雲、光害、山や建物による遮蔽は反映していません')) fail('Sky-chart observational limitation note is missing');
 if (!index.includes('<h4>空から生まれた物語</h4>')) fail('Story-from-sky concept heading is missing');
 if (!index.includes('<h1>行ったことのないのに、<br>なぜか懐かしい。</h1>')) fail('Original PLACE ORACLE title was changed');
-if (!index.includes('<title>PLACE ORACLE｜行ったことのないのに、なぜか懐かしい場所へ</title>')) fail('Document title was changed');
+if (!index.includes('<title>PLACE ORACLE｜景色から、心に重なる場所を探す</title>')) fail('Document title was changed');
 
 const catalogMatch = index.match(/const PO_PLACE_CATALOG=(\[[\s\S]*?\]);/);
 if (!catalogMatch) fail('PO_PLACE_CATALOG was not found');
