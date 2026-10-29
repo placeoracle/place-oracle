@@ -2482,11 +2482,14 @@ function init(){
     {id:49,tone:"bright",scene:"駅",title:"朝のホーム",img:"https://images.pexels.com/photos/10059003/pexels-photo-10059003.jpeg?auto=compress&cs=tinysrgb&w=1200",fallback:"fallback_49.svg",alt:"日差しのある駅のホーム",focus:"50% 50%",zoom:"1.00",teaser:"まだ人の少ないホームに、今日最初の光が差し込む。",text:"まだ人の少ないホームに、今日最初の光が差し込む。\n一日が動き出す前の静けさは、思ったより短い。",end:"出発前の静けさを、一度だけ味わう。",source:"Pexels",sourceUrl:"https://www.pexels.com/photo/10059003/"},
     {id:50,tone:"bright",scene:"駅",title:"次の光",img:"https://images.pexels.com/photos/23964494/pexels-photo-23964494.jpeg?auto=compress&cs=tinysrgb&w=1200",fallback:"fallback_50.svg",alt:"日差しの入る駅のホーム",focus:"50% 50%",zoom:"1.00",teaser:"見えているのは少し先だけ。それでも光の方へ進める。",text:"見えているのは少し先だけ。それでも光の方へ進める。\n全部が分からなくても、次の一歩に十分な景色はある。",end:"今日は、次に進む目印を一つ決める。",source:"Pexels",sourceUrl:"https://www.pexels.com/photo/23964494/"}
   ];
+  const requestedStoryId=Number(new URLSearchParams(location.search).get('story'));
+  const requestedStory=storyPool.find(x=>x.id===requestedStoryId);
   const activeStories=storyPool.slice();
   for(let i=activeStories.length-1;i>0;i--){
     const j=Math.floor(Math.random()*(i+1));
     [activeStories[i],activeStories[j]]=[activeStories[j],activeStories[i]];
   }
+  if(requestedStory){const i=activeStories.findIndex(x=>x.id===requestedStory.id);activeStories.splice(i,1);activeStories.unshift(requestedStory);}
   activeStories.length=10;
   const storyButtons=[...document.querySelectorAll('.story-card')];
   storyButtons.forEach((button,i)=>{
@@ -2515,7 +2518,8 @@ function init(){
   $('storyNextCta').onclick=openSceneForm;
   initLocationSelectors();const year=new Date().getFullYear();for(let y=year;y>=1900;y--)$('birthYear').add(new Option(y+'年',y));for(let m=1;m<=12;m++)$('birthMonth').add(new Option(m+'月',m));$('birthYear').addEventListener('change',buildDays);$('birthMonth').addEventListener('change',buildDays);migratePreviousMap();profile=normalizeStoredProfile(localGet(storeKey,null));if(profile)localSet(storeKey,profile);
   window.addEventListener('placeoracle:auth',e=>updateMemberState(e.detail||{}));$('storyNextCta').textContent=hasCompleteDiagnosisProfile()?'今日の景色を選ぶ →':'生年月日を入力して、自分の景色を選ぶ →';restoreLocationSelectors();if(profile?.entryStory)entryStory=profile.entryStory;const openFromHero=()=>hasCompleteDiagnosisProfile()?openForToday():showForm('first');
-  $('heroStart').onclick=openFromHero;
+  $('heroStart').onclick=requestedStory?openSceneForm:openFromHero;
+  if(requestedStory){renderStory(0);$('heroStart').textContent='この景色から、自分の場所を探す';}
   if(hasCompleteDiagnosisProfile()&&profile?.scene){$('begin').textContent='今の自分に重なる場所を見る →';$('begin').onclick=()=>openForToday()}else $('begin').onclick=()=>showForm();$('changeBirth').onclick=()=>{useStoredProfile=false;$('birthBlock').hidden=false;$('changeBirth').hidden=true;updateFormReadiness()};$('back').onclick=()=>{ $('formSection').hidden=true;$('someone').scrollIntoView({behavior:'smooth'})};$('readBack').onclick=()=>{$('reading').hidden=true;$('membership').hidden=true;$('someone').scrollIntoView({behavior:'smooth'})};$('save').onclick=save;$('mapOpen').onclick=$('openMapFromReading').onclick=()=>{$('mapDialog').showModal();updateMap();setMyMapView('map')};$('mapViewMap').onclick=()=>setMyMapView('map');$('mapViewCards').onclick=()=>setMyMapView('cards');$('mapClose').onclick=()=>$('mapDialog').close();$('mapFindToday').onclick=()=>{$('mapDialog').close();openForToday()};$('mapFindNew').onclick=findNewPlace;$('mapClear').onclick=()=>{if(confirm('生年月日・選択した内容・地図・利用記録をこの端末からすべて消します。元に戻せません。よろしいですか？')){try{[storeKey,mapKey,exposureKey,'place_oracle_my_map','po_map','po_funnel_events_v1','place_oracle_membership_v1'].forEach(key=>localStorage.removeItem(key));location.reload()}catch{alert('この端末の記録を削除できませんでした。ブラウザのサイトデータ設定をご確認ください。')}}};
 
   const storyRail=document.querySelector('.story-rail'),storyHint=$('storyHint');

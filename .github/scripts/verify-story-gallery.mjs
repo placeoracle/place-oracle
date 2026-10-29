@@ -7,7 +7,7 @@ const qa = (await readFile('PHOTO_QA.html', 'utf8')).replace(/\r\n/g, '\n');
 
 if (/<\/script>\\n(?=\s*<)/.test(index)) fail('Literal \\n is rendered between script tags');
 
-const poolMatch = index.match(/const storyPool=\[([\s\S]*?)\n  \];\n  const (?:activeStories|featuredStoryIds)=/);
+const poolMatch = index.match(/const storyPool=\[([\s\S]*?)\n  \];\n  const (?:activeStories|featuredStoryIds|requestedStoryId)=/);
 if (!poolMatch) fail('storyPool was not found');
 const stories = Function('"use strict"; return [' + poolMatch[1] + '];')();
 if (stories.length !== 50) fail('Expected 50 STORY records, found ' + stories.length);
