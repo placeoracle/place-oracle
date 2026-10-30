@@ -132,8 +132,9 @@
     function render(me) {
       window.dispatchEvent(new CustomEvent('placeoracle:auth', { detail: me || { authenticated:false } }));
       const authed = !!me?.authenticated;
-      const active = authed && me.membership === 'active' && Number(me.current_period_end) * 1000 > Date.now();
-      btn.textContent = active ? '会員' : 'ログイン';
+      const test = authed && me.test_access === true;
+      const active = test || (authed && me.membership === 'active' && Number(me.current_period_end) * 1000 > Date.now());
+      btn.textContent = test ? 'テスト利用' : active ? '会員' : 'ログイン';
       btn.classList.toggle('po-active', active);
       googleBtn.style.display = authed ? 'none' : 'block';
       purchase.hidden = !SALES_ENABLED || !authed || active;
@@ -142,6 +143,7 @@
       logoutBtn.hidden = !authed;
 
       if (!authed) statusEl.textContent = '有料の手紙と会員情報は、Googleでログインして確認できます。';
+      else if (test) statusEl.textContent = '無料テスト利用が有効です。新しい手紙は1日5通まで（日本時間午前0時更新）。'+(me.reading_balance?' 今日の残り '+me.reading_balance.daily_remaining+'通。':'');
       else if (active) statusEl.textContent = 'メンバーシップは有効です。'+(me.reading_balance?' 今日の残り '+me.reading_balance.daily_remaining+'通。':'');
       else statusEl.textContent = 'ログイン済み。現在、有効なメンバーシップはありません。';
     }

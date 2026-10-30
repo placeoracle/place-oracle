@@ -64,5 +64,32 @@ const page=await (await route('/readings')).json();assert.equal(page.readings.le
 const next=await (await route('/readings?before='+encodeURIComponent(page.next_cursor))).json();
 assert.equal(page.readings.length+next.readings.length,historicalCount+31);
 assert.equal(new Set([...page.readings,...next.readings].map(r=>r.request_id)).size,historicalCount+31);
-console.log(JSON.stringify({result:'reading-access-pass',checks:['one-time 100 JPY','paid webhook only','idempotent fulfillment','one credit one reading','account isolation','canonical replay','five parallel daily grants','midnight JST','cancellation keeps history','out-of-order refund','no raw profile storage']}));
+
+// Operator access is keyed by the server's verified Google subject, never an email or browser flag.
+const operator={google_sub:'operator_fixture',email:'operator@example.invalid'};
+db.prepare('INSERT INTO po_users VALUES (?,?,?)').run(operator.google_sub,operator.email,Date.now());
+const operatorEnv={...env,TEST_ACCOUNT_GOOGLE_SUB:operator.google_sub};
+assert.equal((await readingBalance(env,operator)).member,false,'unset setting grants no access');
+assert.equal((await readingBalance(operatorEnv,operator)).test_access,true);
+assert.equal((await readingBalance(operatorEnv,{...other,email:operator.email})).member,false,'same email cannot impersonate the subject');
+const testGrants=await Promise.all(Array.from({length:8},(_,i)=>grantReading(operatorEnv,operator,'operator-reading-'+i,snap)));
+assert.equal(testGrants.filter(r=>r.ok).length,5,'test account retains the atomic daily cap');
+assert.equal((await grantReading(operatorEnv,operator,'operator-reading-0',snap)).ok,true,'test rereads are free');
+assert.equal((await readingBalance(operatorEnv,operator)).daily_remaining,0);
+const operatorToken='operator_fixture_'.padEnd(43,'b');
+const operatorHash=Buffer.from(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(operatorToken))).toString('base64url');
+db.prepare('INSERT INTO po_sessions VALUES (?,?,?)').run(operatorHash,operator.google_sub,Date.now()+60000);
+async function operatorRoute(path,method='GET',body,authenticated=true) {
+ return worker.fetch(new Request('https://worker.invalid'+path,{method,headers:{Origin:'https://placeoracle.github.io','Content-Type':'application/json',...(authenticated?{Authorization:'Bearer '+operatorToken}:{})},...(body?{body:JSON.stringify(body)}:{})}),operatorEnv);
+}
+const operatorMe=await (await operatorRoute('/auth/me')).json();
+assert.equal(operatorMe.membership,'test');assert.equal(operatorMe.test_access,true);
+assert.equal(operatorMe.has_billing_account,false,'free access creates no Stripe subscription');
+assert.equal((await operatorRoute('/auth/me','GET',null,false)).status,401);
+const checkout=await operatorRoute('/checkout/create','POST',{plan:'monthly',request_id:'operator-checkout-attempt-01'});
+assert.equal(checkout.status,409);assert.equal((await checkout.json()).code,'test_account','test operator cannot accidentally create a paid Checkout');
+assert.equal((await grantReading(env,operator,'operator-after-revoke',snap)).reason,'payment_required','removing the server setting revokes new free use');
+assert.equal((await grantReading(env,operator,'operator-reading-0',snap)).ok,true,'revocation preserves previously delivered history');
+
+console.log(JSON.stringify({result:'reading-access-pass',checks:['one-time 100 JPY','paid webhook only','idempotent fulfillment','one credit one reading','account isolation','canonical replay','five parallel daily grants','midnight JST','cancellation keeps history','out-of-order refund','no raw profile storage','operator subject isolation','operator daily cap','operator checkout blocked','operator access revocation']}));
 db.close();

@@ -312,6 +312,11 @@ async function createPortalSession(env, customerId) {
 
 // All paid use is accounted for on the primary database. Anonymous trials remain local.
 function jstDay(now = Date.now()) { return new Date(now + 9 * 3600000).toISOString().slice(0, 10); }
+// Only a verified session subject can match this server-side operator setting.
+function hasTestAccess(env, user) {
+  return typeof env.TEST_ACCOUNT_GOOGLE_SUB === 'string' && env.TEST_ACCOUNT_GOOGLE_SUB.length > 0
+    && user.google_sub === env.TEST_ACCOUNT_GOOGLE_SUB;
+}
 async function paidMembership(env, user) {
   return env.DB.prepare(`SELECT * FROM subscriptions WHERE LOWER(customer_email)=LOWER(?)
     AND stripe_price_id IN (?,?) AND status='active' AND current_period_end>?
@@ -320,14 +325,15 @@ async function paidMembership(env, user) {
       env.STRIPE_PRICE_YEARLY, Math.floor(Date.now()/1000)).first();
 }
 async function readingBalance(env, user) {
-  const member = await paidMembership(env, user);
+  const test = hasTestAccess(env,user);
+  const member = test || await paidMembership(env, user);
   const used = await env.DB.prepare(`SELECT count(*) AS n FROM po_reading_history
     WHERE google_sub=? AND day=? AND kind='member'`).bind(user.google_sub,jstDay()).first();
   const credits = await env.DB.prepare(`SELECT count(*) AS n FROM po_reading_credits c
     WHERE c.google_sub=? AND c.status='paid' AND NOT EXISTS
     (SELECT 1 FROM po_reading_history h WHERE h.credit_session_id=c.session_id)`).bind(user.google_sub).first();
   const lastOrder=await env.DB.prepare('SELECT status FROM po_checkout_orders WHERE google_sub=? ORDER BY created_at DESC LIMIT 1').bind(user.google_sub).first();
-  return { payment_state:lastOrder?.status||null, member:!!member, day:jstDay(), daily_limit:5, daily_used:used?.n||0,
+  return { payment_state:lastOrder?.status||null, member:!!member, test_access:test, day:jstDay(), daily_limit:5, daily_used:used?.n||0,
     daily_remaining:member?Math.max(0,5-(used?.n||0)):0, credits:credits?.n||0 };
 }
 function safeReading(input) {
@@ -364,16 +370,16 @@ async function grantReading(env, user, id, snapshot) {
   const old=await env.DB.prepare('SELECT snapshot,kind FROM po_reading_history WHERE google_sub=? AND request_id=?')
     .bind(user.google_sub,id).first();
   if(old) return {ok:true,snapshot:JSON.parse(old.snapshot),kind:old.kind,replayed:true};
-  const member=await paidMembership(env,user), day=jstDay(), now=Date.now();
+  const test=hasTestAccess(env,user), member=test||await paidMembership(env,user), day=jstDay(), now=Date.now();
   if(member) {
     await env.DB.prepare(`INSERT OR IGNORE INTO po_reading_history
       (google_sub,request_id,day,kind,credit_session_id,snapshot,created_at)
       SELECT ?,?,?,'member',NULL,?,? WHERE
-      EXISTS (SELECT 1 FROM subscriptions WHERE LOWER(customer_email)=LOWER(?)
+      (?=1 OR EXISTS (SELECT 1 FROM subscriptions WHERE LOWER(customer_email)=LOWER(?)
        AND stripe_price_id IN (?,?) AND status='active' AND current_period_end>?
-    AND NOT EXISTS (SELECT 1 FROM po_billing_holds b WHERE b.stripe_customer_id=subscriptions.stripe_customer_id))
+    AND NOT EXISTS (SELECT 1 FROM po_billing_holds b WHERE b.stripe_customer_id=subscriptions.stripe_customer_id)))
       AND (SELECT count(*) FROM po_reading_history WHERE google_sub=? AND day=? AND kind='member')<5`)
-      .bind(user.google_sub,id,day,JSON.stringify(snapshot),now,user.email,env.STRIPE_PRICE_MONTHLY,
+      .bind(user.google_sub,id,day,JSON.stringify(snapshot),now,test?1:0,user.email,env.STRIPE_PRICE_MONTHLY,
         env.STRIPE_PRICE_YEARLY,Math.floor(now/1000),user.google_sub,day).run();
   } else {
     await env.DB.prepare(`INSERT OR IGNORE INTO po_reading_history
@@ -516,6 +522,7 @@ if (path === '/checkout/create' && request.method === 'POST') {
 
   if(typeof body.request_id!=='string'||!/^[-A-Za-z0-9_]{16,100}$/.test(body.request_id)) return json({error:'Invalid request ID'},400,origin);
   if(!user.email) return json({error:'Verified email required'},403,origin);
+  if(hasTestAccess(env,user)) return json({error:'無料テスト利用が有効です。購入せずに手紙を受け取れます。',code:'test_account'},409,origin);
   const hold=await env.DB.prepare('SELECT 1 FROM subscriptions s JOIN po_billing_holds b ON b.stripe_customer_id=s.stripe_customer_id WHERE LOWER(s.customer_email)=LOWER(?) LIMIT 1').bind(user.email).first();
   if(hold)return json({error:'お支払い状況の確認が必要です。お問い合わせください。'},409,origin);
   if(await paidMembership(env,user)) return json({error:'すでに有効な会員です。契約管理をご確認ください。'},409,origin);
@@ -600,7 +607,8 @@ if (path === '/auth/me' && request.method === 'GET') {
     authenticated: true,
     email: user.email,
     has_billing_account: !!subscription,
-    membership: hold?'review_required':subscription ? subscription.status : 'none',
+    membership: hasTestAccess(env,user)?'test':hold?'review_required':subscription ? subscription.status : 'none',
+    test_access: hasTestAccess(env,user),
     stripe_price_id: subscription?.stripe_price_id ?? null,
     current_period_end: subscription?.current_period_end ?? null,
     reading_balance: await readingBalance(env,user)

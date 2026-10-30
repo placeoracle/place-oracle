@@ -1754,7 +1754,7 @@ const names=['','一白水星','二黒土星','三碧木星','四緑木星','五
 const stems=['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'], branches=['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
 const storeKey='place_oracle_v5_profile', mapKey='place_oracle_v5_map', exposureKey='place_oracle_v5_exposure';
 let memberAuthenticated=false, memberActive=false;
-function updateMemberState(me){memberAuthenticated=!!me?.authenticated;memberActive=memberAuthenticated&&me.membership==='active'&&Number(me.current_period_end)*1000>Date.now();}
+function updateMemberState(me){memberAuthenticated=!!me?.authenticated;memberActive=memberAuthenticated&&(me.test_access===true||(me.membership==='active'&&Number(me.current_period_end)*1000>Date.now()));}
 // 会員権はWorkerが返した購読状態と支払済み期間を基準にする。
 function isMember(){return memberActive;}
 function membershipGateEnabled(){return PLACE_ORACLE_BILLING.billingEnabled;}
@@ -2615,5 +2615,5 @@ if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded'
 <script src="./sky-chart.js"></script>
 <script src="./google-auth-client.js?v=20261031-paid1"></script>
 <script src="./reading-access.js?v=20261031-paid1"></script>
-<script src="./membership-widget.js?v=20261031-copy1"></script>
+<script src="./membership-widget.js?v=20261031-test1"></script>
 </body></html>

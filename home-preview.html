@@ -80,13 +80,15 @@ const result=document.getElementById('result');
 
 function renderState(me){
   const authed=!!me?.authenticated;
-  const active=authed && me.membership==='active';
-  btn.textContent=active?'会員':'ログイン';
+  const test=authed && me.test_access===true;
+  const active=test || (authed && me.membership==='active');
+  btn.textContent=test?'テスト利用':active?'会員':'ログイン';
   btn.classList.toggle('active',active);
   googleBtn.style.display=authed?'none':'block';
   memberActive.hidden=!active;
   logoutBtn.hidden=!authed;
   if(!authed) statusEl.textContent='Googleでログインすると、メンバーシップを確認できます。';
+  else if(test) statusEl.textContent='無料テスト利用が有効です。新しい手紙は1日5通までです。';
   else if(active) statusEl.textContent='メンバーシップは有効です。';
   else statusEl.textContent='ログイン済み。現在、有効なメンバーシップはありません。';
 }
