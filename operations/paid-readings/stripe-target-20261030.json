@@ -6,11 +6,14 @@
   "single": "price_1UWF0dJXOmhsHzI4jyyHuu9p",
   "membership_product": "prod_VLSKqbTTQyobsy",
   "single_product": "prod_VXJdbHNJ2qoCjM",
-  "status": "prices_created_backend_not_switched",
+  "status": "production_switched_frontend_published",
   "webhook_created": true,
   "existing_prices_preserved": true,
   "portal": "bpc_1UWFmNJXOmhsHzI4x5q8FrMd",
   "webhook": "we_1UWFnXJXOmhsHzI4CMUEAvks",
-  "webhook_status": "disabled_until_cutover",
-  "webhook_secret_staged": "STRIPE_WEBHOOK_SECRET_NEXT"
+  "webhook_status": "enabled",
+  "webhook_secret_active": "STRIPE_WEBHOOK_SECRET",
+  "previous_keys_preserved": true,
+  "frontend_merge": "1331c21dfbc201c2383441197d0f11cec06b932b",
+  "asset_cache_version": "20261031-paid1"
 }
