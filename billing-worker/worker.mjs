@@ -446,11 +446,10 @@ export default {
       if (path === '/stripe/webhook' && request.method === 'POST') {
   const event = await verifyStripeWebhook(request, env.STRIPE_WEBHOOK_SECRET);
   if (!event?.id || !event?.type) throw new Error('Invalid Stripe event');
-  const claimed = await env.DB.prepare(
-    'INSERT OR IGNORE INTO stripe_webhook_events (event_id,event_type,event_created,processed_at) VALUES (?,?,?,?)'
-  ).bind(event.id, event.type, event.created || null, Date.now()).run();
-  if (!claimed.meta?.changes) return json({ received: true, duplicate: true }, 200, origin);
-  try {
+  // Record completion only after idempotent fulfillment. A crashed delivery must be retryable.
+  const completed = await env.DB.prepare('SELECT 1 FROM stripe_webhook_events WHERE event_id=?')
+    .bind(event.id).first();
+  if (completed) return json({ received: true, duplicate: true }, 200, origin);
     switch (event.type) {
       case 'checkout.session.completed':
       case 'checkout.session.async_payment_succeeded':
@@ -479,10 +478,9 @@ export default {
         await saveSubscription(env, event.data.object, event.created || 0);
         break;
     }
-  } catch (error) {
-    await env.DB.prepare('DELETE FROM stripe_webhook_events WHERE event_id=?').bind(event.id).run();
-    throw error;
-  }
+  await env.DB.prepare(
+    'INSERT OR IGNORE INTO stripe_webhook_events (event_id,event_type,event_created,processed_at) VALUES (?,?,?,?)'
+  ).bind(event.id,event.type,event.created||null,Date.now()).run();
   return json({ received: true }, 200, origin);
 }
 if (path === '/portal/create' && request.method === 'POST') {

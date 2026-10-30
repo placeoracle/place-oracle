@@ -13,12 +13,13 @@ CREATE TABLE subscriptions (stripe_subscription_id TEXT PRIMARY KEY,stripe_custo
 CREATE TABLE stripe_webhook_events (event_id TEXT PRIMARY KEY,event_type TEXT,event_created INTEGER,processed_at INTEGER);
 `);
 db.exec(await readFile('billing-worker/reading-schema.sql','utf8'));
+let failEventLogOnce=false;
 const DB = { prepare(sql) {
   return { bind(...args) {
     const stmt = db.prepare(sql);
     return {
       async first() { return stmt.get(...args) || null; },
-      async run() { return { meta: { changes: stmt.run(...args).changes } }; }
+      async run() { if(failEventLogOnce && sql.includes('INSERT OR IGNORE INTO stripe_webhook_events')){failEventLogOnce=false;throw new Error('Fixture interrupted after fulfillment');} return { meta: { changes: stmt.run(...args).changes } }; }
     };
   } };
 } };
@@ -83,11 +84,16 @@ await webhook('evt_deleted','customer.subscription.deleted',{...sub,status:'canc
 await webhook('evt_late_checkout','checkout.session.completed',session,now+4);
 assert.equal((await me()).membership,'canceled');
 assert.equal((await me()).has_billing_account,true);
+failEventLogOnce=true;
+assert.equal((await webhook('evt_retry_commit','customer.subscription.updated',sub,now+10)).status,503);
+assert.equal(db.prepare('SELECT count(*) AS n FROM stripe_webhook_events WHERE event_id=?').get('evt_retry_commit').n,0);
+assert.equal((await webhook('evt_retry_commit','customer.subscription.updated',sub,now+10)).status,200);
+assert.equal((await (await webhook('evt_retry_commit','customer.subscription.updated',sub,now+10)).json()).duplicate,true);
 db.prepare('UPDATE po_sessions SET expires_at=0').run();
 assert.equal((await request('/auth/me')).status,401);
 assert.equal((await request('/portal/create','POST',{})).status,401);
 db.close();
 console.log(JSON.stringify({result:'billing-lifecycle-pass',environment:'isolated SQLite + mocked Stripe',
   checks:['authentication','origin','legacy exclusion','signed webhook','invalid signature','duplicate',
-    'out-of-order','checkout is not entitlement','period-end cancellation','past-due portal','cancellation','expired session'],
+    'out-of-order','checkout is not entitlement','period-end cancellation','past-due portal','cancellation','expired session','retry after interrupted fulfillment'],
   livePaymentE2E:'unverified'}));
