@@ -498,7 +498,7 @@ jobs:
               const errors = [];
               page.on('pageerror', err => errors.push(err.message));
               try {
-                await page.goto(process.env.PRODUCTION_URL + '?returning=2026-10-06-observed-sky', { waitUntil: 'networkidle', timeout: 60000 });
+                await page.goto(process.env.PRODUCTION_URL + '?growth_test=1&returning=2026-10-06-observed-sky', { waitUntil: 'networkidle', timeout: 60000 });
                 const release = await page.locator('meta[name="place-oracle-release"]').getAttribute('content');
                 if (release !== '2026-10-06-observed-sky') throw new Error('Production release marker not updated yet: ' + release);
                 await page.evaluate(() => {
@@ -513,13 +513,29 @@ jobs:
                     lastChoiceDate:'2026-10-05'
                   }));
                   localStorage.setItem('place_oracle_v5_map', JSON.stringify([]));
+                  localStorage.removeItem('po_trial_readings_v1');
+                  localStorage.removeItem('po_pending_letter_v1');
                 });
                 await page.reload({ waitUntil: 'networkidle', timeout: 60000 });
                 await page.click('#heroStart');
-                await page.locator('#membershipDialog').waitFor({ state: 'visible', timeout: 10000 });
-                if (await page.locator('#formSection').isVisible()) throw new Error('Nonmember returning flow bypassed membership gate');
+                await page.locator('#formSection').waitFor({ state: 'visible', timeout: 10000 });
+                await page.check('input[name="scene"][value="distance"]');
+                await page.click('#read');
+                await page.locator('#themeBlock').waitFor({ state: 'visible', timeout: 10000 });
+                await page.click('#read');
+                await page.locator('#reading').waitFor({ state: 'visible', timeout: 10000 });
+                if (await page.locator('#poLetterAccess').isVisible()) throw new Error('Returning user lost the remaining free reading');
+                await page.click('#heroStart');
+                await page.locator('#formSection').waitFor({ state: 'visible', timeout: 10000 });
+                await page.locator('input[name="scene"]').first().check();
+                await page.click('#read');
+                await page.locator('#themeBlock').waitFor({ state: 'visible', timeout: 10000 });
+                await page.click('#read');
+                await page.locator('#poLetterAccess').waitFor({ state: 'visible', timeout: 10000 });
+                if (!await page.locator('[data-letter-plan="single"]').isVisible()) throw new Error('Third-reading purchase choice missing');
+                if (!await page.locator('#poLetterMessage').textContent().then(text => text.includes('2通'))) throw new Error('Trial completion message missing');
                 if (errors.length) throw new Error('Production returning-user page errors: ' + errors.join(' | '));
-                console.log(JSON.stringify({ attempt, release, result: 'production-nonmember-gate-pass' }));
+                console.log(JSON.stringify({ attempt, release, result: 'production-two-trials-paid-prompt-pass' }));
                 await page.close();
                 await browser.close();
                 process.exit(0);
