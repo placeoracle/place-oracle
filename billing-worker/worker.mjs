@@ -73,6 +73,41 @@ async function sessionUser(request, env) {
   return row ? { ...row, hash } : null;
 }
 
+
+function diagnosisProfile(row) {
+  return row?{birth:row.birth,birthPlace:JSON.parse(row.birth_place),corrections_used:row.corrections_used,version:row.version}:null;
+}
+async function getDiagnosisProfile(env,user) {
+  return diagnosisProfile(await env.DB.prepare('SELECT birth,birth_place,corrections_used,version FROM po_diagnosis_profiles WHERE google_sub=?').bind(user.google_sub).first());
+}
+function validDiagnosisInput(body) {
+  const birth=body.birth, p=body.birthPlace;
+  if(typeof birth!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(birth)||!p||typeof p!=='object')return null;
+  const [y,m,d]=birth.split('-').map(Number), date=new Date(Date.UTC(y,m-1,d));
+  if(y<1900||y>new Date().getUTCFullYear()||date.getUTCFullYear()!==y||date.getUTCMonth()!==m-1||date.getUTCDate()!==d)return null;
+  const prefs=['北海道','青森県','岩手県','宮城県','秋田県','山形県','福島県','茨城県','栃木県','群馬県','埼玉県','千葉県','東京都','神奈川県','新潟県','富山県','石川県','福井県','山梨県','長野県','岐阜県','静岡県','愛知県','三重県','滋賀県','京都府','大阪府','兵庫県','奈良県','和歌山県','鳥取県','島根県','岡山県','広島県','山口県','徳島県','香川県','愛媛県','高知県','福岡県','佐賀県','長崎県','熊本県','大分県','宮崎県','鹿児島県','沖縄県'];
+  if(typeof p.code!=='string'||!/^\d{6}$/.test(p.code)||prefs[Number(p.code.slice(0,2))-1]!==p.prefecture||typeof p.municipality!=='string'||!p.municipality.trim()||p.municipality.length>50)return null;
+  return {birth,birthPlace:{prefecture:p.prefecture,municipality:p.municipality.trim(),code:p.code}};
+}
+async function saveDiagnosisProfile(env,user,body) {
+  const candidate=validDiagnosisInput(body);
+  if(!candidate||body.confirmed!==true||!Number.isSafeInteger(body.expected_version)||body.expected_version<0)return {status:400,error:'確認した生年月日・出生地を入力してください。'};
+  let old=await getDiagnosisProfile(env,user);
+  if(!old){
+    await env.DB.prepare('INSERT OR IGNORE INTO po_diagnosis_profiles(google_sub,birth,birth_place,corrections_used,version,updated_at) VALUES (?,?,?,0,1,?)')
+      .bind(user.google_sub,candidate.birth,JSON.stringify(candidate.birthPlace),Date.now()).run();
+    old=await getDiagnosisProfile(env,user);
+  }
+  if(old.birth===candidate.birth&&old.birthPlace.code===candidate.birthPlace.code)return {status:200,profile:old};
+  if(old.corrections_used>=1)return {status:409,code:'profile_locked',error:'登録後の訂正は1回までです。別のGoogleアカウントで新規登録してください。',profile:old};
+  if(old.version!==body.expected_version)return {status:409,code:'profile_stale',error:'登録内容が更新されています。確認し直してください。',profile:old};
+  await env.DB.prepare('UPDATE po_diagnosis_profiles SET birth=?,birth_place=?,corrections_used=1,version=version+1,updated_at=? WHERE google_sub=? AND version=? AND corrections_used=0')
+    .bind(candidate.birth,JSON.stringify(candidate.birthPlace),Date.now(),user.google_sub,body.expected_version).run();
+  const saved=await getDiagnosisProfile(env,user);
+  return saved.birth===candidate.birth&&saved.birthPlace.code===candidate.birthPlace.code
+    ?{status:200,profile:saved}:{status:409,code:'profile_stale',error:'別の画面で訂正されています。確認し直してください。',profile:saved};
+}
+
 function hex(bytes) {
   return Array.from(new Uint8Array(bytes))
     .map(b => b.toString(16).padStart(2, '0'))
@@ -488,6 +523,16 @@ export default {
   ).bind(event.id,event.type,event.created||null,Date.now()).run();
   return json({ received: true }, 200, origin);
 }
+if(path==='/profile'&&['GET','POST'].includes(request.method)){
+  if(!allowed)return json({error:'Origin required'},403,origin);
+  const user=await sessionUser(request,env);
+  if(!user)return json({error:'Authentication required'},401,origin);
+  if(request.method==='GET')return json({profile:await getDiagnosisProfile(env,user)},200,origin);
+  if(!request.headers.get('Content-Type')?.startsWith('application/json'))return json({error:'JSON required'},415,origin);
+  const text=await request.text();if(text.length>3000)return json({error:'Profile too large'},413,origin);
+  let body;try{body=JSON.parse(text);}catch{return json({error:'Invalid profile'},400,origin);}
+  const result=await saveDiagnosisProfile(env,user,body);return json(result,result.status,origin);
+}
 if (path === '/portal/create' && request.method === 'POST') {
   if (!allowed) return json({ error: 'Origin required' }, 403, origin);
   const user = await sessionUser(request, env);
@@ -566,6 +611,12 @@ if(path==='/readings' && ['GET','POST'].includes(request.method)) {
   const text=await request.text();if(text.length>26000) return json({error:'Reading too large'},413,origin);
   let body,snapshot;try{body=JSON.parse(text);snapshot=safeReading(body.snapshot);}catch{return json({error:'Invalid reading'},400,origin);}
   if(typeof body.request_id!=='string'||!/^[-A-Za-z0-9_|]{10,100}$/.test(body.request_id)) return json({error:'Invalid request ID'},400,origin);
+  const previous=await env.DB.prepare('SELECT 1 FROM po_reading_history WHERE google_sub=? AND request_id=?').bind(user.google_sub,body.request_id).first();
+  if(!previous){
+    const registered=await getDiagnosisProfile(env,user);
+    if(!registered)return json({error:'生年月日・出生地の登録内容を確認してください。',code:'profile_required'},409,origin);
+    if(body.profile_version!==registered.version)return json({error:'プロフィールが更新されています。入力内容を確認し直してください。',code:'profile_stale'},409,origin);
+  }
   const grant=await grantReading(env,user,body.request_id,snapshot);
   return json({...grant,balance:await readingBalance(env,user)},grant.ok?200:402,origin);
 }

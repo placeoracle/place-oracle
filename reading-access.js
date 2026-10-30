@@ -11,7 +11,7 @@
   function snapshot(reading) {
     const result={};
     for(const key of ['date','title','intro','sceneLine','heart','action','place','scene','theme','cycle','first','dailyCard']) result[key]=reading[key];
-    // Raw birth, birthplace and personal notes never leave the browser.
+    // Birth inputs and personal notes are not included in reading-history snapshots.
     result.basis=reading.basis||'';
     result.sky=reading.sky||null;
     return JSON.parse(JSON.stringify(result));
@@ -70,13 +70,15 @@
       if(!auth){explain('接続の準備ができませんでした。少し待って、もう一度お試しください。');return null;}
       const me=await auth.currentUser();
       if(!me.authenticated){explain('はじめの2通をお届けしました。続きは、一通ずつでも、日々の楽しみとしても。');return null;}
+      if(window.PlaceOracleProfile&&!await window.PlaceOracleProfile.ensureCurrent())return null;
       const result=await auth.createReading(id,draft);
       localStorage.removeItem(PENDING);
       localStorage.removeItem('po_checkout_attempt_single');
       window.dispatchEvent(new CustomEvent('placeoracle:balance',{detail:result.balance}));
       return result.snapshot;
     } catch(error) {
-      if(error.status===401) explain('手紙の続きは、もう一度Googleでログインしてからお受け取りください。');
+      if(['profile_required','profile_stale'].includes(error.body?.code)) {window.PlaceOracleProfile?.invalidate();explain('プロフィールの登録内容を確認してから、もう一度手紙をお受け取りください。');}
+      else if(error.status===401) explain('手紙の続きは、もう一度Googleでログインしてからお受け取りください。');
       else if(error.body?.reason==='daily_limit') explain('今日は5通の手紙をお届けしました。日本時間の午前0時から、また新しい景色を選べます。読み返しはいつでもどうぞ。');
       else if(error.status===402 && ['failed','expired'].includes(error.body?.balance?.payment_state)){localStorage.removeItem('po_checkout_attempt_single');explain('お支払いは完了していません。お支払い方法を確認して、もう一度お選びください。');}
       else if(error.status===402 && new URLSearchParams(location.search).get('checkout')==='success' && get(PENDING,null))explain('おかえりなさい。お支払いの反映を確認しています。少し待ってから、手紙をお受け取りください。');

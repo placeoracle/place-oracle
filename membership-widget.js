@@ -105,6 +105,7 @@
           </div>
         </div>
         <button id="poPortalBtn" class="po-secondary" hidden>契約・お支払い管理</button>
+        <button id="poProfileEdit" class="po-secondary">生年月日・出生地の入力を訂正</button>
         <button id="poLetterLibrary" class="po-secondary">これまでの手紙を読む</button>
         <button id="poLogoutBtn" class="po-secondary" hidden>ログアウト</button>
         <div id="poMemberResult"></div>
@@ -113,6 +114,7 @@
 
     document.body.append(btn, shade);
 
+    shade.querySelector('#poProfileEdit').onclick=()=>{shade.classList.remove('po-open');window.PlaceOracleProfile?.edit();};
     shade.querySelector('#poLetterLibrary').onclick=()=>{shade.classList.remove('po-open');window.dispatchEvent(new Event('placeoracle:history'));};
     const statusEl = shade.querySelector('#poMemberStatus');
     const googleBtn = shade.querySelector('#poGoogleBtn');
