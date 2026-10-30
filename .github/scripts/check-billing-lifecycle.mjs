@@ -12,6 +12,7 @@ CREATE TABLE subscriptions (stripe_subscription_id TEXT PRIMARY KEY,stripe_custo
  updated_at INTEGER NOT NULL,stripe_event_created INTEGER);
 CREATE TABLE stripe_webhook_events (event_id TEXT PRIMARY KEY,event_type TEXT,event_created INTEGER,processed_at INTEGER);
 `);
+db.exec(await readFile('billing-worker/reading-schema.sql','utf8'));
 const DB = { prepare(sql) {
   return { bind(...args) {
     const stmt = db.prepare(sql);

@@ -21,5 +21,10 @@ assert.equal(calls.length, 2);
 const rejected = await worker.fetch(new Request('https://worker.invalid/checkout/create', {method:'POST',headers:{Origin:'https://placeoracle.github.io','Content-Type':'application/json'},body:'{"plan":"monthly"}'}), env);
 assert.equal(rejected.status, 401);
 assert.equal(calls.length, 2);
-console.log(JSON.stringify({result:'billing-worker-pass', plans:2, unauthenticatedCheckout:401}));
+await createCheckoutSession(env,{email:'qa@example.invalid',google_sub:'fixture_subject'},'single','fixture_order_id');
+assert.equal(calls.at(-1).params.get('mode'),'payment');
+assert.equal(calls.at(-1).params.get('line_items[0][price_data][unit_amount]'),'100');
+assert.equal(calls.at(-1).params.get('line_items[0][price_data][currency]'),'jpy');
+assert.equal(calls.at(-1).params.has('subscription_data[metadata][google_sub]'),false);
+console.log(JSON.stringify({result:'billing-worker-pass', plans:3, unauthenticatedCheckout:401}));
 

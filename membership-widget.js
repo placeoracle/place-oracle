@@ -73,15 +73,16 @@
         <div class="po-head">
           <div>
             <div class="po-eyebrow">MEMBERSHIP</div>
-            <h2 id="poMemberTitle">PLACE ORACLE<br>メンバーシップ</h2>
+            <h2 id="poMemberTitle">PLACE ORACLE<br>手紙と会員のご案内</h2>
           </div>
           <button class="po-close" id="poMemberClose" aria-label="閉じる">×</button>
         </div>
         <div id="poMemberStatus" class="po-status">状態を確認しています…</div>
         <div id="poGoogleBtn"></div>
         <div id="poPurchase" class="po-actions" hidden>
-          <button class="po-buy" data-po-plan="monthly">月額500円で利用する</button>
-          <button class="po-secondary" data-po-plan="yearly">年額5,000円で利用する</button>
+          <button class="po-secondary" data-po-plan="single">手紙を一通受け取る — 100円</button>
+          <button class="po-secondary" data-po-plan="monthly">日々の景色を楽しむ — 月額500円</button>
+          <details><summary>年払いについて</summary><p>年額5,000円・1日5通まで</p><button class="po-secondary" data-po-plan="yearly">年払いを選ぶ</button></details>
         </div>
         <div id="poPreparing" hidden>メンバーシップは現在準備中です。</div>
         <div id="poConfirm" hidden aria-live="polite">
@@ -91,9 +92,9 @@
             <dt>料金</dt><dd id="poConfirmPrice"></dd>
             <dt>自動更新</dt><dd id="poConfirmCycle"></dd>
             <dt>提供開始</dt><dd>決済完了後</dd>
-            <dt>解約</dt><dd>次回更新日前までに契約管理画面から次回更新を停止</dd>
-            <dt>解約後</dt><dd>支払済み期間の末日まで利用可能</dd>
-            <dt>途中解約の返金</dt><dd>なし（法令上必要な場合を除く）</dd>
+            <dt data-recurring>解約</dt><dd data-recurring>次回更新日前までに契約管理画面から次回更新を停止</dd>
+            <dt data-recurring>解約後</dt><dd data-recurring>支払済み期間の末日まで利用可能</dd>
+            <dt data-recurring>途中解約の返金</dt><dd data-recurring>なし（法令上必要な場合を除く）</dd>
           </dl>
           <p class="po-legal"><a href="terms.html" target="_blank" rel="noopener">利用規約</a> ／ <a href="tokusho.html" target="_blank" rel="noopener">特定商取引法に基づく表示</a> ／ <a href="privacy.html" target="_blank" rel="noopener">プライバシーポリシー</a></p>
           <div class="po-confirm-actions">
@@ -102,6 +103,7 @@
           </div>
         </div>
         <button id="poPortalBtn" class="po-secondary" hidden>契約・お支払い管理</button>
+        <button id="poLetterLibrary" class="po-secondary">これまでの手紙を読む</button>
         <button id="poLogoutBtn" class="po-secondary" hidden>ログアウト</button>
         <div id="poMemberResult"></div>
       </section>
@@ -109,6 +111,7 @@
 
     document.body.append(btn, shade);
 
+    shade.querySelector('#poLetterLibrary').onclick=()=>{shade.classList.remove('po-open');window.dispatchEvent(new Event('placeoracle:history'));};
     const statusEl = shade.querySelector('#poMemberStatus');
     const googleBtn = shade.querySelector('#poGoogleBtn');
     const purchase = shade.querySelector('#poPurchase');
@@ -135,8 +138,8 @@
       portalBtn.hidden = !authed || !(active || me.has_billing_account);
       logoutBtn.hidden = !authed;
 
-      if (!authed) statusEl.textContent = 'Googleでログインすると、メンバーシップを確認できます。';
-      else if (active) statusEl.textContent = 'メンバーシップは有効です。';
+      if (!authed) statusEl.textContent = '有料の手紙と会員情報は、Googleでログインして確認できます。';
+      else if (active) statusEl.textContent = 'メンバーシップは有効です。'+(me.reading_balance?' 今日の残り '+me.reading_balance.daily_remaining+'通。':'');
       else statusEl.textContent = 'ログイン済み。現在、有効なメンバーシップはありません。';
     }
 
@@ -203,7 +206,7 @@
       const me = await refresh();
       if (!me?.authenticated) { result.textContent = '購入するにはGoogleでログインしてください。'; return; }
       const plan = event.detail?.plan;
-      if (!SALES_ENABLED || !['monthly', 'yearly'].includes(plan)) return;
+      if (!SALES_ENABLED || !['single', 'monthly', 'yearly'].includes(plan)) return;
       shade.querySelector('[data-po-plan="' + plan + '"]').click();
     });
 
@@ -212,10 +215,12 @@
       el.onclick = () => {
         if (!SALES_ENABLED) return;
         const yearly = el.dataset.poPlan === 'yearly';
+        const single=el.dataset.poPlan==='single';
+        shade.querySelectorAll('[data-recurring]').forEach(node=>node.hidden=single);
         pendingPlan = el.dataset.poPlan;
-        confirmPlan.textContent = yearly ? '年額プラン' : '月額プラン';
-        confirmPrice.textContent = yearly ? '5,000円（税込）／年' : '500円（税込）／月';
-        confirmCycle.textContent = yearly ? '1年ごと' : '1か月ごと';
+        confirmPlan.textContent = single?'手紙を一通':yearly ? '年額プラン' : '月額プラン';
+        confirmPrice.textContent = single?'100円（税込）・1回払い':yearly ? '5,000円（税込）／年' : '500円（税込）／月';
+        confirmCycle.textContent = single?'なし':yearly ? '1年ごと' : '1か月ごと';
         purchase.hidden = true;
         confirmBox.hidden = false;
         confirmCheckout.focus();
