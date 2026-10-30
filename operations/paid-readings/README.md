@@ -9,7 +9,36 @@ The new UI presents pricing only after another reading is requested. Amounts are
 secondary text, annual billing is under details, and payment terms remain explicit
 on the final confirmation. Existing memberships and their portal remain supported.
 
-## Before activating production
+## Production status — 2026-10-31
+
+The owner explicitly requested the production switch. PR #30 is merged and the
+new UI is published at https://placeoracle.github.io/place-oracle/. Asset URLs
+carry `v=20261031-paid1` so returning browsers load the matching billing client.
+
+Production Worker deployment `a7eac83a534e43ea933ecab3db819886` uses the registered
+100/500/5000 JPY prices and portal below. The additive schema is applied to billing
+D1 `068deef7-8608-4d31-b825-aba2cb60e852`. Webhook
+`we_1UWFnXJXOmhsHzI4CMUEAvks` is enabled.
+
+Cloudflare inherited/renamed the staged NEXT secrets into `STRIPE_SECRET_KEY`
+and `STRIPE_WEBHOOK_SECRET` without reading their values. Old keys remain as
+`STRIPE_SECRET_KEY_PREVIOUS` and `STRIPE_WEBHOOK_SECRET_PREVIOUS`.
+The following preparation checklist is retained as a historical deployment record.
+
+Actual isolated-sandbox checks passed: 100 JPY Checkout, signed webhook credit,
+single-use credit consumption and exhausted-credit rejection; 500 JPY subscription,
+active membership sync, five daily readings and sixth-reading rejection; Portal
+access and period-end cancellation. Annual checkout request construction, duplicate/
+retried events, refunds and JST boundaries passed automated tests; annual payment
+and asynchronous payment methods have not been exercised through real sandbox
+Checkout. No production payment was made for QA.
+
+Rollback: stop new purchase entry points first and retain all credits/history.
+If no new live purchases have occurred, redeploy the archived previous Worker and
+previous price/portal settings, inheriting PREVIOUS secrets into the active names.
+After purchases, do not revert fulfillment or delete entitlements blindly.
+
+## Historical preparation checklist
 
 1. The user explicitly selected production account `acct_1UKl62JXOmhsHzI4` (ゆめごこち).
    New prices are recorded in `stripe-target-20261030.json`: single ¥100, monthly
