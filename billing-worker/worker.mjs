@@ -197,6 +197,7 @@ async function saveCheckoutSession(env, session) {
   const customerId = stripeId(session.customer);
 
   if (!subscriptionId || !customerId) return;
+  await env.DB.prepare("UPDATE po_checkout_orders SET status='paid' WHERE session_id=?").bind(session.id||'').run();
 
   const email =
     session.customer_details?.email ||
@@ -229,36 +230,29 @@ async function saveCheckoutSession(env, session) {
   ).run();
 }
 
-async function createCheckoutSession(env, user, plan) {
-  const priceId =
-    plan === 'monthly'
-      ? env.STRIPE_PRICE_MONTHLY
-      : plan === 'yearly'
-        ? env.STRIPE_PRICE_YEARLY
-        : null;
-
-  if (!priceId) {
-    throw new Error('Invalid plan');
-  }
-
+async function createCheckoutSession(env, user, plan, orderId) {
+  const priceId = plan === 'monthly' ? env.STRIPE_PRICE_MONTHLY : plan==='yearly'?env.STRIPE_PRICE_YEARLY:env.STRIPE_PRICE_SINGLE;
+  if (!['single','monthly','yearly'].includes(plan) || !priceId) throw new Error('Invalid plan');
   if (!env.STRIPE_SECRET_KEY) {
     throw new Error('STRIPE_SECRET_KEY missing');
   }
 
   const params = new URLSearchParams();
 
-  params.set('mode', 'subscription');
+  params.set('mode', plan==='single'?'payment':'subscription');
   params.set('managed_payments[enabled]', 'false');
-  params.set('line_items[0][price]', priceId);
+  params.set('integration_identifier','place_oracle_'+Array.from((orderId||'abcdefgh').slice(0,8),c=>String.fromCharCode(97+c.charCodeAt(0)%26)).join(''));
+  if(plan==='single') {
+    params.set('payment_intent_data[metadata][po_order]',orderId||'');
+  }
+  params.set('line_items[0][price]',priceId);
   params.set('line_items[0][quantity]', '1');
 
   params.set('customer_email', user.email);
   params.set('client_reference_id', user.google_sub);
+  if(orderId)params.set('metadata[po_order]',orderId);
 
-  params.set(
-    'subscription_data[metadata][google_sub]',
-    user.google_sub
-  );
+  if(plan!=='single') params.set('subscription_data[metadata][google_sub]',user.google_sub);
 
   params.set(
     'success_url',
@@ -276,7 +270,9 @@ async function createCheckoutSession(env, user, plan) {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${env.STRIPE_SECRET_KEY}`,
-        'Content-Type': 'application/x-www-form-urlencoded'
+        'Stripe-Version':'2026-09-30.endive',
+        'Content-Type': 'application/x-www-form-urlencoded',
+        ...(orderId?{'Idempotency-Key':'po-'+orderId}:{})
       },
       body: params.toString()
     }
@@ -285,7 +281,7 @@ async function createCheckoutSession(env, user, plan) {
   const data = await response.json();
 
   if (!response.ok) {
-    console.error('Stripe Checkout error', data);
+    console.error('Stripe Checkout error', data?.error?.code||'unknown');
     throw new Error(
       data?.error?.message || 'Could not create Stripe Checkout session'
     );
@@ -298,7 +294,8 @@ async function createPortalSession(env, customerId) {
   if (!env.STRIPE_SECRET_KEY) throw new Error('STRIPE_SECRET_KEY missing');
   const params = new URLSearchParams();
   params.set('customer', customerId);
-  params.set('configuration', 'bpc_1UMS6S3q8aqnNorIJnqFvsf3');
+  if (!env.STRIPE_PORTAL_CONFIGURATION) throw new Error('STRIPE_PORTAL_CONFIGURATION missing');
+  params.set('configuration', env.STRIPE_PORTAL_CONFIGURATION);
   params.set('return_url', 'https://placeoracle.github.io/place-oracle/');
   const response = await fetch('https://api.stripe.com/v1/billing_portal/sessions', {
     method: 'POST',
@@ -313,6 +310,124 @@ async function createPortalSession(env, customerId) {
   return data;
 }
 
+// All paid use is accounted for on the primary database. Anonymous trials remain local.
+function jstDay(now = Date.now()) { return new Date(now + 9 * 3600000).toISOString().slice(0, 10); }
+async function paidMembership(env, user) {
+  return env.DB.prepare(`SELECT * FROM subscriptions WHERE LOWER(customer_email)=LOWER(?)
+    AND stripe_price_id IN (?,?) AND status='active' AND current_period_end>?
+    AND NOT EXISTS (SELECT 1 FROM po_billing_holds b WHERE b.stripe_customer_id=subscriptions.stripe_customer_id)
+    ORDER BY current_period_end DESC LIMIT 1`).bind(user.email, env.STRIPE_PRICE_MONTHLY,
+      env.STRIPE_PRICE_YEARLY, Math.floor(Date.now()/1000)).first();
+}
+async function readingBalance(env, user) {
+  const member = await paidMembership(env, user);
+  const used = await env.DB.prepare(`SELECT count(*) AS n FROM po_reading_history
+    WHERE google_sub=? AND day=? AND kind='member'`).bind(user.google_sub,jstDay()).first();
+  const credits = await env.DB.prepare(`SELECT count(*) AS n FROM po_reading_credits c
+    WHERE c.google_sub=? AND c.status='paid' AND NOT EXISTS
+    (SELECT 1 FROM po_reading_history h WHERE h.credit_session_id=c.session_id)`).bind(user.google_sub).first();
+  const lastOrder=await env.DB.prepare('SELECT status FROM po_checkout_orders WHERE google_sub=? ORDER BY created_at DESC LIMIT 1').bind(user.google_sub).first();
+  return { payment_state:lastOrder?.status||null, member:!!member, day:jstDay(), daily_limit:5, daily_used:used?.n||0,
+    daily_remaining:member?Math.max(0,5-(used?.n||0)):0, credits:credits?.n||0 };
+}
+function safeReading(input) {
+  // Only the delivered words/place/calendar are saved; never raw birth or location inputs.
+  if(!input || typeof input!=='object') throw new Error('Invalid reading');
+  const out={};
+  for(const key of ['date','title','intro','sceneLine','heart','action']) {
+    if(typeof input[key]!=='string' || input[key].length>6000) throw new Error('Invalid reading');
+    out[key]=input[key];
+  }
+  for(const key of ['first','dailyCard'])if(typeof input[key]==='boolean')out[key]=input[key];
+  if(typeof input.basis==='string')out.basis=input.basis.slice(0,1200);
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(out.date)) throw new Error('Invalid reading');
+  for(const key of ['place','scene','theme','cycle','sky']) {
+    if(input[key] && typeof input[key]==='object') {
+      out[key]={};
+      const allowed=key==='place'?['id','name','country','region','fact','oracle','sceneLine','afterglow']:
+        key==='cycle'?['precise','term','yearStar','monthStar','day']:key==='sky'?
+        ['skyTitle','skyFact','loreEyebrow','loreTitle','lore','story','discovery','reflection','sources']:['name'];
+      for(const field of allowed) {
+        const value=input[key][field];
+        if(value===undefined)continue;
+        if(field==='day' && key==='cycle')out[key].day={label:String(value?.label||'').slice(0,40),index:Number.isInteger(value?.index)?value.index:0};
+        else if(field==='sources' && Array.isArray(value))out[key].sources=value.filter(v=>typeof v==='string'&&v.startsWith('https://')).slice(0,12).map(v=>v.slice(0,500));
+        else if(['string','number','boolean'].includes(typeof value))out[key][field]=typeof value==='string'?value.slice(0,6000):value;
+      }
+    }
+  }
+  if(!out.place?.id || !out.place?.name || !out.scene?.name || !out.theme?.name || !out.cycle?.day) throw new Error('Invalid reading');
+  if(JSON.stringify(out).length>24000) throw new Error('Invalid reading');
+  return out;
+}
+async function grantReading(env, user, id, snapshot) {
+  const old=await env.DB.prepare('SELECT snapshot,kind FROM po_reading_history WHERE google_sub=? AND request_id=?')
+    .bind(user.google_sub,id).first();
+  if(old) return {ok:true,snapshot:JSON.parse(old.snapshot),kind:old.kind,replayed:true};
+  const member=await paidMembership(env,user), day=jstDay(), now=Date.now();
+  if(member) {
+    await env.DB.prepare(`INSERT OR IGNORE INTO po_reading_history
+      (google_sub,request_id,day,kind,credit_session_id,snapshot,created_at)
+      SELECT ?,?,?,'member',NULL,?,? WHERE
+      EXISTS (SELECT 1 FROM subscriptions WHERE LOWER(customer_email)=LOWER(?)
+       AND stripe_price_id IN (?,?) AND status='active' AND current_period_end>?
+    AND NOT EXISTS (SELECT 1 FROM po_billing_holds b WHERE b.stripe_customer_id=subscriptions.stripe_customer_id))
+      AND (SELECT count(*) FROM po_reading_history WHERE google_sub=? AND day=? AND kind='member')<5`)
+      .bind(user.google_sub,id,day,JSON.stringify(snapshot),now,user.email,env.STRIPE_PRICE_MONTHLY,
+        env.STRIPE_PRICE_YEARLY,Math.floor(now/1000),user.google_sub,day).run();
+  } else {
+    await env.DB.prepare(`INSERT OR IGNORE INTO po_reading_history
+      (google_sub,request_id,day,kind,credit_session_id,snapshot,created_at)
+      SELECT ?,?,?,'single',c.session_id,?,? FROM po_reading_credits c
+      WHERE c.google_sub=? AND c.status='paid' AND NOT EXISTS
+      (SELECT 1 FROM po_reading_history h WHERE h.credit_session_id=c.session_id)
+      ORDER BY c.created_at,c.session_id LIMIT 1`)
+      .bind(user.google_sub,id,day,JSON.stringify(snapshot),now,user.google_sub).run();
+  }
+  const saved=await env.DB.prepare('SELECT snapshot,kind FROM po_reading_history WHERE google_sub=? AND request_id=?')
+    .bind(user.google_sub,id).first();
+  return saved?{ok:true,snapshot:JSON.parse(saved.snapshot),kind:saved.kind}:
+    {ok:false,reason:member?'daily_limit':'payment_required'};
+}
+async function stripeRead(env,path) {
+  const r=await fetch('https://api.stripe.com/v1/'+path,{headers:{Authorization:`Bearer ${env.STRIPE_SECRET_KEY}`}});
+  if(!r.ok) throw new Error('Stripe lookup failed');
+  return r.json();
+}
+async function fulfillSingle(env, session) {
+  if(session.mode!=='payment' || session.payment_status!=='paid') return;
+  const order=await env.DB.prepare('SELECT * FROM po_checkout_orders WHERE session_id=? AND plan=\'single\'').bind(session.id).first();
+  if(!order){if(session.metadata?.po_order)throw new Error('Single-payment order not found');return;}
+  if(session.amount_total!==100 || session.currency!=='jpy' || session.client_reference_id!==order.google_sub)
+    throw new Error('Payment does not match order');
+  await env.DB.batch([
+    env.DB.prepare(`INSERT OR IGNORE INTO po_reading_credits
+      (session_id,google_sub,payment_intent,status,created_at) SELECT ?,?,?,
+       CASE WHEN EXISTS (SELECT 1 FROM po_revoked_payments WHERE payment_intent=?) THEN 'revoked' ELSE 'paid' END,?`)
+      .bind(session.id,order.google_sub,stripeId(session.payment_intent),stripeId(session.payment_intent),Date.now()),
+    env.DB.prepare("UPDATE po_checkout_orders SET status='paid',payment_intent=? WHERE session_id=?")
+      .bind(stripeId(session.payment_intent),session.id)
+  ]);
+}
+async function revokePayment(env, event) {
+  let charge=event.data.object;
+  if(charge.object!=='charge' && charge.charge) charge=await stripeRead(env,'charges/'+encodeURIComponent(stripeId(charge.charge)));
+  const pi=stripeId(charge.payment_intent);
+  if(pi) await env.DB.batch([
+    env.DB.prepare('INSERT OR IGNORE INTO po_revoked_payments VALUES (?,?)').bind(pi,Date.now()),
+    env.DB.prepare("UPDATE po_reading_credits SET status='revoked' WHERE payment_intent=?").bind(pi)
+  ]);
+  const customer=stripeId(charge.customer);
+  if(customer) await env.DB.prepare('INSERT OR IGNORE INTO po_billing_holds VALUES (?,?,?)').bind(customer,event.type,Date.now()).run();
+  // Resolve subscription through the charge/invoice graph, rather than trusting client metadata.
+  if(charge.invoice) {
+    const invoice=await stripeRead(env,'invoices/'+encodeURIComponent(stripeId(charge.invoice)));
+    const sub=stripeId(invoice.subscription||invoice.parent?.subscription_details?.subscription);
+    if(sub) await env.DB.prepare("UPDATE subscriptions SET status='review_required',updated_at=? WHERE stripe_subscription_id=?")
+      .bind(Date.now(),sub).run();
+  }
+}
+
 export default {
   async fetch(request, env) {
     const origin = request.headers.get('Origin') || '';
@@ -324,30 +439,47 @@ export default {
         'Access-Control-Allow-Methods': 'GET, POST, OPTIONS' } })
       : json({ error: 'Origin not allowed' }, 403);
     const path = new URL(request.url).pathname;
+    if(env.DB?.withSession) env={...env,DB:env.DB.withSession('first-primary')};
     try {
 
       if (path === '/stripe/webhook' && request.method === 'POST') {
   const event = await verifyStripeWebhook(request, env.STRIPE_WEBHOOK_SECRET);
   if (!event?.id || !event?.type) throw new Error('Invalid Stripe event');
-  const claimed = await env.DB.prepare(
-    'INSERT OR IGNORE INTO stripe_webhook_events (event_id,event_type,event_created,processed_at) VALUES (?,?,?,?)'
-  ).bind(event.id, event.type, event.created || null, Date.now()).run();
-  if (!claimed.meta?.changes) return json({ received: true, duplicate: true }, 200, origin);
-  try {
+  // Record completion only after idempotent fulfillment. A crashed delivery must be retryable.
+  const completed = await env.DB.prepare('SELECT 1 FROM stripe_webhook_events WHERE event_id=?')
+    .bind(event.id).first();
+  if (completed) return json({ received: true, duplicate: true }, 200, origin);
     switch (event.type) {
       case 'checkout.session.completed':
+      case 'checkout.session.async_payment_succeeded':
+        await fulfillSingle(env,event.data.object);
         await saveCheckoutSession(env, event.data.object);
         break;
+      case 'checkout.session.async_payment_failed':
+      case 'checkout.session.expired':
+        await env.DB.prepare("UPDATE po_checkout_orders SET status=? WHERE session_id=? AND status!='paid'").bind(event.type.endsWith('expired')?'expired':'failed',event.data.object.id).run();
+        break;
+      case 'charge.refunded':
+      case 'charge.dispute.created':
+      case 'radar.early_fraud_warning.created':
+        await revokePayment(env,event);
+        break;
+      case 'invoice.paid':
+      case 'invoice.payment_failed': {
+        const invoice=event.data.object;
+        const id=stripeId(invoice.subscription||invoice.parent?.subscription_details?.subscription);
+        if(id)await saveSubscription(env,await stripeRead(env,'subscriptions/'+encodeURIComponent(id)),event.created||0);
+        break;
+      }
       case 'customer.subscription.created':
       case 'customer.subscription.updated':
       case 'customer.subscription.deleted':
         await saveSubscription(env, event.data.object, event.created || 0);
         break;
     }
-  } catch (error) {
-    await env.DB.prepare('DELETE FROM stripe_webhook_events WHERE event_id=?').bind(event.id).run();
-    throw error;
-  }
+  await env.DB.prepare(
+    'INSERT OR IGNORE INTO stripe_webhook_events (event_id,event_type,event_created,processed_at) VALUES (?,?,?,?)'
+  ).bind(event.id,event.type,event.created||null,Date.now()).run();
   return json({ received: true }, 200, origin);
 }
 if (path === '/portal/create' && request.method === 'POST') {
@@ -372,28 +504,63 @@ if (path === '/checkout/create' && request.method === 'POST') {
     return json({ error: 'Authentication required' }, 401, origin);
   }
 
-  // Sales temporarily paused. Existing membership, portal and webhook routes remain available.
-  return json({ error: 'New membership sales are temporarily paused' }, 503, origin);
-
   if (!request.headers.get('Content-Type')?.startsWith('application/json')) {
     return json({ error: 'JSON required' }, 415, origin);
   }
 
   const body = await request.json();
 
-  if (body.plan !== 'monthly' && body.plan !== 'yearly') {
+  if (!['single','monthly','yearly'].includes(body.plan)) {
     return json({ error: 'Invalid plan' }, 400, origin);
   }
 
-  const session = await createCheckoutSession(
-    env,
-    user,
-    body.plan
-  );
-
-  return json({
-    url: session.url
-  }, 200, origin);
+  if(typeof body.request_id!=='string'||!/^[-A-Za-z0-9_]{16,100}$/.test(body.request_id)) return json({error:'Invalid request ID'},400,origin);
+  if(!user.email) return json({error:'Verified email required'},403,origin);
+  const hold=await env.DB.prepare('SELECT 1 FROM subscriptions s JOIN po_billing_holds b ON b.stripe_customer_id=s.stripe_customer_id WHERE LOWER(s.customer_email)=LOWER(?) LIMIT 1').bind(user.email).first();
+  if(hold)return json({error:'お支払い状況の確認が必要です。お問い合わせください。'},409,origin);
+  if(await paidMembership(env,user)) return json({error:'すでに有効な会員です。契約管理をご確認ください。'},409,origin);
+  if(body.plan==='single') {
+    const balance=await readingBalance(env,user);
+    if(balance.credits>0) return json({error:'購入済みの1回分を先にご利用ください。'},409,origin);
+  }
+  const orderId=await tokenHash(user.google_sub+':'+body.plan+':'+body.request_id);
+  const old=await env.DB.prepare('SELECT * FROM po_checkout_orders WHERE order_id=?').bind(orderId).first();
+  if(['expired','failed'].includes(old?.status))return json({error:'前回のお支払い画面の期限が切れました。もう一度選び直してください。',code:'checkout_expired'},409,origin);
+  if(old?.session_id && old.status==='created') {
+    const previous=await stripeRead(env,'checkout/sessions/'+encodeURIComponent(old.session_id));
+    if(previous.status==='open')return json({url:previous.url},200,origin);
+    if(previous.status==='expired'){await env.DB.prepare("UPDATE po_checkout_orders SET status='expired' WHERE order_id=?").bind(orderId).run();return json({error:'お支払い画面の期限が切れました。もう一度選んでください。',code:'checkout_expired'},409,origin);}
+    return json({error:'お支払いの反映を確認中です。追加のお支払いはせず、少し待ってください。'},409,origin);
+  }
+  if(old?.status==='paid') return json({error:'このお支払いは完了しています。手紙を受け取ってください。'},409,origin);
+  // The Stripe idempotency key also protects retries after a dropped response.
+  const session=await createCheckoutSession(env,user,body.plan,orderId);
+  await env.DB.prepare(`INSERT OR IGNORE INTO po_checkout_orders
+    (order_id,google_sub,plan,session_id,created_at) VALUES (?,?,?,?,?)`)
+    .bind(orderId,user.google_sub,body.plan,session.id,Date.now()).run();
+  return json({url:session.url},200,origin);
+}
+if(path==='/readings' && ['GET','POST'].includes(request.method)) {
+  if(!allowed) return json({error:'Origin required'},403,origin);
+  const user=await sessionUser(request,env);
+  if(!user) return json({error:'Authentication required'},401,origin);
+  if(request.method==='GET') {
+    const cursor=new URL(request.url).searchParams.get('before')||'';
+    let stamp=Number.MAX_SAFE_INTEGER,key='~';
+    if(cursor){const split=cursor.indexOf('|');stamp=Number(cursor.slice(0,split));key=cursor.slice(split+1);if(split<1||!Number.isSafeInteger(stamp)||key.length>100)return json({error:'Invalid cursor'},400,origin);}
+    const result=await env.DB.prepare(`SELECT request_id,day,kind,snapshot,created_at FROM po_reading_history
+      WHERE google_sub=? AND (created_at<? OR (created_at=? AND request_id<?))
+      ORDER BY created_at DESC,request_id DESC LIMIT 30`).bind(user.google_sub,stamp,stamp,key).all();
+    const last=result.results.at(-1);
+    return json({readings:result.results.map(r=>({...r,snapshot:JSON.parse(r.snapshot)})),
+      next_cursor:result.results.length===30?last.created_at+'|'+last.request_id:null,balance:await readingBalance(env,user)},200,origin);
+  }
+  if(!request.headers.get('Content-Type')?.startsWith('application/json')) return json({error:'JSON required'},415,origin);
+  const text=await request.text();if(text.length>26000) return json({error:'Reading too large'},413,origin);
+  let body,snapshot;try{body=JSON.parse(text);snapshot=safeReading(body.snapshot);}catch{return json({error:'Invalid reading'},400,origin);}
+  if(typeof body.request_id!=='string'||!/^[-A-Za-z0-9_|]{10,100}$/.test(body.request_id)) return json({error:'Invalid request ID'},400,origin);
+  const grant=await grantReading(env,user,body.request_id,snapshot);
+  return json({...grant,balance:await readingBalance(env,user)},grant.ok?200:402,origin);
 }
 if (path === '/auth/google' && request.method === 'POST') {
         if (!allowed) return json({ error: 'Origin required' }, 403);
@@ -420,7 +587,7 @@ if (path === '/auth/me' && request.method === 'GET') {
     SELECT
       status,
       stripe_price_id,
-      current_period_end
+      current_period_end, stripe_customer_id
     FROM subscriptions
     WHERE LOWER(customer_email) = LOWER(?)
       AND stripe_price_id IN (?, ?)
@@ -428,13 +595,15 @@ if (path === '/auth/me' && request.method === 'GET') {
     LIMIT 1
   `).bind(user.email, env.STRIPE_PRICE_MONTHLY, env.STRIPE_PRICE_YEARLY).first();
 
+  const hold=subscription?await env.DB.prepare('SELECT 1 FROM po_billing_holds WHERE stripe_customer_id=?').bind(subscription.stripe_customer_id).first():null;
   return json({
     authenticated: true,
     email: user.email,
     has_billing_account: !!subscription,
-    membership: subscription ? subscription.status : 'none',
+    membership: hold?'review_required':subscription ? subscription.status : 'none',
     stripe_price_id: subscription?.stripe_price_id ?? null,
-    current_period_end: subscription?.current_period_end ?? null
+    current_period_end: subscription?.current_period_end ?? null,
+    reading_balance: await readingBalance(env,user)
   }, 200, origin);
 }
       if (path === '/auth/logout' && request.method === 'POST') {

@@ -1,0 +1,16 @@
+{
+  "account": "acct_1UKl62JXOmhsHzI4",
+  "livemode": true,
+  "monthly": "price_1UWEzsJXOmhsHzI4Th66HTkj",
+  "yearly": "price_1UWF0HJXOmhsHzI45clvXsAn",
+  "single": "price_1UWF0dJXOmhsHzI4jyyHuu9p",
+  "membership_product": "prod_VLSKqbTTQyobsy",
+  "single_product": "prod_VXJdbHNJ2qoCjM",
+  "status": "prices_created_backend_not_switched",
+  "webhook_created": true,
+  "existing_prices_preserved": true,
+  "portal": "bpc_1UWFmNJXOmhsHzI4x5q8FrMd",
+  "webhook": "we_1UWFnXJXOmhsHzI4CMUEAvks",
+  "webhook_status": "disabled_until_cutover",
+  "webhook_secret_staged": "STRIPE_WEBHOOK_SECRET_NEXT"
+}

@@ -309,7 +309,7 @@ footer small{color:#cfb9c5}
   .sky-time-control .sky-enlarge{grid-column:1/-1;justify-self:center}
   .sky-zoom-controls{gap:8px;padding-left:10px;padding-right:10px}
   .sky-zoom-controls input{width:min(38vw,220px)}
-} 
+}
 /* Consistent reading scale across the story, form, result and map */
 :root{--po-body:16px;--po-support:14px;--po-label:12px}
 .section-heading p,.invitation>p,.story-inline-copy p,.form-lead,.map-dialog>p,.map-dialog-inner>p{font-size:var(--po-body);line-height:1.8}
@@ -597,14 +597,14 @@ footer small{color:#cfb9c5}
 </section><section class="membership-intro" id="membership" hidden>
   <span class="eyebrow">PLACE ORACLE MAP</span>
   <h2>あなたの地図は、<br>ここから続いていく。</h2>
-  <p>最初のPLACEは、最後まで無料です。<br>その先は、景色と言葉を少しずつ自分の地図に残していけます。</p>
+  <p>はじめの2通は、登録なしで最後まで読めます。<br>その先は、景色と言葉を少しずつ自分の地図に残していけます。</p>
   <div class="membership-mini">
-    <span>最初の1 PLACE <strong>無料</strong></span>
+    <span>はじめの2通 <strong>無料</strong></span>
     <span>MAP会員 <strong>月500円</strong></span>
   </div>
   <p class="membership-note">新しいPLACEとの出会い・MY MAP・過去の景色・感情メモ・振り返り。</p>
 </section>
-</main><footer><div>PLACE ORACLE</div><p>遠い景色から、まだ知らない自分へ。</p><small>生年月日・選択内容・メモ・地図はこの端末に保存され、端末を替えても引き継がれません。「私の地図」からすべて削除できます。STORY写真はPexels Licenseの写真を使用し、出典を記録しています。読み込み失敗時のみPLACE ORACLEのオリジナル代替画像を表示します。</small><p class="footer-links"><a href="privacy.html">プライバシーポリシー</a><a href="terms.html">利用規約</a><a href="tokusho.html">特定商取引法に基づく表記</a><a href="support.html">お問い合わせ</a></p></footer>
+</main><footer><div>PLACE ORACLE</div><p>遠い景色から、まだ知らない自分へ。</p><small>生年月日・選択内容・メモ・地図と無料体験の手紙はこのブラウザーに保存します。有料の手紙と利用回数はログインしたアカウントに保存します。ブラウザー内の入力・地図・無料体験の手紙は「私の地図」から削除できます。アカウントに保存した手紙の削除はお問い合わせください。STORY写真はPexels Licenseの写真を使用し、出典を記録しています。読み込み失敗時のみPLACE ORACLEのオリジナル代替画像を表示します。</small><p class="footer-links"><a href="privacy.html">プライバシーポリシー</a><a href="terms.html">利用規約</a><a href="tokusho.html">特定商取引法に基づく表記</a><a href="support.html">お問い合わせ</a></p></footer>
 
 <dialog id="mapDialog" class="map-dialog"><div class="map-dialog-inner"><button class="dialog-close" id="mapClose" type="button" aria-label="閉じる">×</button><span class="eyebrow">MY MAP</span><h2>私の地図</h2><p>これまでに残した景色。</p><p id="mapReflection" class="map-reflection"></p><div class="map-view-toggle" role="tablist" aria-label="私の地図の表示"><button id="mapViewMap" type="button" class="active" aria-selected="true">MAP</button><button id="mapViewCards" type="button" aria-selected="false">カード</button></div><div id="myMapMap" class="my-map-view active"><div id="myMapLeaflet" class="my-map-map"></div></div><div id="mapEntries" class="map-cards my-map-view"></div><section class="map-next" aria-labelledby="mapNextTitle"><h3 id="mapNextTitle">次の景色を探す</h3><p>残したカードを見返したあとも、ここから新しい一枚へ進めます。</p><div class="map-next-actions"><button class="primary" id="mapFindToday" type="button">今日の場所を探す　→</button><button class="map-next-secondary" id="mapFindNew" type="button">新たな場所を探す</button></div><p class="map-next-note">今日の場所は登録済みの情報から探します。新たな場所では、景色やプロフィールを選び直せます。</p></section><button class="text-button" id="mapClear" type="button">この端末の入力情報と地図をすべて消す</button></div></dialog>
 <dialog id="skyZoomDialog" class="sky-zoom-dialog">
@@ -2123,8 +2123,21 @@ function openSkyZoom(id,date,name,hour=21,hint={}){
   drawSkyZoom();
   $('skyZoomDialog').showModal();
 }
-function showReading(){trackPO?.('po_result_view');window.growthCount?.('result');
-  current=makeReading(profile);
+let readingInFlight=false;
+async function showReading(){
+  if(readingInFlight)return;readingInFlight=true;
+  try{
+    const candidate=makeReading(profile);
+    candidate.sky=PO_SKY_STORIES[candidate.place.id]||null;
+    candidate.basis=['本命星：'+names[profile.stars.h],'月命星：'+names[profile.stars.g],'出生日の干支：'+profile.stars.day.label].join('／');
+    if(!window.PlaceOracleAccess){$('formError').textContent='手紙の準備中です。少し待ってもう一度お試しください。';return;}
+    const granted=await window.PlaceOracleAccess.authorize(readingKey(profile),candidate);
+    if(!granted)return;
+    current={...candidate,...granted};
+    formStage='input';pendingProfile=null;
+    trackPO?.('po_result_view');window.growthCount?.('result');
+  }catch{ $('formError').textContent='手紙を準備できませんでした。もう一度お試しください。';return; }
+  finally{readingInFlight=false;}
   $('letterDate').textContent=current.date.replace(/-/g,'.');
   $('letterPlace').textContent=current.place.name;
   const letter=$('letterReveal'),readingSection=$('reading'); letter.classList.remove('letter-replay'); readingSection.classList.remove('letter-sequence');
@@ -2230,7 +2243,7 @@ function showReading(){trackPO?.('po_result_view');window.growthCount?.('result'
     const lead=document.createElement('span');lead.textContent='場所と空の資料：';skySources.append(lead);
     sources.forEach((url,index)=>{const link=document.createElement('a');link.href=url;link.target='_blank';link.rel='noopener noreferrer';link.textContent=sourceLabel(url);skySources.append(document.createTextNode(index?'・':' '),link)});
   }
-  $('formSection').hidden=true;readingSection.hidden=false;$('membership').hidden=!membershipGateEnabled();
+  $('formSection').hidden=true;readingSection.hidden=false;$('membership').hidden=true;
   readingSection.scrollIntoView({behavior:'auto',block:'start'});
   requestAnimationFrame(()=>requestAnimationFrame(()=>{
     letter.classList.add('letter-replay');
@@ -2266,12 +2279,12 @@ function showForm(mode='first',fromStory=false){initLocationSelectors();trackPO?
 function openForToday(fromStory=false){
   // 「はじまりの景色」は診断の条件として持ち込まない。
   if(!fromStory)entryStory=null;
-  if(membershipGateEnabled()&&profile?.firstSeen&&!isMember()){openMembership();return}
+
   showForm('daily',fromStory)
 }
 function findNewPlace(){
   $('mapDialog').close();
-  if(membershipGateEnabled()&&profile?.firstSeen&&!isMember()){openMembership();return}
+
   showForm(hasCompleteDiagnosisProfile()?'daily':'first');
 }
 function initLocationSelectors(){
@@ -2313,7 +2326,7 @@ function submit(){const err=$('formError');err.textContent='';if(formStage==='in
   const firstMissing=!y||!m||!d?$('birthYear'):(!birthPlace?$('birthPrefecture'):document.querySelector('[name="scene"]'));
   firstMissing?.focus();
   return
-}const stars=returning?profile.stars:birthStars(y,m,d);if(stars.boundary){err.textContent='この生年月日は節入りに近く、出生時刻を使わない計算では星を確定できません。現在の版では鑑定を保留します。';return}const birth=`${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;pendingProfile={birth,scene,theme:'',stars,birthPlace,currentPlace:profile?.currentPlace||null,entryStory:entryStory||null,readingId:`${dateKey()}-${Date.now()}`,firstSeen:profile?.birth===birth?profile.firstSeen:undefined,lastChoiceDate:dateKey()};current=makeReading(pendingProfile);$('placePreviewTitle').textContent=current.place.name;$('placePreviewRegion').textContent=regionWithFlag(current.place.country||current.place.region||'');const journeyPhoto=PO_PLACE_PHOTOS[current.place.name]||PO_PLACE_PHOTOS[current.place.id];setFormJourney('YOUR PLACE',current.place.name,'選んだ景色の先に、この場所が現れました。テーマは手紙を読む角度だけ。選ばなくても進めます。',usablePlacePhoto(journeyPhoto)?journeyPhoto.remote:null);$('birthBlock').hidden=true;document.querySelectorAll('.location-block').forEach(x=>x.hidden=true);$('sceneBlock').hidden=true;$('changeBirth').hidden=true;$('quietNote').hidden=true;$('placePreview').hidden=false;$('themeBlock').hidden=false;$('formEyebrow').textContent='YOUR PLACE';$('formTitle').innerHTML='今日、<br><span class="form-title-nowrap">あなたに重なる場所</span>';$('formLead').textContent='選んだ景色から見つけた場所を、気になるテーマから読み解きます。';$('desktopReadLabel').textContent='このまま手紙を受け取る';$('mobileReadLabel').textContent='手紙を受け取る';formStage='theme';$('formSection').scrollIntoView({behavior:'smooth'});return}pendingProfile.theme=document.querySelector('[name="theme"]:checked')?.value||'';profile=pendingProfile;pendingProfile=null;localSet(storeKey,profile);$('begin').textContent='今の自分に重なる場所を見る →';$('begin').onclick=()=>openForToday();formStage='input';showReading()}
+}const stars=returning?profile.stars:birthStars(y,m,d);if(stars.boundary){err.textContent='この生年月日は節入りに近く、出生時刻を使わない計算では星を確定できません。現在の版では鑑定を保留します。';return}const birth=`${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;pendingProfile={birth,scene,theme:'',stars,birthPlace,currentPlace:profile?.currentPlace||null,entryStory:entryStory||null,readingId:`${dateKey()}-${Date.now()}`,firstSeen:profile?.birth===birth?profile.firstSeen:undefined,lastChoiceDate:dateKey()};current=makeReading(pendingProfile);$('placePreviewTitle').textContent=current.place.name;$('placePreviewRegion').textContent=regionWithFlag(current.place.country||current.place.region||'');const journeyPhoto=PO_PLACE_PHOTOS[current.place.name]||PO_PLACE_PHOTOS[current.place.id];setFormJourney('YOUR PLACE',current.place.name,'選んだ景色の先に、この場所が現れました。テーマは手紙を読む角度だけ。選ばなくても進めます。',usablePlacePhoto(journeyPhoto)?journeyPhoto.remote:null);$('birthBlock').hidden=true;document.querySelectorAll('.location-block').forEach(x=>x.hidden=true);$('sceneBlock').hidden=true;$('changeBirth').hidden=true;$('quietNote').hidden=true;$('placePreview').hidden=false;$('themeBlock').hidden=false;$('formEyebrow').textContent='YOUR PLACE';$('formTitle').innerHTML='今日、<br><span class="form-title-nowrap">あなたに重なる場所</span>';$('formLead').textContent='選んだ景色から見つけた場所を、気になるテーマから読み解きます。';$('desktopReadLabel').textContent='このまま手紙を受け取る';$('mobileReadLabel').textContent='手紙を受け取る';formStage='theme';$('formSection').scrollIntoView({behavior:'smooth'});return}pendingProfile.theme=document.querySelector('[name="theme"]:checked')?.value||'';profile=pendingProfile;localSet(storeKey,profile);$('begin').textContent='今の自分に重なる場所を見る →';$('begin').onclick=()=>openForToday();showReading()}
 const MY_MAP_COORDS={geiranger:[62.116667,6.95],laurisilva:[32.766667,-17],yakushima:[30.315,130.508611],jungfrau:[46.5,8.033333],tewahipounamu:[-45.036028,167.319611],plitvice:[44.87778,15.61444],rockies:[51.424722,-116.479722],tasmania:[-43.118472,146.230556],thingvellir:[64.253806,-21.03725]};
 let myMapLeaflet=null,myMapLayer=null;
 function mapCoordForRow(row){const id=(row.placeId||'').replace(/^daily-/,'');return MY_MAP_COORDS[id]||MY_MAP_COORDS[(ORACLE_DATA.places.find(p=>p.name===row.place)||{}).id]||null}
@@ -2418,7 +2431,7 @@ function save(){
   const signature=readingSignature(profile,current);
   const already=existing.some(x=>x.signature===signature);
   const freeSaved=existing.filter(x=>!x.legacy).length>=1;
-  if(membershipGateEnabled()&&!already&&freeSaved&&!isMember()){openMembership();return}
+
   const rows=existing.filter(x=>x.signature!==signature);
   const now=new Date();
   const time=new Intl.DateTimeFormat('ja-JP',{timeZone:'Asia/Tokyo',hour:'2-digit',minute:'2-digit',hour12:false}).format(now);
@@ -2426,7 +2439,7 @@ function save(){
   const ok=localSet(mapKey,rows.slice(-120));if(ok)trackPO?.('po_map_save',{place:current.place.name});
   $('save').textContent=ok?'今日のしるしを私の地図に残しました ✓':'保存できませんでした';
   updateMap();
-  if(ok&&membershipGateEnabled()&&!isMember()&&rows.filter(x=>!x.legacy).length===1)setTimeout(openMembership,650);
+
 }
 function init(){
   // 「はじまりの景色」は、明るさ・静けさ・切なさの振れ幅を持たせて訪問ごとに組み替えます。
@@ -2517,10 +2530,11 @@ function init(){
   const openSceneForm=()=>{return hasCompleteDiagnosisProfile()?openForToday(true):showForm('first',true)};
   $('storyNextCta').onclick=openSceneForm;
   initLocationSelectors();const year=new Date().getFullYear();for(let y=year;y>=1900;y--)$('birthYear').add(new Option(y+'年',y));for(let m=1;m<=12;m++)$('birthMonth').add(new Option(m+'月',m));$('birthYear').addEventListener('change',buildDays);$('birthMonth').addEventListener('change',buildDays);migratePreviousMap();profile=normalizeStoredProfile(localGet(storeKey,null));if(profile)localSet(storeKey,profile);
+  window.addEventListener('placeoracle:resume-letter',()=>{if(hasCompleteDiagnosisProfile()&&profile.scene)showReading();else showForm();});
   window.addEventListener('placeoracle:auth',e=>updateMemberState(e.detail||{}));$('storyNextCta').textContent=hasCompleteDiagnosisProfile()?'今日の景色を選ぶ →':'生年月日を入力して、自分の景色を選ぶ →';restoreLocationSelectors();if(profile?.entryStory)entryStory=profile.entryStory;const openFromHero=()=>hasCompleteDiagnosisProfile()?openForToday():showForm('first');
   $('heroStart').onclick=requestedStory?openSceneForm:openFromHero;
   if(requestedStory){renderStory(0);$('heroStart').textContent='この景色から、自分の場所を探す';}
-  if(hasCompleteDiagnosisProfile()&&profile?.scene){$('begin').textContent='今の自分に重なる場所を見る →';$('begin').onclick=()=>openForToday()}else $('begin').onclick=()=>showForm();$('changeBirth').onclick=()=>{useStoredProfile=false;$('birthBlock').hidden=false;$('changeBirth').hidden=true;updateFormReadiness()};$('back').onclick=()=>{ $('formSection').hidden=true;$('someone').scrollIntoView({behavior:'smooth'})};$('readBack').onclick=()=>{$('reading').hidden=true;$('membership').hidden=true;$('someone').scrollIntoView({behavior:'smooth'})};$('save').onclick=save;$('mapOpen').onclick=$('openMapFromReading').onclick=()=>{$('mapDialog').showModal();updateMap();setMyMapView('map')};$('mapViewMap').onclick=()=>setMyMapView('map');$('mapViewCards').onclick=()=>setMyMapView('cards');$('mapClose').onclick=()=>$('mapDialog').close();$('mapFindToday').onclick=()=>{$('mapDialog').close();openForToday()};$('mapFindNew').onclick=findNewPlace;$('mapClear').onclick=()=>{if(confirm('生年月日・選択した内容・地図・利用記録をこの端末からすべて消します。元に戻せません。よろしいですか？')){try{[storeKey,mapKey,exposureKey,'place_oracle_my_map','po_map','po_funnel_events_v1','place_oracle_membership_v1'].forEach(key=>localStorage.removeItem(key));location.reload()}catch{alert('この端末の記録を削除できませんでした。ブラウザのサイトデータ設定をご確認ください。')}}};
+  if(hasCompleteDiagnosisProfile()&&profile?.scene){$('begin').textContent='今の自分に重なる場所を見る →';$('begin').onclick=()=>openForToday()}else $('begin').onclick=()=>showForm();$('changeBirth').onclick=()=>{useStoredProfile=false;$('birthBlock').hidden=false;$('changeBirth').hidden=true;updateFormReadiness()};$('back').onclick=()=>{ $('formSection').hidden=true;$('someone').scrollIntoView({behavior:'smooth'})};$('readBack').onclick=()=>{$('reading').hidden=true;$('membership').hidden=true;$('someone').scrollIntoView({behavior:'smooth'})};$('save').onclick=save;$('mapOpen').onclick=$('openMapFromReading').onclick=()=>{$('mapDialog').showModal();updateMap();setMyMapView('map')};$('mapViewMap').onclick=()=>setMyMapView('map');$('mapViewCards').onclick=()=>setMyMapView('cards');$('mapClose').onclick=()=>$('mapDialog').close();$('mapFindToday').onclick=()=>{$('mapDialog').close();openForToday()};$('mapFindNew').onclick=findNewPlace;$('mapClear').onclick=()=>{if(confirm('生年月日・選択した内容・地図・利用記録をこの端末からすべて消します。元に戻せません。よろしいですか？')){try{[storeKey,mapKey,exposureKey,'po_trial_readings_v1','po_pending_letter_v1','place_oracle_my_map','po_map','po_funnel_events_v1','place_oracle_membership_v1'].forEach(key=>localStorage.removeItem(key));location.reload()}catch{alert('この端末の記録を削除できませんでした。ブラウザのサイトデータ設定をご確認ください。')}}};
 
   const storyRail=document.querySelector('.story-rail'),storyHint=$('storyHint');
   const updateStoryHint=()=>{
@@ -2575,7 +2589,7 @@ if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded'
     <button class="dialog-close" id="membershipClose" type="button" aria-label="閉じる">×</button>
     <span class="eyebrow">PLACE ORACLE MAP</span>
     <h2>次の景色から、<br>あなたの地図が続きます。</h2>
-    <p class="membership-lead">最初のPLACEは無料で残せました。<br>ここから先は、出会った場所と言葉をMY MAPに積み重ねていけます。</p>
+    <p class="membership-lead">はじめの2通をお届けしました。<br>ここから先は、出会った場所と言葉をMY MAPに積み重ねていけます。</p>
     <div class="plan-grid">
       <button class="plan-card plan-main" id="buyMonthly" type="button">
         <small>月ごとに続ける</small><strong>500円<em>/月</em></strong>
@@ -2598,5 +2612,7 @@ if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded'
 </dialog>
 <script src="./sky-chart-data.js"></script>
 <script src="./sky-chart.js"></script>
+<script src="./google-auth-client.js"></script>
+<script src="./reading-access.js"></script>
 <script src="./membership-widget.js"></script>
 </body></html>

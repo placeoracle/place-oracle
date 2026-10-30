@@ -8,6 +8,9 @@ on:
       - 'index.html'
       - 'PHOTO_QA.html'
       - 'membership-widget.js'
+      - 'reading-access.js'
+      - 'google-auth-client.js'
+      - 'world-theme.css'
       - 'auth-test.html'
       - 'home-preview.html'
       - 'billing-worker/**'
@@ -24,6 +27,9 @@ on:
       - 'index.html'
       - 'PHOTO_QA.html'
       - 'membership-widget.js'
+      - 'reading-access.js'
+      - 'google-auth-client.js'
+      - 'world-theme.css'
       - 'auth-test.html'
       - 'home-preview.html'
       - 'sky-chart.js'
@@ -52,6 +58,8 @@ jobs:
         run: node .github/scripts/check-billing-worker.mjs
       - name: Check signed webhook lifecycle with isolated SQLite
         run: node .github/scripts/check-billing-lifecycle.mjs
+      - name: Check paid readings and daily quota in isolated SQLite
+        run: node .github/scripts/check-reading-access.mjs
       - name: Install browser test dependency
         run: |
           npm install --no-save playwright@1.52.0
