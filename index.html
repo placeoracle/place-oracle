@@ -517,7 +517,7 @@ footer small{color:#cfb9c5}
   </div>
 </div>
 <div class="form-work"><button class="back" id="back" type="button">← 景色に戻る</button><span class="eyebrow" id="formEyebrow">ONE MOMENT</span><h2 id="formTitle">生年月日と、<br>いまの景色から。</h2><div class="form-progress" id="formProgress" aria-label="場所を見つける流れ"><span id="progressProfile">ORIGIN · 起点</span><span id="progressScene">VIEW · 景色</span><span id="progressTheme">LETTER · 手紙</span></div><p class="form-lead" id="formLead">生まれた日と、今この瞬間に惹かれる景色から、<br>あなたに重なるひとつの場所を見つけます。</p><button class="text-button" id="changeBirth" type="button" hidden>生年月日を変更する</button><div class="form-block" id="birthBlock"><label for="birthYear">生年月日 <span class="req">必須</span> <small>占いの土台として使います</small></label><div class="birth-row"><select id="birthYear" aria-label="生まれた年"><option value="">年</option></select><select id="birthMonth" aria-label="生まれた月"><option value="">月</option></select><select id="birthDay" aria-label="生まれた日"><option value="">日</option></select></div></div><fieldset class="form-block location-block" id="birthLocationBlock"><legend>生まれた市町村 <span class="req">必須</span> <small>あなたの地図の起点</small></legend><div class="location-selects"><select id="birthPrefecture" aria-label="生まれた場所の都道府県"><option value="">都道府県を選択</option></select><select id="birthMunicipality" aria-label="生まれた場所の市区町村" disabled><option value="">先に都道府県を選択</option></select></div></fieldset><fieldset class="form-block" id="sceneBlock"><legend>いま、いちばん惹かれる景色は？ <span class="req">必須</span></legend><div class="scene-options"><label><input type="radio" name="scene" value="alley"><img src="https://images.pexels.com/photos/5746248/pexels-photo-5746248.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="日差しの路地にあるカフェ"><span>光の路地</span></label><label><input type="radio" name="scene" value="sea"><img src="https://images.pexels.com/photos/34329890/pexels-photo-34329890.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="青い海と水平線"><span>海と水平線</span></label><label><input type="radio" name="scene" value="light"><img src="https://images.pexels.com/photos/12467878/pexels-photo-12467878.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="カフェの窓と入口"><span>灯りのある店</span></label><label><input type="radio" name="scene" value="green"><img src="https://images.pexels.com/photos/19682206/pexels-photo-19682206.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="緑に囲まれたカフェの入口"><span>窓辺の緑</span></label><label><input type="radio" name="scene" value="distance"><img src="https://images.pexels.com/photos/28831129/pexels-photo-28831129.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="夕暮れの湖と山の景色"><span>夕暮れの遠景</span></label></div></fieldset><div class="place-preview" id="placePreview" hidden><span class="eyebrow">YOUR PLACE</span><h3 id="placePreviewTitle"></h3><p id="placePreviewRegion"></p><p>この場所を、どのテーマから読み解きますか？</p></div><fieldset class="form-block theme-block" id="themeBlock" hidden><legend>いま気になることは？ <small>選ばない場合は、まだ名前のない気持ちとして読みます</small></legend><div class="theme-options"><label><input type="radio" name="theme" value="work"><span>仕事</span></label><label><input type="radio" name="theme" value="love"><span>恋愛</span></label><label><input type="radio" name="theme" value="people"><span>人とのこと</span></label><label><input type="radio" name="theme" value="life"><span>暮らし</span></label><label><input type="radio" name="theme" value="self"><span>自分自身</span></label><label><input type="radio" name="theme" value="future"><span>これから</span></label></div></fieldset><p class="form-error" id="formError" role="alert"></p><button class="primary" id="read" type="button" disabled><span class="desktop-read-label" id="desktopReadLabel">景色から場所を探す</span><span class="mobile-read-label" id="mobileReadLabel">場所を探す</span> <span aria-hidden="true">→</span></button><p class="read-status" id="readStatus" aria-live="polite"></p><p class="quiet-note" id="quietNote">生年月日と生まれた市町村は診断プロフィールとして、この端末内に保存します。住所やGPS位置情報は取得・送信しません。<br>暦の切り替わりに近い日は、正確さを優先して結果を保留する場合があります。</p></div></div></section>
-<section class="invitation" id="start" hidden><span class="eyebrow">YOUR FIRST PAGE</span><h2>ここから、あなたの<br>最初の1ページへ。</h2><p>生まれた日と、いま惹かれる景色から、<br>今の自分に重なるひとつの場所を見つけます。</p><button class="primary" id="begin" type="button">今の自分に重なる場所を見る <span>→</span></button><p class="invitation-postcard">最初のPLACEは最後まで無料です。気になった場所は、あなたの地図に残せます。</p></section>
+<section class="invitation" id="start" hidden><span class="eyebrow">YOUR FIRST PAGE</span><h2>ここから、あなたの<br>最初の1ページへ。</h2><p>生まれた日と、いま惹かれる景色から、<br>今の自分に重なるひとつの場所を見つけます。</p><button class="primary" id="begin" type="button">今の自分に重なる場所を見る <span>→</span></button><p class="invitation-postcard">はじめの2通は、登録なしで最後まで無料です。気になった場所は、あなたの地図に残せます。</p></section>
 
 
 
@@ -597,12 +597,13 @@ footer small{color:#cfb9c5}
 </section><section class="membership-intro" id="membership" hidden>
   <span class="eyebrow">PLACE ORACLE MAP</span>
   <h2>あなたの地図は、<br>ここから続いていく。</h2>
-  <p>はじめの2通は、登録なしで最後まで読めます。<br>その先は、景色と言葉を少しずつ自分の地図に残していけます。</p>
+  <p>はじめの2通は、登録なしで最後まで読めます。<br>その先は1通100円、または月額・年額会員で、新しい景色を選べます。</p>
   <div class="membership-mini">
     <span>はじめの2通 <strong>無料</strong></span>
-    <span>MAP会員 <strong>月500円</strong></span>
+    <span>一通ずつ <strong>100円</strong></span>
+    <span>会員 <strong>月500円・年5,000円</strong></span>
   </div>
-  <p class="membership-note">新しいPLACEとの出会い・MY MAP・過去の景色・感情メモ・振り返り。</p>
+  <p class="membership-note">月額・年額会員は新しい手紙を1日5通まで（日本時間午前0時更新）。読み返しは追加料金・回数消費なし。地図とメモはこのブラウザーに保存します。</p>
 </section>
 </main><footer><div>PLACE ORACLE</div><p>遠い景色から、まだ知らない自分へ。</p><small>生年月日・選択内容・メモ・地図と無料体験の手紙はこのブラウザーに保存します。有料の手紙と利用回数はログインしたアカウントに保存します。ブラウザー内の入力・地図・無料体験の手紙は「私の地図」から削除できます。アカウントに保存した手紙の削除はお問い合わせください。STORY写真はPexels Licenseの写真を使用し、出典を記録しています。読み込み失敗時のみPLACE ORACLEのオリジナル代替画像を表示します。</small><p class="footer-links"><a href="privacy.html">プライバシーポリシー</a><a href="terms.html">利用規約</a><a href="tokusho.html">特定商取引法に基づく表記</a><a href="support.html">お問い合わせ</a></p></footer>
 
@@ -2589,11 +2590,11 @@ if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded'
     <button class="dialog-close" id="membershipClose" type="button" aria-label="閉じる">×</button>
     <span class="eyebrow">PLACE ORACLE MAP</span>
     <h2>次の景色から、<br>あなたの地図が続きます。</h2>
-    <p class="membership-lead">はじめの2通をお届けしました。<br>ここから先は、出会った場所と言葉をMY MAPに積み重ねていけます。</p>
+    <p class="membership-lead">はじめの2通をお届けしました。<br>ここから先は1通100円、または月額・年額会員を選べます。会員は新しい手紙を1日5通まで（日本時間午前0時更新）。</p>
     <div class="plan-grid">
       <button class="plan-card plan-main" id="buyMonthly" type="button">
         <small>月ごとに続ける</small><strong>500円<em>/月</em></strong>
-        <span>いつでも終了できます</span>
+        <span>次回更新をいつでも停止・支払済み期間末まで利用可</span>
       </button>
       <button class="plan-card" id="buyYearly" type="button">
         <small>一年の地図を残す</small><strong>5,000円<em>/年</em></strong>
@@ -2601,10 +2602,10 @@ if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded'
       </button>
     </div>
     <div class="member-benefits">
-      <p>新しいPLACEとの出会い</p>
-      <p>MY MAPへの保存と振り返り</p>
-      <p>過去のPLACE・残した言葉</p>
-      <p>月ごとの「残った景色」</p>
+      <p>新しい手紙を1日5通まで</p>
+      <p>受け取った手紙の読み返しは追加料金なし</p>
+      <p>地図とメモはこのブラウザーに保存</p>
+      <p>有料の手紙はログインしたアカウントに保存</p>
     </div>
     <p class="billing-message" id="billingMessage"></p>
     <button class="text-button" id="membershipLater" type="button">今は最初の景色を見返す</button>
@@ -2614,5 +2615,5 @@ if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded'
 <script src="./sky-chart.js"></script>
 <script src="./google-auth-client.js?v=20261031-paid1"></script>
 <script src="./reading-access.js?v=20261031-paid1"></script>
-<script src="./membership-widget.js?v=20261031-paid1"></script>
+<script src="./membership-widget.js?v=20261031-copy1"></script>
 </body></html>

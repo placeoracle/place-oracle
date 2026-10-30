@@ -81,8 +81,8 @@
         <div id="poGoogleBtn"></div>
         <div id="poPurchase" class="po-actions" hidden>
           <button class="po-secondary" data-po-plan="single">手紙を一通受け取る — 100円</button>
-          <button class="po-secondary" data-po-plan="monthly">日々の景色を楽しむ — 月額500円</button>
-          <details><summary>年払いについて</summary><p>年額5,000円・1日5通まで</p><button class="po-secondary" data-po-plan="yearly">年払いを選ぶ</button></details>
+          <button class="po-secondary" data-po-plan="monthly">日々の景色を楽しむ — 月額500円・1日5通まで</button>
+          <details><summary>年払いについて</summary><p>年額5,000円・1日5通まで。1年ごとに自動更新されます。</p><button class="po-secondary" data-po-plan="yearly">年払いを選ぶ</button></details>
         </div>
         <div id="poPreparing" hidden>メンバーシップは現在準備中です。</div>
         <div id="poConfirm" hidden aria-live="polite">
@@ -91,7 +91,9 @@
             <dt>プラン</dt><dd id="poConfirmPlan"></dd>
             <dt>料金</dt><dd id="poConfirmPrice"></dd>
             <dt>自動更新</dt><dd id="poConfirmCycle"></dd>
-            <dt>提供開始</dt><dd>決済完了後</dd>
+            <dt>提供開始</dt><dd>お支払いの成功が確認され、利用権が反映された後</dd>
+            <dt>利用回数</dt><dd id="poConfirmLimit"></dd>
+            <dt>読み返し</dt><dd>受け取った手紙は追加料金・回数消費なし</dd>
             <dt data-recurring>解約</dt><dd data-recurring>次回更新日前までに契約管理画面から次回更新を停止</dd>
             <dt data-recurring>解約後</dt><dd data-recurring>支払済み期間の末日まで利用可能</dd>
             <dt data-recurring>途中解約の返金</dt><dd data-recurring>なし（法令上必要な場合を除く）</dd>
@@ -120,6 +122,7 @@
     const confirmPlan = shade.querySelector('#poConfirmPlan');
     const confirmPrice = shade.querySelector('#poConfirmPrice');
     const confirmCycle = shade.querySelector('#poConfirmCycle');
+    const confirmLimit = shade.querySelector('#poConfirmLimit');
     const confirmCheckout = shade.querySelector('#poConfirmCheckout');
     const confirmBack = shade.querySelector('#poConfirmBack');
     const portalBtn = shade.querySelector('#poPortalBtn');
@@ -221,6 +224,7 @@
         confirmPlan.textContent = single?'手紙を一通':yearly ? '年額プラン' : '月額プラン';
         confirmPrice.textContent = single?'100円（税込）・1回払い':yearly ? '5,000円（税込）／年' : '500円（税込）／月';
         confirmCycle.textContent = single?'なし':yearly ? '1年ごと' : '1か月ごと';
+        confirmLimit.textContent = single?'新しい手紙1通分':'新しい手紙を1日5通まで（日本時間午前0時更新）';
         purchase.hidden = true;
         confirmBox.hidden = false;
         confirmCheckout.focus();
