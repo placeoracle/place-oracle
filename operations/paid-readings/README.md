@@ -11,19 +11,24 @@ on the final confirmation. Existing memberships and their portal remain supporte
 
 ## Before activating production
 
-1. Verify the existing Stripe account owns prices `price_1ULUUQ3q8aqnNorIEdJKHKR4`
-   (monthly) and `price_1UMRXv3q8aqnNorImsVM3Wam` (yearly). Do not operate on an
-   account just because its display name looks plausible. No new paid services.
-2. Verify the existing endpoint at
-   `https://place-oracle-billing.place-oracle-info.workers.dev/stripe/webhook`
-   includes these events, preserving its ID, URL, signing secret, and existing events:
-   - checkout.session.completed
-   - checkout.session.async_payment_succeeded / async_payment_failed / expired
-   - customer.subscription.created / updated / deleted
-   - invoice.paid / invoice.payment_failed
-   - charge.refunded / charge.dispute.created / radar.early_fraud_warning.created
-   Checkout redirects alone never grant a credit. A paid one-time session is matched
-   to the server's checkout order and verified as JPY 100 before issuing one credit.
+1. The user explicitly selected production account `acct_1UKl62JXOmhsHzI4` (ゆめごこち).
+   New prices are recorded in `stripe-target-20261030.json`: single ¥100, monthly
+   ¥500, yearly ¥5,000. Preserve existing ¥480/¥4,800 catalog entries. Do not
+   reuse the previous account's prices, signing secret or portal configuration.
+   Set `STRIPE_PRICE_SINGLE`, `STRIPE_PRICE_MONTHLY`, `STRIPE_PRICE_YEARLY` and
+   `STRIPE_PORTAL_CONFIGURATION` together with the account cutover.
+2. New endpoint `we_1UWFnXJXOmhsHzI4CMUEAvks` is disabled until cutover.
+   `STRIPE_SECRET_KEY_NEXT` was saved by the owner, and the new signing secret
+   was stored as `STRIPE_WEBHOOK_SECRET_NEXT` without displaying its value.
+   The Worker still uses the old active bindings. Activate the new account only
+   after validation and switch the complete set atomically. Preserve old values
+   for rollback. Enable the new endpoint after the receiver is ready.
+   Required events: checkout.session.completed, checkout.session.async_payment_succeeded,
+   checkout.session.async_payment_failed, checkout.session.expired,
+   customer.subscription.created/updated/deleted, invoice.paid/payment_failed,
+   charge.refunded, charge.dispute.created, radar.early_fraud_warning.created.
+   Checkout redirects alone never grant a credit. Paid single sessions must match
+   their server order and JPY 100 amount before granting one credit.
 3. Validate the real integration in an isolated Stripe sandbox, including delivered
    webhook signatures, async success and duplicate/retried events. Local SQL and
    mocked Checkout tests are not a live payment E2E test.

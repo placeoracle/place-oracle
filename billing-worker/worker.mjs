@@ -231,8 +231,8 @@ async function saveCheckoutSession(env, session) {
 }
 
 async function createCheckoutSession(env, user, plan, orderId) {
-  const priceId = plan === 'monthly' ? env.STRIPE_PRICE_MONTHLY : plan==='yearly'?env.STRIPE_PRICE_YEARLY:null;
-  if (!['single','monthly','yearly'].includes(plan) || (plan!=='single'&&!priceId)) throw new Error('Invalid plan');
+  const priceId = plan === 'monthly' ? env.STRIPE_PRICE_MONTHLY : plan==='yearly'?env.STRIPE_PRICE_YEARLY:env.STRIPE_PRICE_SINGLE;
+  if (!['single','monthly','yearly'].includes(plan) || !priceId) throw new Error('Invalid plan');
   if (!env.STRIPE_SECRET_KEY) {
     throw new Error('STRIPE_SECRET_KEY missing');
   }
@@ -243,11 +243,9 @@ async function createCheckoutSession(env, user, plan, orderId) {
   params.set('managed_payments[enabled]', 'false');
   params.set('integration_identifier','place_oracle_'+Array.from((orderId||'abcdefgh').slice(0,8),c=>String.fromCharCode(97+c.charCodeAt(0)%26)).join(''));
   if(plan==='single') {
-    params.set('line_items[0][price_data][currency]','jpy');
-    params.set('line_items[0][price_data][unit_amount]','100');
-    params.set('line_items[0][price_data][product_data][name]','PLACE ORACLE — 手紙を一通');
     params.set('payment_intent_data[metadata][po_order]',orderId||'');
-  } else params.set('line_items[0][price]',priceId);
+  }
+  params.set('line_items[0][price]',priceId);
   params.set('line_items[0][quantity]', '1');
 
   params.set('customer_email', user.email);
@@ -296,7 +294,8 @@ async function createPortalSession(env, customerId) {
   if (!env.STRIPE_SECRET_KEY) throw new Error('STRIPE_SECRET_KEY missing');
   const params = new URLSearchParams();
   params.set('customer', customerId);
-  params.set('configuration', 'bpc_1UMS6S3q8aqnNorIJnqFvsf3');
+  if (!env.STRIPE_PORTAL_CONFIGURATION) throw new Error('STRIPE_PORTAL_CONFIGURATION missing');
+  params.set('configuration', env.STRIPE_PORTAL_CONFIGURATION);
   params.set('return_url', 'https://placeoracle.github.io/place-oracle/');
   const response = await fetch('https://api.stripe.com/v1/billing_portal/sessions', {
     method: 'POST',

@@ -28,7 +28,7 @@ const token = 'a'.repeat(43);
 const hash = Buffer.from(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(token))).toString('base64url');
 db.prepare('INSERT INTO po_users VALUES (?,?,?)').run('fixture_subject','qa@example.invalid',Date.now());
 db.prepare('INSERT INTO po_sessions VALUES (?,?,?)').run(hash,'fixture_subject',Date.now()+60000);
-const env = { DB, STRIPE_PRICE_MONTHLY:'price_month', STRIPE_PRICE_YEARLY:'price_year',
+const env = { DB, STRIPE_PORTAL_CONFIGURATION:'bpc_fixture', STRIPE_PRICE_SINGLE:'price_single', STRIPE_PRICE_MONTHLY:'price_month', STRIPE_PRICE_YEARLY:'price_year',
   STRIPE_SECRET_KEY:'fixture_key', STRIPE_WEBHOOK_SECRET:'fixture_webhook' };
 const calls = [];
 const source = await readFile('billing-worker/worker.mjs','utf8');
