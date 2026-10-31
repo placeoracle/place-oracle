@@ -123,3 +123,45 @@ footer{background:#352638;color:#fff8ee}footer small{color:#d7c1cb}
 .reading .resonance .place-heart .answer-line{font-size:16px;font-weight:400;line-height:2.05}
 
 @media(max-width:650px){.reading>.resonance,.reading>.sky-section,.reading>.reading-afterword{width:calc(100% - 40px);margin-left:auto;margin-right:auto}.reading .resonance{padding:28px 20px}}
+
+/* Reading scale: two everyday sizes; small print is reserved for sources and notices. */
+:root{--type-body:16px;--type-heading:24px;--type-note:14px;--text-main:#3d3039;--text-secondary:#57434f;--text-on-night:#fff8f0}
+body{font-size:var(--type-body);line-height:1.9}
+.section-heading h2,.invitation h2,.form-inner h2,.story-inline h3,.reading-head h2,.map-dialog h2,
+.reading .resonance h3,.reading .reading-chapter-head h3,.reading #skyTitleText,.reading .lore-block h4,
+.reading .sky-story h4,.reading .discovery h3,.po-letter-access h2,
+.map-result-card h4,.map-story-card h4,.map-sky-card h4{font-size:var(--type-heading);line-height:1.65;font-weight:600}
+.hero p,.hero .hero-scroll,.story-inline-start,.primary,#read,.section-heading p,.invitation p,
+.story-inline p,.form-lead,.form-block>label,.form-block legend,.theme-options span,.scene-options span,
+.birth-row select,.location-block select,.back,.text-button,
+.reading .resonance .place-heart,.reading .resonance .place-heart strong,.reading .resonance .place-heart .answer-line,
+.reading .letter-body .letter-paragraph,.reading .reading-chapter-intro,.reading #skyFactText,
+.reading .lore-block p,.reading .sky-story p:not(.reading-section-label),.reading .discovery p,.reading #skyDiscovery,
+.reading .discovery .reflection-question,.reading #placeThreadText,.reading .map-note-field label,
+.reading .map-note-field textarea,.reading .reading-actions button,.po-letter-access,.po-letter-choices button,
+.po-profile-summary dt,.po-profile-summary dd,.map-card-poem,.map-story-card p,.map-card-details p{font-size:var(--type-body);line-height:1.95}
+.section-heading p,.story-inline p,.form-lead,.quiet-note,.basis,.location-help,.location-block small,
+.form-block legend small,.reading .reading-chapter-intro,.reading .lore-block p,
+.reading .sky-story p:not(.reading-section-label),.reading .discovery .reflection-question,.reading #placeThreadText,
+.reading .map-note-field label,.po-profile-summary dt,.po-letter-choices small,.po-letter-access .po-letter-note,
+.swipe-note,.map-card-poem,.map-story-card p,.map-card-details p{color:var(--text-secondary)}
+.reading .reading-section-label,.reading .lore-block>.eyebrow,.eyebrow{font-size:var(--type-body);font-weight:500;color:var(--text-secondary);letter-spacing:.04em;text-transform:none}
+.reading .resonance .place-heart strong{font-weight:600}
+.reading .sky-fact-block,.reading #skyFactText,.reading .sky-fact-block>.reading-section-label,
+.reading .observed-sky-heading,.reading .observed-sky-heading strong,.reading .sky-time-control label,
+.reading .sky-time-control output,.reading .sky-signs-label,.reading .sky-signs-note,
+.reading .sky-chart-meta,.reading .sky-chart-caveat{color:var(--text-on-night)}
+.reading .observed-sky-heading,.reading .observed-sky-heading strong,.reading .sky-time-control,
+.reading .sky-time-control label,.reading .sky-time-control output,.reading .sky-enlarge,
+.reading .sky-signs-label,.reading .sky-sign{font-size:var(--type-body)}
+.reading .answer-basis,.reading .sky-chart-meta,.reading .sky-chart-caveat,.reading .sky-signs-note,
+.quiet-note,.basis,.location-help,.location-block small,.form-block legend small,.po-letter-choices small,
+.po-letter-access .po-letter-note,footer small,.map-entry-visual figcaption{font-size:var(--type-note);line-height:1.85}
+.hero .eyebrow{color:#fff1d9}.form-journey .eyebrow{color:#fff8ee}
+.reading .reading-chapter-head h3,.reading .resonance h3,.reading .lore-block h4,.reading .sky-story h4,.reading .discovery h3{color:var(--text-main)}
+.reading .sky-fact-block #skyTitleText{color:var(--text-on-night)}
+.reading .reading-actions button,.primary,#read,.story-inline-start{min-height:48px}
+.theme-options span{padding:10px 16px}.scene-options span{padding:10px 3px;line-height:1.5}
+.reading .sky-signs,.reading .sky-time-control{flex-wrap:wrap}
+footer small{color:#f2e6ec}
+@media(max-width:650px){.scene-options{grid-template-columns:repeat(3,minmax(0,1fr))}.hero p{font-size:16px}.hero .hero-scroll{font-size:16px}.reading .sky-story h4,.reading .discovery h3{font-size:24px}.reading #skyDiscovery{font-size:16px}}
