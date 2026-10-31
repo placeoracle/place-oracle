@@ -141,7 +141,7 @@
       googleBtn.style.display = authed ? 'none' : 'block';
       purchase.hidden = !SALES_ENABLED || !authed || active;
       preparing.hidden = SALES_ENABLED || !authed || active;
-      portalBtn.hidden = !authed || !(active || me.has_billing_account);
+      portalBtn.hidden = !authed || !(me.has_billing_account || (active && !test));
       logoutBtn.hidden = !authed;
 
       if (!authed) statusEl.textContent = '有料の手紙と会員情報は、Googleでログインして確認できます。';
