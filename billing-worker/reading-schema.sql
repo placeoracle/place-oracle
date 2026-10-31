@@ -23,3 +23,11 @@ CREATE TABLE IF NOT EXISTS po_revoked_payments (payment_intent TEXT PRIMARY KEY,
 CREATE TABLE IF NOT EXISTS po_billing_holds (stripe_customer_id TEXT PRIMARY KEY,reason TEXT NOT NULL,created_at INTEGER NOT NULL);
 
 CREATE INDEX IF NOT EXISTS po_readings_history ON po_reading_history(google_sub,created_at,request_id);
+
+-- Profile corrections are account-scoped; logout/browser clearing cannot reset them.
+CREATE TABLE IF NOT EXISTS po_diagnosis_profiles (
+ google_sub TEXT PRIMARY KEY REFERENCES po_users(google_sub),
+ birth TEXT NOT NULL, birth_place TEXT NOT NULL,
+ corrections_used INTEGER NOT NULL DEFAULT 0 CHECK(corrections_used IN (0,1)),
+ version INTEGER NOT NULL DEFAULT 1, updated_at INTEGER NOT NULL
+);

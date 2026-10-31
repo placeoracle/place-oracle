@@ -52,7 +52,9 @@ await assert.rejects(fulfillSingle(env,{...late,amount_total:99}));
 const token='reading_fixture_'.padEnd(43,'a');
 const hashed=Buffer.from(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(token))).toString('base64url');
 db.prepare('INSERT INTO po_sessions VALUES (?,?,?)').run(hashed,user.google_sub,Date.now()+60000);
+db.prepare('INSERT INTO po_diagnosis_profiles VALUES (?,?,?,0,1,?)').run(user.google_sub,'1990-01-01',JSON.stringify({prefecture:'東京都',municipality:'新宿区',code:'131041'}),Date.now());
 async function route(url,method='GET',body,auth=true) {
+ if(url==='/readings'&&method==='POST'&&body)body={...body,profile_version:1};
  return worker.fetch(new Request('https://worker.invalid'+url,{method,headers:{Origin:'https://placeoracle.github.io','Content-Type':'application/json',...(auth?{Authorization:'Bearer '+token}:{})},...(body?{body:JSON.stringify(body)}:{})}),env);
 }
 assert.equal((await route('/readings','GET',null,false)).status,401);
@@ -91,5 +93,5 @@ assert.equal(checkout.status,409);assert.equal((await checkout.json()).code,'tes
 assert.equal((await grantReading(env,operator,'operator-after-revoke',snap)).reason,'payment_required','removing the server setting revokes new free use');
 assert.equal((await grantReading(env,operator,'operator-reading-0',snap)).ok,true,'revocation preserves previously delivered history');
 
-console.log(JSON.stringify({result:'reading-access-pass',checks:['one-time 100 JPY','paid webhook only','idempotent fulfillment','one credit one reading','account isolation','canonical replay','five parallel daily grants','midnight JST','cancellation keeps history','out-of-order refund','no raw profile storage','operator subject isolation','operator daily cap','operator checkout blocked','operator access revocation']}));
+console.log(JSON.stringify({result:'reading-access-pass',checks:['one-time 100 JPY','paid webhook only','idempotent fulfillment','one credit one reading','account isolation','canonical replay','five parallel daily grants','midnight JST','cancellation keeps history','out-of-order refund','no raw profile in reading snapshots','operator subject isolation','operator daily cap','operator checkout blocked','operator access revocation']}));
 db.close();

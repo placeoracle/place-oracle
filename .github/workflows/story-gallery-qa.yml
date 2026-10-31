@@ -9,6 +9,7 @@ on:
       - 'PHOTO_QA.html'
       - 'membership-widget.js'
       - 'reading-access.js'
+      - 'profile-access.js'
       - 'google-auth-client.js'
       - 'world-theme.css'
       - 'auth-test.html'
@@ -28,6 +29,7 @@ on:
       - 'PHOTO_QA.html'
       - 'membership-widget.js'
       - 'reading-access.js'
+      - 'profile-access.js'
       - 'google-auth-client.js'
       - 'world-theme.css'
       - 'auth-test.html'
@@ -58,6 +60,8 @@ jobs:
         run: node .github/scripts/check-billing-worker.mjs
       - name: Check signed webhook lifecycle with isolated SQLite
         run: node .github/scripts/check-billing-lifecycle.mjs
+      - name: Check diagnosis registration and one-time correction
+        run: node .github/scripts/check-diagnosis-profile.mjs
       - name: Check paid readings and daily quota in isolated SQLite
         run: node .github/scripts/check-reading-access.mjs
       - name: Install browser test dependency
@@ -99,8 +103,10 @@ jobs:
             await page.selectOption('#birthMunicipality',{label:'掛川市'});
             await page.check('input[name="scene"][value="sea"]');
             await page.click('#read');
+            if (await page.locator('#poProfileConfirmAccept').isVisible()) await page.click('#poProfileConfirmAccept');
             await page.locator('#themeBlock').waitFor({ state: 'visible', timeout: 10000 });
             await page.click('#read');
+            if (await page.locator('#poProfileConfirmAccept').isVisible()) await page.click('#poProfileConfirmAccept');
             await page.locator('#reading').waitFor({ state: 'visible', timeout: 10000 });
             const skyVisible = await page.locator('#visibleSkySection').isVisible();
             if (!skyVisible) throw new Error('Visible-sky section did not render in reading flow');
@@ -140,10 +146,12 @@ jobs:
             await page.locator('#formSection').waitFor({ state: 'visible', timeout: 10000 });
             await page.check('input[name="scene"][value="sea"]');
             await page.click('#read');
+            if (await page.locator('#poProfileConfirmAccept').isVisible()) await page.click('#poProfileConfirmAccept');
             await page.locator('#themeBlock').waitFor({ state: 'visible', timeout: 10000 });
             const errorText = (await page.locator('#formError').textContent() || '').trim();
             if (errorText) throw new Error('Stale browser data still causes form error: ' + errorText);
             await page.click('#read');
+            if (await page.locator('#poProfileConfirmAccept').isVisible()) await page.click('#poProfileConfirmAccept');
             await page.locator('#reading').waitFor({ state: 'visible', timeout: 10000 });
             if (errors.length) throw new Error('Page errors after stale-data recovery: ' + errors.join(' | '));
             await browser.close();
@@ -179,10 +187,12 @@ jobs:
             await page.locator('#formSection').waitFor({ state: 'visible', timeout: 10000 });
             await page.check('input[name="scene"][value="distance"]');
             await page.click('#read');
+            if (await page.locator('#poProfileConfirmAccept').isVisible()) await page.click('#poProfileConfirmAccept');
             await page.locator('#themeBlock').waitFor({ state: 'visible', timeout: 10000 });
             const firstError = (await page.locator('#formError').textContent() || '').trim();
             if (firstError) throw new Error('Returning user failed before reading: ' + firstError);
             await page.click('#read');
+            if (await page.locator('#poProfileConfirmAccept').isVisible()) await page.click('#poProfileConfirmAccept');
             await page.locator('#reading').waitFor({ state: 'visible', timeout: 10000 });
             const finalError = (await page.locator('#formError').textContent() || '').trim();
             if (finalError) throw new Error('Returning user failed to render reading: ' + finalError);
@@ -217,10 +227,12 @@ jobs:
             const journeyTitle = (await page.locator('#formJourneyTitle').textContent() || '').trim();
             if (journeyTitle !== '夕暮れの遠景') throw new Error('Scene choice did not update the journey panel: ' + journeyTitle);
             await page.click('#read');
+            if (await page.locator('#poProfileConfirmAccept').isVisible()) await page.click('#poProfileConfirmAccept');
             await page.locator('#themeBlock').waitFor({ state: 'visible', timeout: 10000 });
             const placeTitle = (await page.locator('#formJourneyTitle').textContent() || '').trim();
             if (!placeTitle || placeTitle === '夕暮れの遠景') throw new Error('Discovered PLACE did not replace the scene in the journey panel');
             await page.click('#read');
+            if (await page.locator('#poProfileConfirmAccept').isVisible()) await page.click('#poProfileConfirmAccept');
             await page.locator('#reading').waitFor({ state: 'visible', timeout: 10000 });
             const readingColumns = await page.locator('#reading').evaluate(el => getComputedStyle(el).gridTemplateColumns);
             if (!readingColumns || readingColumns.split(' ').length < 2) throw new Error('Desktop reading is not using the editorial two-column opening');
@@ -245,6 +257,7 @@ jobs:
             await page.selectOption('#birthMunicipality',{label:'掛川市'});
             await page.check('input[name="scene"][value="distance"]');
             await page.click('#read');
+            if (await page.locator('#poProfileConfirmAccept').isVisible()) await page.click('#poProfileConfirmAccept');
             await page.locator('#themeBlock').waitFor({ state: 'visible', timeout: 10000 });
             const title = page.locator('#formTitle');
             const html = await title.innerHTML();
@@ -325,8 +338,10 @@ jobs:
             await page.selectOption('#birthMunicipality',{label:'掛川市'});
             await page.check('input[name="scene"][value="sea"]');
             await page.click('#read');
+            if (await page.locator('#poProfileConfirmAccept').isVisible()) await page.click('#poProfileConfirmAccept');
             await page.locator('#themeBlock').waitFor({ state:'visible', timeout:10000 });
             await page.click('#read');
+            if (await page.locator('#poProfileConfirmAccept').isVisible()) await page.click('#poProfileConfirmAccept');
             await page.locator('#reading').waitFor({ state:'visible', timeout:10000 });
             await page.locator('#observedSky').waitFor({ state:'visible', timeout:10000 });
             const placeName=(await page.locator('#placeName').textContent()||'').trim();
@@ -392,8 +407,10 @@ jobs:
                 await page.selectOption('#birthMunicipality',{label:'掛川市'});
                 await page.check('input[name="scene"][value="sea"]');
                 await page.click('#read');
+            if (await page.locator('#poProfileConfirmAccept').isVisible()) await page.click('#poProfileConfirmAccept');
                 await page.locator('#themeBlock').waitFor({ state: 'visible', timeout: 10000 });
                 await page.click('#read');
+            if (await page.locator('#poProfileConfirmAccept').isVisible()) await page.click('#poProfileConfirmAccept');
                 await page.locator('#reading').waitFor({ state: 'visible', timeout: 10000 });
                 const skyTitle = (await page.locator('#skyTitleText').textContent() || '').trim();
                 const observedSkyVisible = await page.locator('#observedSky').isVisible();
@@ -464,6 +481,7 @@ jobs:
                 await page.locator('#formSection').waitFor({ state: 'visible', timeout: 10000 });
                 await page.check('input[name="scene"][value="sea"]');
                 await page.click('#read');
+            if (await page.locator('#poProfileConfirmAccept').isVisible()) await page.click('#poProfileConfirmAccept');
                 await page.locator('#themeBlock').waitFor({ state: 'visible', timeout: 10000 });
                 const formError = (await page.locator('#formError').textContent() || '').trim();
                 if (formError) throw new Error('Production stale-data recovery error: ' + formError);
@@ -521,16 +539,20 @@ jobs:
                 await page.locator('#formSection').waitFor({ state: 'visible', timeout: 10000 });
                 await page.check('input[name="scene"][value="distance"]');
                 await page.click('#read');
+            if (await page.locator('#poProfileConfirmAccept').isVisible()) await page.click('#poProfileConfirmAccept');
                 await page.locator('#themeBlock').waitFor({ state: 'visible', timeout: 10000 });
                 await page.click('#read');
+            if (await page.locator('#poProfileConfirmAccept').isVisible()) await page.click('#poProfileConfirmAccept');
                 await page.locator('#reading').waitFor({ state: 'visible', timeout: 10000 });
                 if (await page.locator('#poLetterAccess').isVisible()) throw new Error('Returning user lost the remaining free reading');
                 await page.click('#heroStart');
                 await page.locator('#formSection').waitFor({ state: 'visible', timeout: 10000 });
                 await page.locator('input[name="scene"]').first().check();
                 await page.click('#read');
+            if (await page.locator('#poProfileConfirmAccept').isVisible()) await page.click('#poProfileConfirmAccept');
                 await page.locator('#themeBlock').waitFor({ state: 'visible', timeout: 10000 });
                 await page.click('#read');
+            if (await page.locator('#poProfileConfirmAccept').isVisible()) await page.click('#poProfileConfirmAccept');
                 await page.locator('#poLetterAccess').waitFor({ state: 'visible', timeout: 10000 });
                 if (!await page.locator('[data-letter-plan="single"]').isVisible()) throw new Error('Third-reading purchase choice missing');
                 if (!await page.locator('#poLetterMessage').textContent().then(text => text.includes('2通'))) throw new Error('Trial completion message missing');
