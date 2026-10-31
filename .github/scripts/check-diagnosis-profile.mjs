@@ -19,6 +19,7 @@ const {worker,saveDiagnosisProfile,getDiagnosisProfile}=Function('fetch',source.
 const env={DB},user={google_sub:'profile_owner'},other={google_sub:'profile_other'};
 for(const u of [user,other])db.prepare('INSERT INTO po_users VALUES (?,?,?)').run(u.google_sub,u.google_sub+'@example.invalid',Date.now());
 const original={birth:'1990-01-01',birthPlace:{prefecture:'東京都',municipality:'新宿区',code:'131041'},confirmed:true,expected_version:0};
+assert.equal((await saveDiagnosisProfile(env,user,null)).status,400);
 assert.equal((await saveDiagnosisProfile(env,user,{...original,confirmed:false})).status,400);
 assert.equal((await saveDiagnosisProfile(env,user,{...original,birth:'1990-02-30'})).status,400);
 assert.equal((await saveDiagnosisProfile(env,user,{...original,birthPlace:{...original.birthPlace,prefecture:'静岡県'}})).status,400);

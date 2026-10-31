@@ -81,6 +81,7 @@ async function getDiagnosisProfile(env,user) {
   return diagnosisProfile(await env.DB.prepare('SELECT birth,birth_place,corrections_used,version FROM po_diagnosis_profiles WHERE google_sub=?').bind(user.google_sub).first());
 }
 function validDiagnosisInput(body) {
+  if(!body||typeof body!=='object'||Array.isArray(body))return null;
   const birth=body.birth, p=body.birthPlace;
   if(typeof birth!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(birth)||!p||typeof p!=='object')return null;
   const [y,m,d]=birth.split('-').map(Number), date=new Date(Date.UTC(y,m-1,d));
