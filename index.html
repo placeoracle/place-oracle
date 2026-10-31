@@ -2584,7 +2584,7 @@ readButton?.addEventListener('click',()=>{
 window.PlaceOracleProfileBridge={
  get:()=>profile,
  apply:p=>{profile={...profile,birth:p.birth,birthPlace:p.birthPlace,stars:birthStars(...p.birth.split('-').map(Number))};localSet(storeKey,profile);},
- edit:()=>{showForm('first');$('formLead').textContent='入力間違いの訂正用です。登録後の訂正は1回までです。出生地は現在地ではありません。';}
+ edit:(draft,first=false)=>{showForm('first');if(draft){const [y,m,d]=draft.birth.split('-');$('birthYear').value=y;$('birthMonth').value=Number(m);buildDays();$('birthDay').value=Number(d);setLocation('birthPrefecture','birthMunicipality',draft.birthPlace);}updateFormReadiness();$('formLead').textContent=first?'まだ登録されていません。入力内容を確認してください。出生地は現在地ではありません。':'入力間違いの訂正用です。登録後の訂正は1回までです。出生地は現在地ではありません。';}
 };
 if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init,{once:true});}else{init();}
 })();
@@ -2619,7 +2619,7 @@ if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded'
 <script src="./sky-chart-data.js"></script>
 <script src="./sky-chart.js"></script>
 <script src="./google-auth-client.js?v=20261031-profile1"></script>
-<script src="./profile-access.js?v=20261031-profile1"></script>
+<script src="./profile-access.js?v=20261031-profile2"></script>
 <script src="./reading-access.js?v=20261031-profile1"></script>
 <script src="./membership-widget.js?v=20261031-profile2"></script>
 </body></html>

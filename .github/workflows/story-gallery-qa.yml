@@ -73,6 +73,7 @@ jobs:
           python3 -m http.server 4173 --directory . > /tmp/place-oracle-http.log 2>&1 &
           node .github/scripts/check-mobile-story-gallery.mjs
           node .github/scripts/check-membership-management.mjs
+          node .github/scripts/check-diagnosis-profile-ui.mjs
       - name: Check prefecture and municipality selectors
         run: |
           node - <<'NODE'

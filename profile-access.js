@@ -38,7 +38,7 @@
   if(!locked)add(token()?'生年月日・出生地と訂正回数を、このGoogleアカウントに保存します。過去の手紙と地図は書き換えません。':'ログイン前の登録内容と訂正回数は、このブラウザーに保存します。過去の手紙と地図は書き換えません。');
   const end=value=>{dialog.close();pending=null;finish(value);};
   const actions=document.createElement('div');actions.className='po-profile-actions';
-  const back=document.createElement('button');back.type='button';back.className='text-button';back.textContent=locked?'閉じる':'入力に戻る';back.onclick=()=>end(false);actions.append(back);
+  const back=document.createElement('button');back.type='button';back.className='text-button';back.textContent=locked?'閉じる':'入力に戻る';back.onclick=()=>{end(false);if(!locked)bridge()?.edit(candidate,!old);};actions.append(back);
   if(!locked){const accept=document.createElement('button');accept.type='button';accept.className='primary';accept.id='poProfileConfirmAccept';accept.textContent=old?'1回限りの訂正を確定する':'この内容で登録する';accept.onclick=()=>end(true);actions.append(accept);}
   dialog.append(actions);
   dialog.oncancel=event=>{event.preventDefault();end(false);};
@@ -75,7 +75,7 @@
    const old=await readState();
    if(old?.corrections_used>=1){await display(old,old,true);return;}
    if(old)bridge()?.apply(old);
-   bridge()?.edit();
+   bridge()?.edit(undefined,!old);
   }catch{const target=document.querySelector('#poMemberResult');if(target)target.textContent='登録内容を確認できませんでした。もう一度ログインしてお試しください。';}
  }
  async function sync(){
