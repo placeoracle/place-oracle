@@ -125,7 +125,7 @@ footer{background:#352638;color:#fff8ee}footer small{color:#d7c1cb}
 @media(max-width:650px){.reading>.resonance,.reading>.sky-section,.reading>.reading-afterword{width:calc(100% - 40px);margin-left:auto;margin-right:auto}.reading .resonance{padding:28px 20px}}
 
 /* Reading scale: two everyday sizes; small print is reserved for sources and notices. */
-:root{--type-body:16px;--type-heading:24px;--type-note:14px;--text-main:#3d3039;--text-secondary:#57434f;--text-on-night:#fff8f0}
+:root{--type-body:18px;--type-heading:26px;--type-note:16px;--text-main:#3d3039;--text-secondary:#57434f;--text-on-night:#fff8f0}
 body{font-size:var(--type-body);line-height:1.9}
 .section-heading h2,.invitation h2,.form-inner h2,.story-inline h3,.reading-head h2,.map-dialog h2,
 .reading .resonance h3,.reading .reading-chapter-head h3,.reading #skyTitleText,.reading .lore-block h4,
@@ -164,7 +164,11 @@ body{font-size:var(--type-body);line-height:1.9}
 .theme-options span{padding:10px 16px}.scene-options span{padding:10px 3px;line-height:1.5}
 .reading .sky-signs,.reading .sky-time-control{flex-wrap:wrap}
 footer small{color:#f2e6ec}
-@media(max-width:650px){.scene-options{grid-template-columns:repeat(3,minmax(0,1fr))}.hero p{font-size:16px}.hero .hero-scroll{font-size:16px}.reading .sky-story h4,.reading .discovery h3{font-size:24px}.reading #skyDiscovery{font-size:16px}}
+@media(max-width:650px){.scene-options{grid-template-columns:repeat(3,minmax(0,1fr))}.hero p{font-size:var(--type-body)}.hero .hero-scroll{font-size:var(--type-body)}.reading .sky-story h4,.reading .discovery h3{font-size:var(--type-heading)}.reading #skyDiscovery{font-size:var(--type-body)}}
 
 /* Compact two-line form title fits the desktop input column. */
 .form-inner #formTitle{line-height:1.35}
+
+/* Larger everyday text, including navigation and form controls. */
+.map-link,.back,.text-button,.theme-options span,.scene-options span,.birth-row select,.location-block select{font-size:var(--type-body)}
+@media(max-width:650px){.scene-options{grid-template-columns:repeat(2,minmax(0,1fr))}}
