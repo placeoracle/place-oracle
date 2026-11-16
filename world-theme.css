@@ -172,3 +172,34 @@ footer small{color:#f2e6ec}
 /* Larger everyday text, including navigation and form controls. */
 .map-link,.back,.text-button,.theme-options span,.scene-options span,.birth-row select,.location-block select{font-size:var(--type-body)}
 @media(max-width:650px){.scene-options{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 18px;
+  margin-top: 18px;
+}
+
+.hero .hero-actions .hero-scroll {
+  margin-top: 0;
+}
+
+.hero-pricing {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: #fff9ed;
+  font-size: .875rem;
+  text-underline-offset: .25em;
+  text-shadow: 0 1px 4px #493044;
+}
+
+.hero-pricing:hover {
+  text-decoration-thickness: 2px;
+}
+
+.hero-pricing:focus-visible {
+  outline: 2px solid #fff9ed;
+  outline-offset: 3px;
+}
